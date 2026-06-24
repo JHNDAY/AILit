@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theory Into Practice — AILit SIG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#EFE6D3;
+    --panel:#F8F2E5;
+    --ink:#1C2B4A;
+    --brass:#B8862E;
+    --brass-deep:#8F6A22;
+    --oxblood:#7A2E2E;
+    --charcoal:#2A2520;
+    --hairline:#C9B98C;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:var(--parchment);
+    color:var(--charcoal);
+    font-family:'Lora', serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'DM Serif Display', serif;
+    color:var(--ink);
+    margin:0 0 0.4em;
+    font-weight:400;
+  }
+
+  .eyebrow, .mono, .step-tag, .funnel-multiplier strong, .quote-tag{
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  a{color:var(--ink);}
+
+  :focus-visible{
+    outline:3px solid var(--brass);
+    outline-offset:2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .masthead{
+      animation: fadeIn 0.9s ease-out;
+    }
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(8px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+  }
+
+  /* ---------- Layout shells ---------- */
+  .wrap{
+    max-width:980px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  section{
+    padding:64px 0;
+  }
+
+  .hairline{
+    border:none;
+    border-top:1px solid var(--hairline);
+    max-width:980px;
+    margin:0 auto;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    text-align:center;
+    padding:72px 28px 56px;
+    border-bottom:3px solid var(--ink);
+  }
+  .masthead .eyebrow{
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    font-size:0.78rem;
+    color:var(--brass-deep);
+    margin-bottom:18px;
+  }
+  .masthead h1{
+    font-size:clamp(2.4rem, 5vw, 3.6rem);
+    font-style:italic;
+    letter-spacing:-0.01em;
+  }
+  .masthead .dek{
+    font-size:1.15rem;
+    max-width:620px;
+    margin:14px auto 0;
+    color:#4a4438;
+  }
+
+  /* ---------- Section headers ---------- */
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:40px;
+  }
+  .section-head .part-no{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    color:var(--brass-deep);
+    border:1px solid var(--brass-deep);
+    border-radius:999px;
+    padding:4px 12px;
+    white-space:nowrap;
+  }
+  .section-head h2{
+    font-size:1.9rem;
+    font-style:italic;
+  }
+
+  /* ---------- Foundations triad ---------- */
+  .triad{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+  }
+  .concept-card{
+    background:var(--panel);
+    border:1px solid var(--hairline);
+    border-radius:6px;
+    padding:26px 22px;
+    position:relative;
+  }
+  .concept-number{
+    font-family:'DM Serif Display', serif;
+    font-style:italic;
+    font-size:1.1rem;
+    color:#fff;
+    background:var(--ink);
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:14px;
+  }
+  .concept-card h3{
+    font-size:1.25rem;
+    margin-bottom:10px;
+  }
+  .concept-card p{
+    font-size:0.97rem;
+    margin:0 0 12px;
+  }
+  .takeaway{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    color:var(--oxblood);
+    border-top:1px dashed var(--hairline);
+    padding-top:12px;
+    margin:0;
+  }
+
+  /* ---------- Bridge / mechanism ---------- */
+  .bridge{
+    background:var(--ink);
+    color:#EFE6D3;
+  }
+  .bridge .section-head h2,
+  .bridge .section-head .part-no{
+    color:#EFE6D3;
+    border-color:#EFE6D3;
+  }
+  .bridge p.lead{
+    max-width:640px;
+    font-size:1.02rem;
+    color:#dcd4bf;
+    margin-bottom:36px;
+  }
+
+  .funnel-shape{
+    width:min(520px, 92%);
+    margin:0 auto 30px;
+    height:200px;
+    background:linear-gradient(180deg, var(--brass), var(--brass-deep));
+    clip-path:polygon(0% 0%, 100% 0%, 66% 100%, 34% 100%);
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 0 28px;
+  }
+  .funnel-label-top, .funnel-label-bottom{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    text-align:center;
+    color:#1C2B4A;
+    max-width:70%;
+    line-height:1.4;
+  }
+  .funnel-multiplier{
+    font-family:'Lora', serif;
+    font-size:0.95rem;
+    color:#1C2B4A;
+    text-align:center;
+  }
+  .funnel-multiplier strong{
+    font-size:1.3rem;
+    display:block;
+    margin-top:2px;
+  }
+
+  blockquote.john-quote{
+    max-width:560px;
+    margin:0 auto;
+    text-align:center;
+    font-style:italic;
+    font-size:1.05rem;
+    color:#F4ECD8;
+    border-top:1px solid #4a5a7a;
+    padding-top:22px;
+  }
+  blockquote.john-quote cite{
+    display:block;
+    font-style:normal;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:#B8862E;
+    margin-top:10px;
+  }
+
+  /* ---------- Coach cycle ---------- */
+  .key-point{
+    background:var(--panel);
+    border-left:4px solid var(--oxblood);
+    padding:18px 22px;
+    font-size:1.02rem;
+    border-radius:4px;
+    margin-bottom:44px;
+  }
+
+  .cycle{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:0;
+    position:relative;
+  }
+  .cycle-step{
+    background:var(--panel);
+    border:1px solid var(--hairline);
+    padding:22px 18px;
+    position:relative;
+  }
+  .cycle-step:not(:last-child){border-right:none;}
+  .cycle-step:first-child{border-radius:6px 0 0 6px;}
+  .cycle-step:last-child{border-radius:0 6px 6px 0;}
+  .step-tag{
+    font-size:0.7rem;
+    color:var(--brass-deep);
+    display:block;
+    margin-bottom:8px;
+  }
+  .cycle-step h4{
+    font-size:1.05rem;
+    margin-bottom:8px;
+  }
+  .cycle-step p{
+    font-size:0.9rem;
+    margin:0;
+  }
+  .cycle-step::after{
+    content:"→";
+    position:absolute;
+    right:-13px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--brass-deep);
+    font-size:1.1rem;
+    background:var(--parchment);
+    width:24px;
+    text-align:center;
+    z-index:2;
+  }
+  .cycle-step:last-child::after{content:none;}
+
+  .repeat-note{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--brass-deep);
+    margin:14px 0 50px;
+  }
+
+  .voices-head{
+    font-size:1.1rem;
+    font-style:italic;
+    color:var(--ink);
+    margin-bottom:22px;
+    text-align:center;
+  }
+
+  .voices{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  .voice-card{
+    background:#fff;
+    border:1px solid var(--hairline);
+    border-radius:6px;
+    padding:22px 20px;
+    box-shadow:0 1px 0 var(--hairline);
+  }
+  .quote-tag{
+    display:inline-block;
+    font-size:0.66rem;
+    color:#fff;
+    background:var(--oxblood);
+    padding:3px 9px;
+    border-radius:999px;
+    margin-bottom:14px;
+    letter-spacing:0.03em;
+  }
+  .voice-card blockquote{
+    margin:0 0 12px;
+    font-style:italic;
+    font-size:0.95rem;
+    color:var(--charcoal);
+  }
+  .voice-card cite{
+    display:block;
+    font-style:normal;
+    font-weight:600;
+    font-size:0.85rem;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  .voice-card .gloss{
+    font-size:0.85rem;
+    color:#5a5444;
+    margin:0;
+    border-top:1px dashed var(--hairline);
+    padding-top:10px;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:var(--panel);
+    border-top:3px solid var(--ink);
+    border-bottom:3px solid var(--ink);
+    text-align:center;
+  }
+  .cta h2{
+    font-size:2rem;
+    font-style:italic;
+  }
+  .cta p{
+    max-width:620px;
+    margin:14px auto 0;
+    font-size:1.02rem;
+  }
+  .cta .steps-inline{
+    margin:28px auto 0;
+    max-width:640px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--ink);
+  }
+  .cta .steps-inline span{
+    background:#fff;
+    border:1px solid var(--hairline);
+    padding:6px 12px;
+    border-radius:999px;
+  }
+
+  footer{
+    text-align:center;
+    padding:30px 0 40px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:#857c66;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 760px){
+    .triad{grid-template-columns:1fr;}
+    .cycle{grid-template-columns:1fr;}
+    .cycle-step{border-right:1px solid var(--hairline) !important; border-bottom:none;}
+    .cycle-step:first-child{border-radius:6px 6px 0 0;}
+    .cycle-step:last-child{border-radius:0 0 6px 6px; border-bottom:1px solid var(--hairline);}
+    .cycle-step::after{
+      content:"↓";
+      right:50%;
+      top:auto;
+      bottom:-13px;
+      transform:translateX(50%);
+    }
+    .cycle-step:last-child::after{content:none;}
+    .voices{grid-template-columns:1fr;}
+    section{padding:48px 0;}
+    .masthead{padding:48px 20px 40px;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="masthead">
+    <p class="eyebrow">BOLLI AI Literacy SIG · Session One · June 23, 2026</p>
+    <h1>Theory Into Practice</h1>
+    <p class="dek">How the Foundations of AI Conversation become the engine inside the Writing Coach — and how the room responded to watching it work.</p>
+    <p style="margin-top:22px;">
+      <a href="https://jhnday.github.io/AILit/prompt_evolution_theory_into_practice" style="font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.04em; color:#8a6a10; text-decoration:none; border:1px solid #8a6a10; border-radius:999px; padding:6px 16px; display:inline-block;">Prompt Evolution →</a>
+    </p>
+  </header>
+
+  <div class="wrap">
+
+  <section class="foundations">
+    <div class="section-head">
+      <span class="part-no">PART ONE</span>
+      <h2>The Foundations</h2>
+    </div>
+    <div class="triad">
+
+      <article class="concept-card">
+        <span class="concept-number">I</span>
+        <h3>The Meaning of Words</h3>
+        <p>A word carries three layers at once: the concrete thing it names (a dog is a four-legged animal), the context that bends it (an idiom like "sly dog" means something else entirely), and the vast, practically unreachable record of every way that word has ever been used across the training data. Humans rely on all three without noticing. AI reads all three, deliberately, at the same time.</p>
+        <p class="takeaway">Written words carry far more than meets the eye.</p>
+      </article>
+
+      <article class="concept-card">
+        <span class="concept-number">II</span>
+        <h3>Generative AI</h3>
+        <p>A prompt becomes tokens — roughly 100,000 of them cover the English language. The model doesn't know the next word; it calculates the relative frequency of every token that could follow, weighs the likely candidates, and selects one. A short prompt can take on the order of 100 trillion computations to answer. The same brute-force statistics that make a response feel fluent are what occasionally sends it off the rails.</p>
+        <p class="takeaway">Coherence and hallucination come from the same machine.</p>
+      </article>
+
+      <article class="concept-card">
+        <span class="concept-number">III</span>
+        <h3>RAG</h3>
+        <p>Left alone, a model searches nearly its entire corpus for every answer — most of it irrelevant to what's actually being asked. Retrieval-Augmented Generation lets a specific, complete prompt act as a filter: it narrows the search, pulls a small set of real sources, and returns something that can be cited instead of invented.</p>
+        <p class="takeaway">A better-built prompt gives RAG something to filter.</p>
+      </article>
+
+    </div>
+  </section>
+
+  </div>
+
+  <section class="bridge">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="part-no">THE MECHANISM</span>
+        <h2>Why a Complete Prompt Matters</h2>
+      </div>
+      <p class="lead">The Foundations aren't background material — they're the reason the Writing Coach works at all. Every review cycle is, underneath, an exercise in giving RAG less to search and more to find.</p>
+
+      <div class="funnel-shape">
+        <span class="funnel-label-top">THE FULL CORPUS<br>hundreds of billions of tokens</span>
+        <span class="funnel-multiplier">narrowed by more than<br><strong>10,000,000×</strong></span>
+        <span class="funnel-label-bottom">A FILTERED, CITABLE RESULT</span>
+      </div>
+
+      <blockquote class="john-quote">
+        "If you filter it with a complete prompt, it cuts down what has to be looked at by over 10 million."
+        <cite>— JOHN DAY</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+  <section class="coach-cycle">
+    <div class="section-head">
+      <span class="part-no">PART TWO</span>
+      <h2>The Writing Coach</h2>
+    </div>
+
+    <p class="key-point">The writing coach does not write your prompt for you. It uses Claude to assess the prompt you've already drafted — naming what's working and what's still missing — so you stay the author while the gaps get surfaced.</p>
+
+    <div class="cycle">
+      <div class="cycle-step">
+        <span class="step-tag">STEP 1</span>
+        <h4>Write the Narrative</h4>
+        <p>Rough is fine. It just has to carry your real intent onto the page.</p>
+      </div>
+      <div class="cycle-step">
+        <span class="step-tag">STEP 2</span>
+        <h4>Copy for Review</h4>
+        <p>One click adds a quiet instruction — review and advise — and sends it to Claude with the coach's role attached.</p>
+      </div>
+      <div class="cycle-step">
+        <span class="step-tag">STEP 3</span>
+        <h4>Claude Assesses</h4>
+        <p>Not a rewrite — a diagnosis. What's working, what's missing, what decision you haven't made yet.</p>
+      </div>
+      <div class="cycle-step">
+        <span class="step-tag">STEP 4</span>
+        <h4>Revise & Repeat</h4>
+        <p>Take what's useful, push back on the rest, run it again until the prompt is complete.</p>
+      </div>
+    </div>
+    <p class="repeat-note">↻ cycles 2–4 repeat as many times as needed</p>
+
+    <p class="voices-head">Three voices from the room</p>
+    <div class="voices">
+
+      <div class="voice-card">
+        <span class="quote-tag">STEP 2–3 · CATCHING THE MECHANISM</span>
+        <blockquote>"It looked to me like you gave Claude two inputs. The first was, I'm writing to a BOLLI audience, and the second was some specific thing."</blockquote>
+        <cite>Dennis McCarthy</cite>
+        <p class="gloss">Mid-demo, Dennis spotted that the coach works from two layers at once — the audience framing and the specific request — exactly the kind of context a complete prompt has to carry.</p>
+      </div>
+
+      <div class="voice-card">
+        <span class="quote-tag">STEP 4 · RECOGNIZING THE HABIT</span>
+        <blockquote>"This session we've just gone through, essentially, to me, looks like we're just trying to create a more specific and detailed prompt."</blockquote>
+        <cite>Mark Lewis</cite>
+        <p class="gloss">Mark had already been doing this by hand, one careful prompt at a time. The coach gave the process a name, a partner, and a faster cycle.</p>
+      </div>
+
+      <div class="voice-card">
+        <span class="quote-tag">STEP 3–4 · TESTING IT HIMSELF</span>
+        <blockquote>"I did that. And I got a different response than you did... that's different than what you got."</blockquote>
+        <cite>Hal Shear</cite>
+        <p class="gloss">Same prompt, a different answer — and John's reminder that this is the model's nature, not a malfunction: statistical, approximate, never identical twice.</p>
+      </div>
+
+    </div>
+  </section>
+
+  </div>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2>Your Turn</h2>
+      <p>Pick one project — something you actually want to understand better. Write the rough narrative. Run it through the cycle. When it's complete enough, copy the final prompt into Claude, Gemini, or ChatGPT, and ask for the prompt-evolution visualization to trace how your thinking sharpened along the way.</p>
+      <div class="steps-inline">
+        <span>write the narrative</span>
+        <span>run the cycle</span>
+        <span>copy the final prompt</span>
+        <span>generate the result</span>
+        <span>visualize the evolution</span>
+        <span>send both to John</span>
+      </div>
+      <p style="margin-top:22px;">Together, the cohort's narratives become the Grand Learning View — one picture of everything this group set out to understand, and how each of us learned to ask for it.</p>
+    </div>
+  </section>
+
+  <footer>BOLLI · AI Literacy SIG · Session One</footer>
+
+</body>
+</html>

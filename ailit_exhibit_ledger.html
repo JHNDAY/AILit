@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Crossing Lines — AILit SIG Exhibit</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ink-navy:#14213D;
+    --vellum:#F2EDDE;
+    --vellum-dim:#E8E1CC;
+    --brass:#B8902F;
+    --verified:#4B6E58;
+    --caution:#A6502E;
+    --charcoal:#2B2A28;
+    --paper-line: rgba(20,33,61,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--vellum);
+    color:var(--charcoal);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px 80px;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    background:var(--ink-navy);
+    color:var(--vellum);
+    padding:56px 28px 44px;
+    margin-bottom:48px;
+  }
+  .header-inner{max-width:920px;margin:0 auto;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:28px;height:1px;background:var(--brass);
+    display:inline-block;
+  }
+  .masthead-link{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--vellum);
+    text-decoration:none;
+    border:1px solid rgba(242,237,222,0.35);
+    padding:6px 12px;
+    border-radius:2px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:24px;
+    transition:border-color 0.15s ease, color 0.15s ease;
+  }
+  .masthead-link:hover{
+    border-color:var(--brass);
+    color:var(--brass);
+  }
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:clamp(34px, 5vw, 52px);
+    line-height:1.08;
+    margin:0 0 18px;
+    max-width:14ch;
+  }
+  .dek{
+    font-size:17px;
+    max-width:62ch;
+    color:rgba(242,237,222,0.82);
+    margin:0;
+  }
+
+  /* ---------- SECTION LABELS ---------- */
+  .section{margin-bottom:64px;}
+  .section-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-navy);
+    opacity:0.55;
+    margin-bottom:8px;
+  }
+  .section-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:28px;
+    margin:0 0 22px;
+    color:var(--ink-navy);
+  }
+  .section-note{
+    font-size:14.5px;
+    color:rgba(43,42,40,0.72);
+    max-width:64ch;
+    margin:0 0 26px;
+  }
+
+  /* ---------- PANEL 1: CHART ---------- */
+  .chart-panel{
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-radius:2px;
+    padding:32px 28px 22px;
+  }
+  .chart-flags{
+    display:flex;
+    justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-navy);
+    margin-top:14px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chart-flags span{opacity:0.65;}
+  .hard-stat{
+    margin-top:18px;
+    padding:14px 16px;
+    background:var(--vellum-dim);
+    border-left:3px solid var(--verified);
+    font-size:14.5px;
+  }
+  .hard-stat b{color:var(--verified);}
+
+  /* ---------- PANEL 2: LEDGER ---------- */
+  .ledger{
+    display:grid;
+    gap:14px;
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-radius:2px;
+    padding:18px 20px 18px 20px;
+    border-left-width:4px;
+    position:relative;
+  }
+  .card.well-supported{border-left-color:var(--verified);}
+  .card.soft{border-left-color:var(--brass);}
+  .card.speculative{border-left-color:var(--caution);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+  }
+  .card-source{
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink-navy);
+  }
+  .card-date{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:rgba(43,42,40,0.5);
+  }
+  .card-claim{
+    font-size:14.5px;
+    margin:0 0 12px;
+  }
+  .card-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:2px;
+  }
+  .well-supported .tag{background:rgba(75,110,88,0.12); color:var(--verified);}
+  .soft .tag{background:rgba(184,144,47,0.14); color:#8a6a1f;}
+  .speculative .tag{background:rgba(166,80,46,0.12); color:var(--caution);}
+
+  .card-link{
+    font-size:12.5px;
+    color:var(--ink-navy);
+    text-decoration:none;
+    border-bottom:1px solid var(--paper-line);
+  }
+  .card-link:hover{border-bottom-color:var(--ink-navy);}
+
+  .legend{
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+    margin-top:22px;
+    font-size:12.5px;
+    color:rgba(43,42,40,0.7);
+  }
+  .legend span{display:flex;align-items:center;gap:7px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dot.g{background:var(--verified);}
+  .dot.a{background:var(--brass);}
+  .dot.r{background:var(--caution);}
+
+  /* ---------- PANEL 3: BREAKDOWN ---------- */
+  .breakdown{
+    display:grid;
+    gap:18px;
+  }
+  .crack{
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-left:4px solid var(--caution);
+    padding:18px 20px;
+  }
+  .crack-title{
+    font-weight:600;
+    font-size:15px;
+    color:var(--caution);
+    margin:0 0 6px;
+  }
+  .crack p{margin:0;font-size:14.5px;}
+
+  /* ---------- PANEL 4: EXHIBIT A ---------- */
+  .exhibit-a{
+    background:var(--ink-navy);
+    color:var(--vellum);
+    padding:40px 32px;
+    border-radius:2px;
+  }
+  .exhibit-a .section-label{color:var(--brass);opacity:0.85;}
+  .exhibit-a h3{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:24px;
+    margin:6px 0 16px;
+  }
+  .exhibit-a p{font-size:15px;color:rgba(242,237,222,0.88);max-width:64ch;}
+  .exhibit-a p + p{margin-top:12px;}
+
+  .prompts{
+    margin-top:26px;
+    padding-top:20px;
+    border-top:1px solid rgba(242,237,222,0.18);
+  }
+  .prompts-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:10px;
+  }
+  .prompts ol{
+    margin:0;
+    padding-left:22px;
+    font-size:14.5px;
+    color:rgba(242,237,222,0.88);
+  }
+  .prompts li{margin-bottom:8px;}
+
+  footer{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:rgba(43,42,40,0.45);
+    letter-spacing:0.05em;
+    margin-top:10px;
+  }
+
+  @media (max-width:600px){
+    header{padding:40px 20px 34px;}
+    .wrap{padding:0 18px 60px;}
+    h1{font-size:30px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">AILit SIG — Quaerimus Sensum Verborum</div>
+    <h1>The Crossing Lines</h1>
+    <p class="dek">A short labor-market claim, an exhibit ledger of its sources, and a look at exactly where an AI's confidence should — and shouldn't — be trusted.</p>
+    <a class="masthead-link" href="https://jhnday.github.io/AILit/prompt_evolution_theory_into_practice" target="_blank" rel="noopener">Prompt Evolution ↗</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- PANEL 1 -->
+  <section class="section">
+    <div class="section-label">01 · The Claim, Briefly</div>
+    <h2 class="section-title">A reversal, in outline</h2>
+    <p class="section-note">Several recent pieces argue that AI is inverting the old hierarchy: routine technical work gets automated, while judgment, ethics, and communication — the durable currency of a liberal arts education — become scarcer and more prized. Kept brief on purpose; the real lesson is in panels two and three.</p>
+
+    <div class="chart-panel">
+      <svg viewBox="0 0 600 220" width="100%" height="auto" role="img" aria-label="Two lines crossing around the present day: liberal arts trending up, programming trending down">
+        <line x1="40" y1="20" x2="40" y2="190" stroke="#14213D" stroke-opacity="0.18" stroke-width="1"/>
+        <line x1="40" y1="190" x2="580" y2="190" stroke="#14213D" stroke-opacity="0.18" stroke-width="1"/>
+        <line x1="310" y1="20" x2="310" y2="190" stroke="#A6502E" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="4 4"/>
+        <text x="310" y="12" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#A6502E">NOW (mid-2026)</text>
+
+        <path d="M 40 160 C 180 150, 260 120, 310 95 C 380 60, 480 35, 580 25" fill="none" stroke="#4B6E58" stroke-width="2.5"/>
+        <path d="M 40 60 C 180 75, 260 95, 310 105 C 380 130, 480 155, 580 175" fill="none" stroke="#B8902F" stroke-width="2.5"/>
+
+        <text x="50" y="48" font-family="Cormorant Garamond, serif" font-style="italic" font-size="14" fill="#4B6E58">Liberal arts (predicted)</text>
+        <text x="430" y="190" font-family="Cormorant Garamond, serif" font-style="italic" font-size="14" fill="#B8902F">Programming (BLS-measured)</text>
+      </svg>
+      <div class="chart-flags">
+        <span>← earlier (~2022)</span>
+        <span>illustrative direction, not a measured projection for liberal arts</span>
+        <span>2032 →</span>
+      </div>
+      <div class="hard-stat">
+        <b>The one solid number in this story:</b> the U.S. Bureau of Labor Statistics projects employment in the <em>Computer Programmers</em> occupational code to fall roughly 11% between 2022 and 2032 — a real, citable government projection. There is no equivalent government projection showing liberal-arts employment rising; that half of the claim rests on employer surveys, expert predictions, and opinion writing. The chart's green line is a narrative, not a dataset.
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL 2 -->
+  <section class="section">
+    <div class="section-label">02 · The Exhibit Ledger</div>
+    <h2 class="section-title">Every source, tagged and rated</h2>
+    <p class="section-note">This is the part worth lingering on with your group. Each card paraphrases one claim from the original research, names what kind of source it actually is, and rates how much weight that claim can bear. The color is the lesson — not the chart above.</p>
+
+    <div class="ledger">
+
+      <div class="card well-supported">
+        <div class="card-top">
+          <span class="card-source">U.S. Bureau of Labor Statistics (via Higher Ed Dive)</span>
+          <span class="card-date">2024 / cited 2026</span>
+        </div>
+        <p class="card-claim">Computer programming employment is projected to decline about 11% from 2022 to 2032; one workforce expert argues companies will need fewer coders and more people who can supervise and judge AI-generated code.</p>
+        <div class="card-bottom">
+          <span class="tag">Government statistic</span>
+          <a class="card-link" href="https://www.highereddive.com/news/artificial-intelligence-liberal-arts-education/720640/" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card soft">
+        <div class="card-top">
+          <span class="card-source">Research.com</span>
+          <span class="card-date">2026</span>
+        </div>
+        <p class="card-claim">Frames liberal arts growth optimistically, citing BLS's 8% overall job growth and strong projected gains in roles like market research analysts — but those roles aren't classified as "liberal arts jobs" by BLS; the link is the article's own interpretation.</p>
+        <div class="card-bottom">
+          <span class="tag">Advice site / SEO content</span>
+          <a class="card-link" href="https://research.com/advice/is-demand-for-liberal-arts-degree-graduates-growing-or-declining" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card soft">
+        <div class="card-top">
+          <span class="card-source">Washington Monthly</span>
+          <span class="card-date">April 2026</span>
+        </div>
+        <p class="card-claim">Argues durable, AI-resistant skills — judgment, synthesis, communication — are exactly what liberal arts cultivates; also reports that 90% of surveyed professors believe AI is weakening student critical thinking, a finding in some tension with the article's own optimism.</p>
+        <div class="card-bottom">
+          <span class="tag">Opinion / advocacy magazine</span>
+          <a class="card-link" href="https://washingtonmonthly.com/2026/04/15/liberal-arts-ai-critical-thinking-skills/" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card speculative">
+        <div class="card-top">
+          <span class="card-source">Solutions Review (Tim King)</span>
+          <span class="card-date">June 2026</span>
+        </div>
+        <p class="card-claim">Frames the shift as the value of "knowing things" giving way to the value of "understanding things" — a memorable phrase, but a thesis statement rather than an empirical finding; no data is offered to support the framing itself.</p>
+        <div class="card-bottom">
+          <span class="tag">Industry commentary</span>
+          <a class="card-link" href="https://solutionsreview.com/edtech/2026/06/05/liberal-arts-ai-the-most-criticized-degree-is-now-most-valuable/" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card well-supported">
+        <div class="card-top">
+          <span class="card-source">Inc. (Jessica Stillman)</span>
+          <span class="card-date">2025</span>
+        </div>
+        <p class="card-claim">Reports concrete, verifiable enrollment declines in humanities majors — down 46% at Ohio State, roughly half at Tufts, Vassar, and Notre Dame, 42% at Boston University, and three-quarters at SUNY Albany from 2012–2020 — establishing the depth of the prior collapse this story claims is reversing.</p>
+        <div class="card-bottom">
+          <span class="tag">Reported enrollment data</span>
+          <a class="card-link" href="https://www.inc.com/jessica-stillman/the-rise-of-ai-will-make-liberal-arts-degrees-popular-again-heres-why/91206953" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card speculative">
+        <div class="card-top">
+          <span class="card-source">Fortune</span>
+          <span class="card-date">March 2026</span>
+        </div>
+        <p class="card-claim">Leads with a Microsoft chief scientist's view that liberal arts degrees will become "really important" for Gen Z hiring — a single executive's prediction, presented with the authority of the company but not backed by Microsoft hiring data in the piece.</p>
+        <div class="card-bottom">
+          <span class="tag">Executive opinion, single source</span>
+          <a class="card-link" href="https://fortune.com/2026/03/17/liberal-arts-education-future-of-work-age-of-ai-gen-z-hiring-microsoft-chief-scientist/" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card soft">
+        <div class="card-top">
+          <span class="card-source">Providence Magazine</span>
+          <span class="card-date">May 2026</span>
+        </div>
+        <p class="card-claim">Argues the most AI-exposed jobs are the repetitive-technical ones — coding, data analysis, social media management — and that STEM pedagogy, not STEM itself, needs to change; written from an explicitly liberal-arts-defending editorial position.</p>
+        <div class="card-bottom">
+          <span class="tag">Institutional / advocacy outlet</span>
+          <a class="card-link" href="https://providencemag.com/2026/05/why-ai-could-be-good-for-the-liberal-arts/" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card soft">
+        <div class="card-top">
+          <span class="card-source">wallyboston.com, citing World Economic Forum</span>
+          <span class="card-date">March 2026</span>
+        </div>
+        <p class="card-claim">Cites the WEF's recurring workforce-trend research as showing rising demand for analytical thinking, resilience, creativity, and social influence — a genuinely broad, ongoing dataset, though one step removed here through a secondary blog summary rather than the original WEF report.</p>
+        <div class="card-bottom">
+          <span class="tag">Secondary citation of primary data</span>
+          <a class="card-link" href="https://wallyboston.com/value-liberal-arts-education/" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card well-supported">
+        <div class="card-top">
+          <span class="card-source">arXiv — "Misrepresented Technological Solutions in Imagined Futures"</span>
+          <span class="card-date">2024, AAAI</span>
+        </div>
+        <p class="card-claim">A peer-reviewed caution against AI hype generally: many capability claims in AI discourse are not empirically grounded, and confident narratives — in either direction — deserve scrutiny before they shape policy or curriculum decisions.</p>
+        <div class="card-bottom">
+          <span class="tag">Peer-reviewed academic source</span>
+          <a class="card-link" href="https://arxiv.org/pdf/2408.15244" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="legend">
+      <span><span class="dot g"></span> Well-supported — measured data, peer review, or verifiable reporting</span>
+      <span><span class="dot a"></span> Soft — plausible argument, but resting on interpretation or a secondary source</span>
+      <span><span class="dot r"></span> Speculative — a single opinion, prediction, or framing device standing alone</span>
+    </div>
+  </section>
+
+  <!-- PANEL 3 -->
+  <section class="section">
+    <div class="section-label">03 · Where the Certainty Breaks Down</div>
+    <h2 class="section-title">Four cracks worth probing in discussion</h2>
+
+    <div class="breakdown">
+      <div class="crack">
+        <p class="crack-title">The hard number is narrower than the headline.</p>
+        <p>The BLS figure covers the specific occupational code "Computer Programmers" — a category already shrinking for reasons that predate generative AI, including offshoring. It is not the same as "software engineer" or "developer" broadly, which BLS projects to keep growing. Citing it as proof that "programming" overall is dying overstates what the statistic says.</p>
+      </div>
+      <div class="crack">
+        <p class="crack-title">The rising side of the story has no equivalent statistic.</p>
+        <p>Every "liberal arts will rise" claim in this ledger is a prediction, a survey finding, or an executive's opinion — none is a measured employment outcome yet. That doesn't make the claims wrong; it makes them a different kind of claim than the BLS figure, and they shouldn't be weighed as if they were the same.</p>
+      </div>
+      <div class="crack">
+        <p class="crack-title">Several sources have a stake in the answer.</p>
+        <p>University liberal-arts program blogs, edtech commentators, and magazines with an explicit humanities-defending mission are well represented here. That's not disqualifying — but a claim that liberal arts will save itself, made by people whose institutions depend on that being true, deserves the same scrutiny you'd give a tech company predicting AI will save itself.</p>
+      </div>
+      <div class="crack">
+        <p class="crack-title">This page itself can't fully escape the problem it describes.</p>
+        <p>An AI selected these sources, paraphrased their claims, and assigned the color-coded confidence ratings above. Those ratings are a judgment call, not a measurement — a more skeptical reader might tag one or two cards differently. Treat the colors as a starting point for debate, not a verdict.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL 4 -->
+  <section class="section">
+    <div class="exhibit-a">
+      <div class="section-label">04 · The Closing Argument</div>
+      <h3>Exhibit A is this page</h3>
+      <p>The labor-market question is genuinely interesting, but the more useful exercise for an AI-literacy group is the one you just did: watching an AI gather sources, sort them by how much weight they can bear, and admit where its own chart is illustration rather than evidence.</p>
+      <p>That sorting — distinguishing a government statistic from an executive's hunch, noticing when a source has a stake in its own conclusion, catching a memorable phrase that isn't actually a finding — is itself a liberal arts skill. It is also exactly the skill an AI cannot fully do for you, no matter how confident its formatting looks.</p>
+
+      <div class="prompts">
+        <div class="prompts-label">For discussion</div>
+        <ol>
+          <li>Pick one card rated "soft" or "speculative." Do you agree with its rating, or would you move it?</li>
+          <li>The BLS statistic is the only hard number here. Does that change how much you trust the overall claim?</li>
+          <li>Where else in daily life do you see a memorable phrase mistaken for a measured fact?</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>BOLLI AILit Special Interest Group — exhibit prepared for group discussion, June 2026</footer>
+
+</body>
+</html>

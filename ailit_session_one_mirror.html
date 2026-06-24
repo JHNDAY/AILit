@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AILit SIG — Session One: A Mirror</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Caveat:wght@500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f2ecdc;
+    --parchment-deep: #ece2c8;
+    --paper-card: #fbf7ec;
+    --ink: #2b2620;
+    --ink-soft: #5a5246;
+    --garnet: #8b3a3a;
+    --garnet-deep: #6e2c2c;
+    --brass: #a9802e;
+    --sage: #5e6f52;
+    --dusty-blue: #4d6a73;
+    --tape: rgba(216, 201, 163, 0.85);
+    --rule: rgba(43, 38, 32, 0.18);
+    --shadow: rgba(43, 38, 32, 0.22);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background-color: var(--parchment);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(169,128,46,0.06), transparent 55%),
+      radial-gradient(ellipse at 90% 80%, rgba(139,58,58,0.05), transparent 50%);
+    color: var(--ink);
+    font-family: 'Lora', serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 28px 90px; }
+
+  /* ---------- MASTHEAD ---------- */
+  .masthead {
+    padding: 56px 0 30px;
+    text-align: center;
+    border-bottom: 4px double var(--ink);
+    margin-bottom: 46px;
+  }
+  .eyebrow {
+    font-family: 'Special Elite', monospace;
+    letter-spacing: 0.22em;
+    font-size: 12.5px;
+    color: var(--garnet);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .masthead h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(34px, 6vw, 56px);
+    line-height: 1.08;
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+  .dateline {
+    font-family: 'Special Elite', monospace;
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.03em;
+    margin-bottom: 18px;
+  }
+  .dateline span { padding: 0 10px; border-left: 1px solid var(--rule); }
+  .dateline span:first-child { border-left: none; padding-left: 0; }
+  .subhead {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .masthead-link {
+    margin: 20px auto 0;
+    font-family: 'Special Elite', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .masthead-link a {
+    color: var(--brass);
+    text-decoration: none;
+    border-bottom: 1px solid var(--brass);
+    padding-bottom: 2px;
+    transition: opacity 0.15s ease;
+  }
+  .masthead-link a:hover { opacity: 0.7; }
+
+  /* ---------- SECTION SCAFFOLDING ---------- */
+  section.beat { margin-bottom: 78px; opacity: 0; transform: translateY(14px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  section.beat.in-view { opacity: 1; transform: translateY(0); }
+
+  .beat-head { text-align: center; margin-bottom: 34px; }
+  .beat-num {
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--brass);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .beat-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 4vw, 36px);
+    margin: 0 0 12px;
+    color: var(--garnet-deep);
+  }
+  .beat-intro {
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+
+  hr.rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    width: 70px;
+    margin: 0 auto 40px;
+  }
+
+  /* ---------- SECTION 1: QUOTE CARDS (photo-corner / pinned) ---------- */
+  .corkstrip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+    padding: 14px 0 6px;
+  }
+  .quote-card {
+    background: var(--paper-card);
+    width: 250px;
+    padding: 26px 22px 20px;
+    box-shadow: 0 10px 22px var(--shadow), 0 1px 0 rgba(255,255,255,0.4) inset;
+    position: relative;
+    font-family: 'Lora', serif;
+    transition: transform 0.25s ease;
+  }
+  .quote-card:nth-child(1) { transform: rotate(-2.2deg); }
+  .quote-card:nth-child(2) { transform: rotate(1.6deg); }
+  .quote-card:nth-child(3) { transform: rotate(-1.1deg); }
+  .quote-card:nth-child(4) { transform: rotate(2deg); }
+  .quote-card:hover { transform: rotate(0deg) translateY(-4px); }
+  .quote-card::before {
+    content: "";
+    position: absolute;
+    top: -10px; left: 50%;
+    width: 54px; height: 18px;
+    margin-left: -27px;
+    background: var(--tape);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    transform: rotate(-3deg);
+  }
+  .quote-card .q {
+    font-style: italic;
+    font-size: 16.5px;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+  .quote-card .q::before { content: "“"; color: var(--garnet); font-family: 'DM Serif Display', serif; }
+  .quote-card .q::after { content: "”"; color: var(--garnet); font-family: 'DM Serif Display', serif; }
+  .quote-card .who {
+    font-family: 'Special Elite', monospace;
+    font-size: 11.5px;
+    color: var(--brass);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .quote-card .ctx { font-size: 13px; color: var(--ink-soft); }
+
+  /* ---------- SECTION 2: INTEREST INDEX CARDS ---------- */
+  .index-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 640px) { .index-grid { grid-template-columns: 1fr; } }
+
+  .idx-card {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-left: 5px solid var(--brass);
+    padding: 18px 20px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .badge {
+    flex: 0 0 auto;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: #fdfaf2;
+  }
+  .idx-card .name {
+    font-family: 'Lora', serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .idx-card .tagline {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--garnet-deep);
+    margin: 0 0 6px;
+  }
+  .idx-card p.body-text {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ---------- SECTION 3: CORKBOARD / SIGNATURE ---------- */
+  .corkboard {
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.025) 0px, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 3px),
+      var(--parchment-deep);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 46px 30px 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+    justify-content: center;
+  }
+  .sticky {
+    width: 198px;
+    min-height: 150px;
+    padding: 18px 16px 14px;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    line-height: 1.32;
+    color: #2b2620;
+    box-shadow: 3px 6px 12px rgba(43,38,32,0.28);
+    position: relative;
+    transition: transform 0.2s ease;
+  }
+  .sticky:hover { transform: scale(1.04) rotate(0deg) !important; z-index: 2; }
+  .sticky .pin {
+    position: absolute; top: -9px; left: 50%; margin-left: -7px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff5, transparent 60%), var(--garnet);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.35);
+  }
+  .sticky .mood-tag {
+    display: block;
+    font-family: 'Special Elite', monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.75;
+  }
+  .sticky .who-tag {
+    display: block;
+    margin-top: 10px;
+    font-size: 14.5px;
+    opacity: 0.8;
+  }
+  .s1 { background: #f4e2a8; transform: rotate(-4deg); }
+  .s2 { background: #e9cbb5; transform: rotate(3deg); }
+  .s3 { background: #d9e3cf; transform: rotate(-2deg); }
+  .s4 { background: #f0d6d6; transform: rotate(4.5deg); }
+  .s5 { background: #f4e2a8; transform: rotate(2deg); }
+  .s6 { background: #cfe0e3; transform: rotate(-3deg); }
+  .s7 { background: #e9cbb5; transform: rotate(1deg); }
+
+  /* ---------- CLOSING ---------- */
+  .closing {
+    text-align: center;
+    padding-top: 10px;
+  }
+  .closing-card {
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--paper-card);
+    padding: 38px 36px;
+    border-top: 3px solid var(--brass);
+    box-shadow: 0 10px 26px var(--shadow);
+  }
+  .closing-card p {
+    font-size: 16.5px;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+  .closing-card .sign {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    color: var(--garnet-deep);
+    font-size: 18px;
+    margin-top: 18px;
+  }
+
+  footer {
+    text-align: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+    padding: 30px 0 0;
+    opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    section.beat, .quote-card, .sticky { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">AILit Special Interest Group</div>
+    <h1>Session One, Looking Back at Itself</h1>
+    <div class="dateline">
+      <span>June 23, 2026</span><span>36 members registered</span><span>A room finding its footing</span>
+    </div>
+    <p class="subhead">Not a transcript. A mirror — held up so you can see what you brought into the room.</p>
+    <p class="masthead-link"><a href="https://jhnday.github.io/AILit/prompt_evolution_session_one_mirror">Prompt Evolution</a></p>
+  </header>
+
+  <!-- SECTION 1 -->
+  <section class="beat" id="beat-1">
+    <div class="beat-head">
+      <span class="beat-num">First Impressions</span>
+      <h2>The Room Looked Back</h2>
+      <hr class="rule">
+      <p class="beat-intro">John pulled up the AILit Portal, flipped between browser tabs, wrestled a stubborn split screen — and the room met all of it with more patience and warmth than the technology probably deserved.</p>
+    </div>
+
+    <div class="corkstrip">
+      <div class="quote-card">
+        <p class="q">Alan Turing screen. Love it.</p>
+        <div class="who">Lois</div>
+        <div class="ctx">First look at the avatar setup</div>
+      </div>
+      <div class="quote-card">
+        <p class="q">Claude is very good.</p>
+        <div class="who">Cheryl Weinstein</div>
+        <div class="ctx">A vote of confidence, two minutes in</div>
+      </div>
+      <div class="quote-card">
+        <p class="q">…what you did in Chrome looked a lot simpler.</p>
+        <div class="who">Lois</div>
+        <div class="ctx">An honest comparison — already planning to switch browsers next time</div>
+      </div>
+      <div class="quote-card">
+        <p class="q">Thank you so much! Super, really loved it.</p>
+        <div class="who">JohnCowl</div>
+        <div class="ctx">After losing yesterday's draft, then learning split-screen live on a touchpad</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section class="beat" id="beat-2">
+    <div class="beat-head">
+      <span class="beat-num">Where the Energy Went</span>
+      <h2>What You Were Actually Curious About</h2>
+      <hr class="rule">
+      <p class="beat-intro">Ten different people, ten different doors into the same subject. Here's where each of you leaned in.</p>
+    </div>
+
+    <div class="index-grid">
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--garnet);">DM</div>
+        <div>
+          <div class="name">Dennis McCarthy</div>
+          <p class="tagline">Wants the leash, not just the dog</p>
+          <p class="body-text">Pushed hardest on whether AI could be told to stick to trusted sources only — and connected the dots to RAG before John had even introduced the term.</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--brass);">L</div>
+        <div>
+          <div class="name">Lois</div>
+          <p class="tagline">Brought her own expertise to the table</p>
+          <p class="body-text">Connected the session to corpus-building and dictionary-making, then asked the sharpest structural question of the day: could AI eventually start training on its own writing?</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--sage);">BA</div>
+        <div>
+          <div class="name">Barbara Apstein</div>
+          <p class="tagline">Asked what every writer in the room was thinking</p>
+          <p class="body-text">If AI just recombines the most familiar phrases, what happens to genuine creative voice? A question that stayed in the air.</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--dusty-blue);">JG</div>
+        <div>
+          <div class="name">Jane Greenwald</div>
+          <p class="tagline">Least interested in theory, most interested in Saturday</p>
+          <p class="body-text">Writer's Guild numbers, a potluck for sixteen — the everyday, unglamorous uses that may matter most in the end.</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--garnet-deep);">JF</div>
+        <div>
+          <div class="name">Jenny Fariborz</div>
+          <p class="tagline">Asked the two questions everyone should ask</p>
+          <p class="body-text">What does this actually cost — and where does my writing go once I hand it over?</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--brass);">PC</div>
+        <div>
+          <div class="name">Paula Corman</div>
+          <p class="tagline">Practical, then a little astonished</p>
+          <p class="body-text">Started with condolence notes, ended up startled that AI could recall a 1970s Middleborough restaurant — and pressed John hard on how that's even possible.</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--sage);">ML</div>
+        <div>
+          <div class="name">Mark Lewis</div>
+          <p class="tagline">Arrived loyal, left curious</p>
+          <p class="body-text">Came in using ChatGPT and Gemini, walked out weighing a real side-by-side test of Claude — partly on his son-in-law's word.</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--dusty-blue);">AP</div>
+        <div>
+          <div class="name">Abby Pinard</div>
+          <p class="tagline">A practical question, then an unexpected reunion</p>
+          <p class="body-text">Asked about Word versus Google Docs — then spent a few minutes rediscovering a decades-old yearbook connection with JohnCowl's oldest friend.</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--garnet);">HS</div>
+        <div>
+          <div class="name">Hal Shear</div>
+          <p class="tagline">Came prepared</p>
+          <p class="body-text">Tested the writing coach on his own before the session even started, then compared notes against John's live results in real time.</p>
+        </div>
+      </div>
+
+      <div class="idx-card">
+        <div class="badge" style="background:var(--brass);">CW</div>
+        <div>
+          <div class="name">Cheryl Weinstein</div>
+          <p class="tagline">Opened with grandchildren, closed with a sharp question</p>
+          <p class="body-text">Are we here to take notes, or to learn to reason? A question that cut right to the point of the whole SIG.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: SIGNATURE CORKBOARD -->
+  <section class="beat" id="beat-3">
+    <div class="beat-head">
+      <span class="beat-num">The Pulse of It</span>
+      <h2>Mood of the Room</h2>
+      <hr class="rule">
+      <p class="beat-intro">No single word covers ninety minutes like this. Here's the corkboard version instead.</p>
+    </div>
+
+    <div class="corkboard">
+      <div class="sticky s1"><span class="pin"></span><span class="mood-tag">Curious</span>"Why can't you just tell it which books to trust?"<span class="who-tag">— Dennis</span></div>
+      <div class="sticky s2"><span class="pin"></span><span class="mood-tag">Warmly skeptical</span>"I'm not terribly concerned... but I think we need to be cautious."<span class="who-tag">— John, echoing the room</span></div>
+      <div class="sticky s3"><span class="pin"></span><span class="mood-tag">Delighted, out of nowhere</span>Two strangers find out they signed each other's yearbook sixty years ago.<span class="who-tag">— JohnCowl &amp; Abby</span></div>
+      <div class="sticky s4"><span class="pin"></span><span class="mood-tag">A little spooked, a lot impressed</span>It guessed her town. Then her retirement community. She'd never said either out loud.<span class="who-tag">— Paula</span></div>
+      <div class="sticky s5"><span class="pin"></span><span class="mood-tag">Funny under pressure</span>"Stoppage time."<span class="who-tag">— JohnCowl, mid-split-screen</span></div>
+      <div class="sticky s6"><span class="pin"></span><span class="mood-tag">Reassured</span>"We're not obsolete yet."<span class="who-tag">— John, said once, believed by the room</span></div>
+      <div class="sticky s7"><span class="pin"></span><span class="mood-tag">Grateful, hiccups and all</span>"Thank you so much... really loved it."<span class="who-tag">— JohnCowl, at the end</span></div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="beat closing" id="beat-4">
+    <div class="closing-card">
+      <p>Thirty-six people signed up without knowing quite what an AI Literacy SIG would feel like. By the end of this session, you'd argued about creativity, traded yearbook stories, gotten mildly spooked by a chicken restaurant, and figured out — together, out loud — how to split a screen.</p>
+      <p>That's a good first session.</p>
+      <p class="sign">See you at the next one.</p>
+    </div>
+  </section>
+
+  <footer>AILit SIG · Session One · jhnday.github.io</footer>
+
+</div>
+
+<script>
+  const beats = document.querySelectorAll('.beat');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.12 });
+  beats.forEach(b => obs.observe(b));
+</script>
+
+</body>
+</html>
