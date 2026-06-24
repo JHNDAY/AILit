@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An Anatomy of a Prompt for: The Crossing Lines</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+  :root{
+    --parchment:#f4f1eb;
+    --parchment-deep:#ece6d8;
+    --ink:#2a2520;
+    --ink-soft:#5a534a;
+    --gold:#8a6a10;
+    --gold-soft:rgba(138,106,16,0.14);
+    --v1:#b02a1e;
+    --v2:#c06010;
+    --v3:#7a6800;
+    --v4:#1e7a40;
+    --v5:#1a5c96;
+    --cmp:#6a2a8e;
+    --line:rgba(42,37,32,0.16);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--parchment);
+    background-image:
+      radial-gradient(ellipse at top left, rgba(138,106,16,0.05), transparent 55%),
+      radial-gradient(ellipse at bottom right, rgba(106,42,142,0.04), transparent 55%);
+    color:var(--ink);
+    font-family:'Lora', Georgia, serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 26px;}
+  h1,h2,h3{font-family:'DM Serif Display', serif; font-weight:400; margin:0;}
+  .mono{font-family:'DM Mono', monospace;}
+
+  a{color:inherit;}
+
+  /* ---------------- HEADER ---------------- */
+  header{padding:64px 0 36px;}
+  .eyebrow{
+    font-family:'DM Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:20px;
+  }
+  .eyebrow::before{content:"";width:30px;height:1px;background:var(--gold);}
+  h1{font-size:clamp(32px,5vw,48px);line-height:1.1;max-width:18ch;margin-bottom:14px;}
+  .subtitle{
+    font-style:italic;
+    font-size:18px;
+    color:var(--ink-soft);
+    margin-bottom:22px;
+    max-width:48ch;
+  }
+  .premise{
+    font-size:15.5px;
+    color:var(--ink-soft);
+    max-width:62ch;
+    border-left:2px solid var(--line);
+    padding-left:16px;
+  }
+
+  /* ---------------- STICKY NAV ---------------- */
+  nav.sticky{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(244,241,235,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:12px 0;
+  }
+  .nav-row{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .nav-row::-webkit-scrollbar{display:none;}
+  .pill{
+    font-family:'DM Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+    padding:7px 14px;
+    border-radius:999px;
+    text-decoration:none;
+    white-space:nowrap;
+    border:1.5px solid currentColor;
+    flex-shrink:0;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .pill:hover{transform:translateY(-1px); box-shadow:0 3px 0 rgba(0,0,0,0.08);}
+  .pill.v1{color:var(--v1);}
+  .pill.v2{color:var(--v2);}
+  .pill.v3{color:var(--v3);}
+  .pill.v4{color:var(--v4);}
+  .pill.v5{color:var(--v5);}
+  .pill.cmp{color:var(--cmp); border-style:dashed;}
+
+  /* ---------------- VERSION BLOCKS ---------------- */
+  .version{padding:56px 0 10px; border-bottom:1px solid var(--line);}
+  .vblock-head{display:flex; align-items:flex-start; gap:18px; margin-bottom:6px;}
+  .badge{
+    flex-shrink:0;
+    width:46px;height:46px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'DM Mono', monospace;
+    font-size:17px;
+    color:#fff;
+    box-shadow:0 3px 0 rgba(0,0,0,0.12);
+  }
+  .version h2{font-size:25px; padding-top:4px;}
+  .version[data-v="1"] .badge{background:var(--v1);}
+  .version[data-v="2"] .badge{background:var(--v2);}
+  .version[data-v="3"] .badge{background:var(--v3);}
+  .version[data-v="4"] .badge{background:var(--v4);}
+  .version[data-v="5"] .badge{background:var(--v5);}
+  .version[data-v="1"] h2{color:var(--v1);}
+  .version[data-v="2"] h2{color:var(--v2);}
+  .version[data-v="3"] h2{color:var(--v3);}
+  .version[data-v="4"] h2{color:var(--v4);}
+  .version[data-v="5"] h2{color:var(--v5);}
+
+  /* dimension pills */
+  .dim-row{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin:18px 0 26px;
+  }
+  .dim{
+    font-family:'DM Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.03em;
+    padding:5px 11px;
+    border-radius:5px;
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  .dim.on{
+    border-color:transparent;
+    color:#fff;
+    font-weight:500;
+  }
+  .dim.off{
+    color:rgba(42,37,32,0.38);
+    text-decoration:line-through;
+    background:transparent;
+  }
+  .dim.new{
+    outline:2px solid var(--gold);
+    outline-offset:1px;
+  }
+  .version[data-v="1"] .dim.on{background:var(--v1);}
+  .version[data-v="2"] .dim.on{background:var(--v2);}
+  .version[data-v="3"] .dim.on{background:var(--v3);}
+  .version[data-v="4"] .dim.on{background:var(--v4);}
+  .version[data-v="5"] .dim.on{background:var(--v5);}
+
+  /* collapsible prompt panel */
+  .prompt-toggle{
+    font-family:'DM Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.03em;
+    background:none;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    border-radius:5px;
+    padding:8px 14px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:0;
+  }
+  .prompt-toggle:hover{background:var(--ink); color:var(--parchment);}
+  .chev{display:inline-block; transition:transform 0.2s ease; font-size:10px;}
+  .prompt-toggle.open .chev{transform:rotate(90deg);}
+
+  .prompt-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.35s ease;
+  }
+  .prompt-panel.open{max-height:900px;}
+  .prompt-inner{
+    background:#fffdf8;
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:20px 22px;
+    margin-top:14px;
+    font-size:15px;
+    color:var(--ink);
+  }
+  .prompt-inner mark{
+    background:var(--gold-soft);
+    color:var(--gold);
+    box-shadow:inset 0 -1px 0 var(--gold);
+    padding:0 2px;
+    font-weight:500;
+  }
+
+  /* two cards */
+  .card-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin:24px 0 8px;
+  }
+  @media (max-width:640px){.card-row{grid-template-columns:1fr;}}
+  .card{
+    border-radius:4px;
+    padding:18px 20px;
+    background:#fff;
+    border:1px solid var(--line);
+  }
+  .card.working{border-left:4px solid var(--v4);}
+  .card.missing{border-left:4px solid var(--gold);}
+  .card-label{
+    font-family:'DM Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .card.working .card-label{color:var(--v4);}
+  .card.missing .card-label{color:var(--gold);}
+  .card p{margin:0; font-size:14.5px; color:var(--ink-soft);}
+
+  /* connector */
+  .connector{
+    display:flex; align-items:center; gap:14px;
+    padding:26px 0;
+    font-family:'DM Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+  }
+  .connector .line{flex:1; height:1px; background:repeating-linear-gradient(to right, var(--ink-soft) 0 5px, transparent 5px 9px);}
+  .connector .arrow{font-size:16px;}
+
+  /* ---------------- COMPARISON ---------------- */
+  #compare{padding:60px 0 80px;}
+  .cmp-eyebrow{
+    font-family:'DM Mono', monospace;
+    font-size:12px;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--cmp); margin-bottom:14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .cmp-eyebrow::before{content:"";width:30px;height:1px;background:var(--cmp);}
+  #compare h2{font-size:30px; color:var(--cmp); margin-bottom:30px;}
+
+  .vs-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:44px;
+  }
+  @media (max-width:640px){.vs-row{grid-template-columns:1fr;}}
+  .vs-card{
+    background:#fff;
+    border-radius:5px;
+    padding:24px 24px 20px;
+  }
+  .vs-card.v1{border:2px solid var(--v1);}
+  .vs-card.final{border:2px solid var(--v5);}
+  .vs-card .vs-tag{
+    font-family:'DM Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .vs-card.v1 .vs-tag{color:var(--v1);}
+  .vs-card.final .vs-tag{color:var(--v5);}
+  .vs-card h3{font-size:20px; margin-bottom:10px;}
+  .vs-card p{font-size:14.5px; color:var(--ink-soft); margin:0;}
+
+  table.delta{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:48px;
+    font-size:13.8px;
+    background:#fff;
+  }
+  table.delta th, table.delta td{
+    border:1px solid var(--line);
+    padding:11px 13px;
+    text-align:left;
+    vertical-align:top;
+  }
+  table.delta th{
+    background:var(--cmp);
+    color:#fff;
+    font-family:'DM Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+  table.delta td:first-child{font-weight:600; color:var(--ink);}
+  table.delta tr:nth-child(even) td{background:rgba(106,42,142,0.03);}
+
+  /* score bars */
+  .scores{margin-bottom:48px;}
+  .score-row{margin-bottom:18px;}
+  .score-label{
+    font-family:'DM Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.03em;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+  .bar-track{
+    position:relative;
+    height:11px;
+    background:var(--parchment-deep);
+    border-radius:6px;
+    overflow:hidden;
+    margin-bottom:4px;
+  }
+  .bar-fill{
+    position:absolute; top:0; left:0; height:100%;
+    width:0%;
+    border-radius:6px;
+    transition:width 1.1s cubic-bezier(.2,.8,.2,1);
+  }
+  .bar-fill.v1{background:var(--v1);}
+  .bar-fill.final{background:var(--cmp);}
+  .bar-track.final-track{margin-top:5px;}
+  .bar-caption{
+    display:flex; justify-content:space-between;
+    font-family:'DM Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+  }
+
+  .key-lesson{
+    border:2px solid var(--gold);
+    border-radius:5px;
+    background:#fffdf6;
+    padding:28px 28px 24px;
+    position:relative;
+  }
+  .key-lesson .kl-eyebrow{
+    font-family:'DM Mono', monospace;
+    font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:12px;
+  }
+  .key-lesson p{font-size:15.5px; color:var(--ink); margin:0;}
+
+  footer{
+    text-align:center;
+    font-family:'DM Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    letter-spacing:0.05em;
+    padding:30px 0 60px;
+  }
+
+  @media (max-width:600px){
+    header{padding:46px 0 28px;}
+    .version{padding:42px 0 8px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="eyebrow">AILit SIG · Prompt Evolution</div>
+  <h1>An Anatomy of a Prompt for:<br>The Crossing Lines</h1>
+  <p class="subtitle">How one question about liberal arts, code, and AI turned into a lesson on reading AI's confidence — five drafts at a time.</p>
+  <p class="premise">The text below never changed its topic. What changed, draft by draft, was who it was for, what it was supposed to accomplish, how success would be measured, how much confidence the answer was allowed to claim, and finally, what form the answer should take. This is a record of that sequence.</p>
+</header>
+
+<nav class="sticky">
+  <div class="wrap nav-row">
+    <a class="pill v1" href="#v1">V1 · Subject</a>
+    <a class="pill v2" href="#v2">V2 · Audience &amp; Purpose</a>
+    <a class="pill v3" href="#v3">V3 · Success Criterion</a>
+    <a class="pill v4" href="#v4">V4 · Intellectual Frame</a>
+    <a class="pill v5" href="#v5">V5 · Identity</a>
+    <a class="pill cmp" href="#compare">Compare ⇆</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ===================== V1 ===================== -->
+  <section class="version" data-v="1" id="v1">
+    <div class="vblock-head">
+      <div class="badge">1</div>
+      <h2>Version 1 — Subject</h2>
+    </div>
+
+    <div class="dim-row">
+      <span class="dim on new">✓ Subject</span>
+      <span class="dim off">Identity</span>
+      <span class="dim off">Purpose</span>
+      <span class="dim off">Audience</span>
+      <span class="dim off">Success Criterion</span>
+      <span class="dim off">Intellectual Frame</span>
+    </div>
+
+    <button class="prompt-toggle" onclick="togglePanel(this)">
+      <span class="chev">▸</span> View prompt text
+    </button>
+    <div class="prompt-panel">
+      <div class="prompt-inner">
+        I have recently read several articles that the rapid development for AI will open up many new job opportunities for people with Liberal arts degrees. In a rather stunning change of roles it appears that due to AI the value of a liberal arts degree may be increasing whereas the value of a degree in programming maybe rapidly decreasing. Analyze and describe the causes for this increase/decrease of job opportunities in these traditionally disjoint education tracks. Include citations and links to those citations. Comment on how this very exercise illustrates the point.
+      </div>
+    </div>
+
+    <div class="card-row">
+      <div class="card working">
+        <div class="card-label">✦ What's working</div>
+        <p>The phrase "a rather stunning change of roles" signals genuine curiosity, not a request for a flat encyclopedia entry. And "comment on how this very exercise illustrates the point" already builds a self-referential loop — a sophisticated move most prompt-writers never think to make.</p>
+      </div>
+      <div class="card missing">
+        <div class="card-label">→ What's still missing</div>
+        <p>No audience and no purpose are named. Claude has to guess whether this is for serious labor-market forecasting or a teaching moment — and that guess will shape tone, depth, and emphasis more than anything else in the prompt.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector wrap">
+    <span class="arrow mono">+</span>
+    <span>WHAT NEXT VERSION ADDS — A NAMED ROOM TO WRITE FOR</span>
+    <span class="line"></span>
+  </div>
+
+  <!-- ===================== V2 ===================== -->
+  <section class="version" data-v="2" id="v2">
+    <div class="vblock-head">
+      <div class="badge">2</div>
+      <h2>Version 2 — Audience &amp; Purpose</h2>
+    </div>
+
+    <div class="dim-row">
+      <span class="dim on">✓ Subject</span>
+      <span class="dim off">Identity</span>
+      <span class="dim on new">✓ Purpose</span>
+      <span class="dim on new">✓ Audience</span>
+      <span class="dim off">Success Criterion</span>
+      <span class="dim off">Intellectual Frame</span>
+    </div>
+
+    <button class="prompt-toggle" onclick="togglePanel(this)">
+      <span class="chev">▸</span> View prompt text
+    </button>
+    <div class="prompt-panel">
+      <div class="prompt-inner">
+        I have recently read several articles that the rapid development for AI will open up many new job opportunities for people with Liberal arts degrees. In a rather stunning change of roles it appears that due to AI the value of a liberal arts degree may be increasing whereas the value of a degree in programming maybe rapidly decreasing. Analyze and describe the causes for this increase/decrease of job opportunities in these traditionally disjoint education tracks. Include citations and links to those citations. Comment on how this very exercise illustrates the point.
+        <br><br>
+        <mark>it is for the AILit SIG, where the pedagogical point about AI literacy itself matters more than the labor-market forecasting</mark>
+      </div>
+    </div>
+
+    <div class="card-row">
+      <div class="card working">
+        <div class="card-label">✦ What's working</div>
+        <p>Naming the AILit SIG turns "a rather stunning change of roles" from a private observation into a hook the room will feel. The meta-instruction now has a defined audience to land on, instead of floating in the abstract.</p>
+      </div>
+      <div class="card missing">
+        <div class="card-label">→ What's still missing</div>
+        <p>The pedagogical priority is named but not yet operationalized. Without a more direct instruction, Claude will likely still treat the meta-comment as a short closing coda rather than the main event the prompt now claims it should be.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector wrap">
+    <span class="arrow mono">+</span>
+    <span>WHAT NEXT VERSION ADDS — A REDIRECTED EFFORT BUDGET</span>
+    <span class="line"></span>
+  </div>
+
+  <!-- ===================== V3 ===================== -->
+  <section class="version" data-v="3" id="v3">
+    <div class="vblock-head">
+      <div class="badge">3</div>
+      <h2>Version 3 — Success Criterion</h2>
+    </div>
+
+    <div class="dim-row">
+      <span class="dim on">✓ Subject</span>
+      <span class="dim off">Identity</span>
+      <span class="dim on">✓ Purpose</span>
+      <span class="dim on">✓ Audience</span>
+      <span class="dim on new">✓ Success Criterion</span>
+      <span class="dim off">Intellectual Frame</span>
+    </div>
+
+    <button class="prompt-toggle" onclick="togglePanel(this)">
+      <span class="chev">▸</span> View prompt text
+    </button>
+    <div class="prompt-panel">
+      <div class="prompt-inner">
+        I have recently read several articles that the rapid development for AI will open up many new job opportunities for people with Liberal arts degrees. In a rather stunning change of roles it appears that due to AI the value of a liberal arts degree may be increasing whereas the value of a degree in programming maybe rapidly decreasing. Analyze and describe the causes for this increase/decrease of job opportunities in these traditionally disjoint education tracks. Include citations and links to those citations. Comment on how this very exercise illustrates the point.
+        <br><br>
+        it is for the AILit SIG, where the pedagogical point about AI literacy itself matters more than the labor-market forecasting
+        <br><br>
+        <mark>Keep the labor-market analysis concise; spend more space on what this exercise itself teaches my SIG members about evaluating AI-generated reasoning, sourcing, and where AI's blind spots are.</mark>
+      </div>
+    </div>
+
+    <div class="card-row">
+      <div class="card working">
+        <div class="card-label">✦ What's working</div>
+        <p>"Keep ... concise; spend more space on ..." explicitly redirects Claude's effort budget, and names three concrete teaching targets — reasoning, sourcing, blind spots — instead of leaving "the pedagogical point" vague.</p>
+      </div>
+      <div class="card missing">
+        <div class="card-label">→ What's still missing</div>
+        <p>The prompt asks Claude to describe AI's blind spots in general, but not yet to turn that lens on itself. Nothing here requires Claude to flag its own uncertainty in this specific analysis.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector wrap">
+    <span class="arrow mono">+</span>
+    <span>WHAT NEXT VERSION ADDS — CALIBRATED CONFIDENCE</span>
+    <span class="line"></span>
+  </div>
+
+  <!-- ===================== V4 ===================== -->
+  <section class="version" data-v="4" id="v4">
+    <div class="vblock-head">
+      <div class="badge">4</div>
+      <h2>Version 4 — Intellectual Frame</h2>
+    </div>
+
+    <div class="dim-row">
+      <span class="dim on">✓ Subject</span>
+      <span class="dim off">Identity</span>
+      <span class="dim on">✓ Purpose</span>
+      <span class="dim on">✓ Audience</span>
+      <span class="dim on">✓ Success Criterion</span>
+      <span class="dim on new">✓ Intellectual Frame</span>
+    </div>
+
+    <button class="prompt-toggle" onclick="togglePanel(this)">
+      <span class="chev">▸</span> View prompt text
+    </button>
+    <div class="prompt-panel">
+      <div class="prompt-inner">
+        I have recently read several articles that the rapid development for AI will open up many new job opportunities for people with Liberal arts degrees. In a rather stunning change of roles it appears that due to AI the value of a liberal arts degree may be increasing whereas the value of a degree in programming maybe rapidly decreasing. Analyze and describe the causes for this increase/decrease of job opportunities in these traditionally disjoint education tracks. Include citations and links to those citations. Comment on how this very exercise illustrates the point.
+        <br><br>
+        it is for the AILit SIG, where the pedagogical point about AI literacy itself matters more than the labor-market forecasting
+        <br><br>
+        Keep the labor-market analysis concise; spend more space on what this exercise itself teaches my SIG members about evaluating AI-generated reasoning, sourcing, and where AI's blind spots are.
+        <br><br>
+        <mark>Be explicit about which claims in your own analysis are well-supported versus speculative, and flag any places where you may be overstating certainty.</mark>
+      </div>
+    </div>
+
+    <div class="card-row">
+      <div class="card working">
+        <div class="card-label">✦ What's working</div>
+        <p>This forces real calibration. "Well-supported versus speculative" turns the blind-spot lesson from something Claude describes in the abstract into something it has to perform and own, claim by claim, in this exact analysis.</p>
+      </div>
+      <div class="card missing">
+        <div class="card-label">→ What's still missing</div>
+        <p>The output is still a wall of prose. Members have no way to see the well-supported/speculative distinction at a glance — the calibration lives in sentences, not in a structure they can scan during a session.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector wrap">
+    <span class="arrow mono">+</span>
+    <span>WHAT NEXT VERSION ADDS — A FORM THE ROOM CAN SEE</span>
+    <span class="line"></span>
+  </div>
+
+  <!-- ===================== V5 ===================== -->
+  <section class="version" data-v="5" id="v5">
+    <div class="vblock-head">
+      <div class="badge">5</div>
+      <h2>Version 5 — Identity</h2>
+    </div>
+
+    <div class="dim-row">
+      <span class="dim on">✓ Subject</span>
+      <span class="dim on new">✓ Identity</span>
+      <span class="dim on">✓ Purpose</span>
+      <span class="dim on">✓ Audience</span>
+      <span class="dim on">✓ Success Criterion</span>
+      <span class="dim on">✓ Intellectual Frame</span>
+    </div>
+
+    <button class="prompt-toggle" onclick="togglePanel(this)">
+      <span class="chev">▸</span> View prompt text
+    </button>
+    <div class="prompt-panel">
+      <div class="prompt-inner">
+        I have recently read several articles that the rapid development for AI will open up many new job opportunities for people with Liberal arts degrees. In a rather stunning change of roles it appears that due to AI the value of a liberal arts degree may be increasing whereas the value of a degree in programming maybe rapidly decreasing. Analyze and describe the causes for this increase/decrease of job opportunities in these traditionally disjoint education tracks. Include citations and links to those citations. Comment on how this very exercise illustrates the point.
+        <br><br>
+        it is for the AILit SIG, where the pedagogical point about AI literacy itself matters more than the labor-market forecasting
+        <br><br>
+        Keep the labor-market analysis concise; spend more space on what this exercise itself teaches my SIG members about evaluating AI-generated reasoning, sourcing, and where AI's blind spots are.
+        <br><br>
+        Be explicit about which claims in your own analysis are well-supported versus speculative, and flag any places where you may be overstating certainty.
+        <br><br>
+        <mark>Please create an HTML file artifact that visualizes your response to this narrative — don't create any API calls in the artifact.</mark>
+      </div>
+    </div>
+
+    <div class="card-row">
+      <div class="card working">
+        <div class="card-label">✦ What's working</div>
+        <p>This converts the whole exercise into an artifact the room can look at — color-coded confidence, a source ledger, a chart that admits where it's illustrative. The calibration from V4 becomes a structure, not just a paragraph.</p>
+      </div>
+      <div class="card missing">
+        <div class="card-label">→ What's still missing</div>
+        <p>The confidence ratings are still Claude's own judgment calls, with no built-in mechanism for the room to contest or re-rate them directly inside the artifact — that re-rating has to happen in discussion, not on the page.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===================== COMPARISON ===================== -->
+<section id="compare">
+  <div class="wrap">
+    <div class="cmp-eyebrow">Compare</div>
+    <h2>V1 vs. Final, side by side</h2>
+
+    <div class="vs-row">
+      <div class="vs-card v1">
+        <div class="vs-tag">V1 — The Bare Request</div>
+        <h3>A subject, unframed</h3>
+        <p>Topic named. No reader named, no goal named, no standard for what counts as a good answer, no instruction on how confident to sound, and no specified form — defaulting to prose in chat.</p>
+      </div>
+      <div class="vs-card final">
+        <div class="vs-tag">V5 — The Final Brief</div>
+        <h3>A subject, doing a job</h3>
+        <p>Same topic, now aimed at a named room, in service of a named teaching goal, held to an explicit standard of evidence, required to flag its own overconfidence, and delivered as a designed exhibit.</p>
+      </div>
+    </div>
+
+    <table class="delta">
+      <thead>
+        <tr><th>Dimension</th><th>V1 state</th><th>Final state</th><th>Impact on Claude's output</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Subject</td>
+          <td>Liberal arts vs. programming, named but unframed</td>
+          <td>Same subject, now the case study for a teaching exercise</td>
+          <td>The topic becomes a vehicle for the lesson, not the destination</td>
+        </tr>
+        <tr>
+          <td>Audience</td>
+          <td>Unspecified</td>
+          <td>BOLLI AILit SIG members</td>
+          <td>Tone, depth, and examples calibrate to one real room</td>
+        </tr>
+        <tr>
+          <td>Purpose</td>
+          <td>Implied: settle the labor-market question</td>
+          <td>Explicit: AI-literacy pedagogy outranks forecasting</td>
+          <td>Effort shifts from prediction toward the meta-lesson</td>
+        </tr>
+        <tr>
+          <td>Success Criterion</td>
+          <td>A comprehensive answer with citations</td>
+          <td>Concise market analysis; expansive reasoning/sourcing/blind-spot review</td>
+          <td>The citations become the object of study, not just support</td>
+        </tr>
+        <tr>
+          <td>Intellectual Frame</td>
+          <td>None — uniform, confident tone throughout</td>
+          <td>Explicit well-supported vs. speculative calibration</td>
+          <td>Claude must rate its own claims, surfacing overreach</td>
+        </tr>
+        <tr>
+          <td>Identity</td>
+          <td>Written analysis, delivered in chat</td>
+          <td>Designed HTML exhibit artifact</td>
+          <td>The calibration becomes visible and discussable, not just stated</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="scores">
+      <div class="score-row" data-label="Subject" data-v1="70" data-final="85">
+        <div class="score-label">Subject clarity</div>
+        <div class="bar-track"><div class="bar-fill v1"></div></div>
+        <div class="bar-track final-track"><div class="bar-fill final"></div></div>
+        <div class="bar-caption"><span>V1</span><span>Final</span></div>
+      </div>
+      <div class="score-row" data-label="Audience" data-v1="5" data-final="90">
+        <div class="score-label">Audience specificity</div>
+        <div class="bar-track"><div class="bar-fill v1"></div></div>
+        <div class="bar-track final-track"><div class="bar-fill final"></div></div>
+        <div class="bar-caption"><span>V1</span><span>Final</span></div>
+      </div>
+      <div class="score-row" data-label="Purpose" data-v1="15" data-final="90">
+        <div class="score-label">Purpose clarity</div>
+        <div class="bar-track"><div class="bar-fill v1"></div></div>
+        <div class="bar-track final-track"><div class="bar-fill final"></div></div>
+        <div class="bar-caption"><span>V1</span><span>Final</span></div>
+      </div>
+      <div class="score-row" data-label="Success" data-v1="20" data-final="85">
+        <div class="score-label">Success criterion</div>
+        <div class="bar-track"><div class="bar-fill v1"></div></div>
+        <div class="bar-track final-track"><div class="bar-fill final"></div></div>
+        <div class="bar-caption"><span>V1</span><span>Final</span></div>
+      </div>
+      <div class="score-row" data-label="Frame" data-v1="0" data-final="90">
+        <div class="score-label">Intellectual frame</div>
+        <div class="bar-track"><div class="bar-fill v1"></div></div>
+        <div class="bar-track final-track"><div class="bar-fill final"></div></div>
+        <div class="bar-caption"><span>V1</span><span>Final</span></div>
+      </div>
+      <div class="score-row" data-label="Identity" data-v1="25" data-final="90">
+        <div class="score-label">Identity / deliverable form</div>
+        <div class="bar-track"><div class="bar-fill v1"></div></div>
+        <div class="bar-track final-track"><div class="bar-fill final"></div></div>
+        <div class="bar-caption"><span>V1</span><span>Final</span></div>
+      </div>
+    </div>
+
+    <div class="key-lesson">
+      <div class="kl-eyebrow">Key Lesson</div>
+      <p>Five small additions, and the topic never changed — yet the task Claude was solving changed completely. The first version asked for an answer; each version after named who the answer was for, what it should accomplish, how to measure success, how confident to sound, and finally what form it should take. None of these additions made the prompt longer in any meaningful way — each one simply removed a guess Claude would otherwise have to make on its own. The lesson for prompt-writing generally: a clear topic is necessary but not sufficient. Precision comes from naming the reader, the goal, the standard of evidence, and the deliverable — in that order, a prompt stops describing a subject and starts directing a piece of work.</p>
+    </div>
+  </div>
+</section>
+
+<footer>BOLLI AILit Special Interest Group — Prompt Evolution exhibit, June 2026</footer>
+
+<script>
+  function togglePanel(btn){
+    btn.classList.toggle('open');
+    var panel = btn.nextElementSibling;
+    panel.classList.toggle('open');
+    var chev = btn.querySelector('.chev');
+    chev.textContent = btn.classList.contains('open') ? '▾' : '▸';
+    var label = btn.classList.contains('open') ? 'Hide prompt text' : 'View prompt text';
+    btn.childNodes[btn.childNodes.length - 1].textContent = ' ' + label;
+  }
+
+  // Animate score bars on scroll into view
+  var rows = document.querySelectorAll('.score-row');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var row = entry.target;
+        var v1 = row.getAttribute('data-v1');
+        var fin = row.getAttribute('data-final');
+        var fills = row.querySelectorAll('.bar-fill');
+        fills[0].style.width = v1 + '%';
+        fills[1].style.width = fin + '%';
+        observer.unobserve(row);
+      }
+    });
+  }, { threshold: 0.35 });
+  rows.forEach(function(row){ observer.observe(row); });
+</script>
+
+</body>
+</html>

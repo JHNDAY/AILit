@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An Anatomy of a Prompt for: Theory Into Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#f4f1eb;
+    --v1:#b02a1e;
+    --v2:#c06010;
+    --v3:#7a6800;
+    --v4:#1e7a40;
+    --v5:#1a5c96;
+    --compare:#6a2a8e;
+    --gold:#8a6a10;
+    --ink:#262219;
+    --paper:#ffffff;
+    --line:#ddd4bf;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Lora', serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2{font-family:'DM Serif Display', serif; font-weight:400; margin:0;}
+  .mono{font-family:'DM Mono', monospace;}
+
+  a{color:inherit;}
+  :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+
+  .wrap{max-width:880px; margin:0 auto; padding:0 24px;}
+
+  /* ---------------- Header ---------------- */
+  header.masthead{
+    text-align:center;
+    padding:64px 24px 40px;
+    border-bottom:3px solid var(--ink);
+  }
+  .eyebrow{
+    font-family:'DM Mono', monospace;
+    font-size:0.74rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:16px;
+  }
+  header.masthead h1{
+    font-size:clamp(1.9rem, 4.2vw, 2.7rem);
+    line-height:1.25;
+  }
+  header.masthead .subtitle{
+    font-style:italic;
+    font-size:1.1rem;
+    color:#544c3a;
+    margin:14px 0 0;
+  }
+  header.masthead .premise{
+    max-width:640px;
+    margin:20px auto 0;
+    font-size:0.98rem;
+    color:#473f30;
+  }
+
+  /* ---------------- Sticky nav ---------------- */
+  nav.pillnav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(244,241,235,0.96);
+    backdrop-filter:blur(4px);
+    border-bottom:1px solid var(--line);
+    padding:12px 24px;
+  }
+  nav.pillnav .pillrow{
+    max-width:880px;
+    margin:0 auto;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  nav.pillnav a{
+    font-family:'DM Mono', monospace;
+    font-size:0.76rem;
+    text-decoration:none;
+    padding:6px 14px;
+    border-radius:999px;
+    border:1.5px solid currentColor;
+    white-space:nowrap;
+  }
+  nav.pillnav a.nv1{color:var(--v1);}
+  nav.pillnav a.nv2{color:var(--v2);}
+  nav.pillnav a.nv3{color:var(--v3);}
+  nav.pillnav a.nv4{color:var(--v4);}
+  nav.pillnav a.ncompare{color:var(--compare);}
+
+  /* ---------------- Version blocks ---------------- */
+  section.version-block{
+    padding:56px 0 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .vhead{
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+    margin-bottom:22px;
+  }
+  .badge{
+    flex:0 0 auto;
+    width:46px; height:46px;
+    border-radius:50%;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'DM Serif Display', serif;
+    font-size:1.3rem;
+    font-style:italic;
+  }
+  .vhead h2{font-size:1.5rem;}
+  .vhead .vsub{
+    font-family:'DM Mono', monospace;
+    font-size:0.78rem;
+    color:#6b6250;
+    margin-top:4px;
+  }
+
+  .pillrow.dims{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .dim-pill{
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    padding:5px 11px;
+    border-radius:999px;
+    border:1.5px solid var(--line);
+    background:#fff;
+    color:#8a8270;
+  }
+  .dim-pill.on{
+    border-color:transparent;
+    color:#fff;
+  }
+  .dim-pill.off{
+    text-decoration:line-through;
+    color:#a39a86;
+  }
+
+  .prompt-panel{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-bottom:22px;
+    overflow:hidden;
+  }
+  .prompt-panel .ptoggle{
+    width:100%;
+    text-align:left;
+    background:#f8f5ee;
+    border:none;
+    border-bottom:1px solid var(--line);
+    padding:10px 16px;
+    font-family:'DM Mono', monospace;
+    font-size:0.74rem;
+    color:#6b6250;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .prompt-panel .ptext{
+    padding:18px 20px;
+    font-size:0.94rem;
+    white-space:pre-wrap;
+    color:#3a3528;
+  }
+  .prompt-panel .ptext{display:none;}
+  .prompt-panel .ptext.expanded{display:block;}
+  mark.added{
+    background:#f3e4ad;
+    color:#4a3c08;
+    padding:0 3px;
+    border-radius:2px;
+  }
+
+  .cardrow{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .infocard{
+    border-radius:6px;
+    padding:18px 18px;
+    background:#fff;
+    border:1px solid var(--line);
+  }
+  .infocard.working{border-left:5px solid var(--v4);}
+  .infocard.missing{border-left:5px solid var(--gold);}
+  .infocard h3{
+    font-family:'DM Mono', monospace;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin:0 0 10px;
+  }
+  .infocard.working h3{color:var(--v4);}
+  .infocard.missing h3{color:var(--gold);}
+  .infocard ul{margin:0; padding-left:18px; font-size:0.92rem;}
+  .infocard li{margin-bottom:6px;}
+
+  /* ---------------- Connector ---------------- */
+  .connector{
+    text-align:center;
+    padding:28px 24px;
+    font-family:'DM Mono', monospace;
+  }
+  .connector .arrow{font-size:1.4rem; display:block; margin-bottom:6px;}
+  .connector .label{font-size:0.74rem; letter-spacing:0.08em; color:#6b6250; text-transform:uppercase;}
+  .connector .adds{font-size:0.82rem; margin-top:8px; font-style:italic; color:#473f30;}
+
+  /* ---------------- Compare section ---------------- */
+  section#compare{padding:60px 0 80px;}
+  section#compare .vhead h2{color:var(--compare);}
+  section#compare .badge{background:var(--compare);}
+
+  .compare-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:40px;
+  }
+  .compare-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:20px;
+  }
+  .compare-card h4{
+    font-family:'DM Mono', monospace;
+    font-size:0.8rem;
+    margin:0 0 12px;
+    text-transform:uppercase;
+  }
+  .compare-card.v1side h4{color:var(--v1);}
+  .compare-card.finalside h4{color:var(--v4);}
+  .compare-card .ptext{
+    font-size:0.88rem;
+    white-space:pre-wrap;
+    color:#3a3528;
+    max-height:260px;
+    overflow:auto;
+  }
+
+  table.delta{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:48px;
+    font-size:0.86rem;
+    background:#fff;
+  }
+  table.delta th, table.delta td{
+    border:1px solid var(--line);
+    padding:10px 12px;
+    text-align:left;
+    vertical-align:top;
+  }
+  table.delta th{
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    background:#f8f5ee;
+    color:#6b6250;
+  }
+  table.delta td.dim{font-weight:600; color:var(--compare);}
+
+  .scorebars{margin-bottom:48px;}
+  .scorebars h4{
+    font-family:'DM Mono', monospace;
+    font-size:0.8rem;
+    text-transform:uppercase;
+    color:#6b6250;
+    margin-bottom:18px;
+  }
+  .bar-row{margin-bottom:16px;}
+  .bar-row .bar-label{
+    font-size:0.86rem;
+    margin-bottom:6px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .bar-track{
+    height:10px;
+    background:#e9e2d2;
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:4px;
+  }
+  .bar-fill{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    transition:width 1.1s ease;
+  }
+  .bar-fill.v1{background:var(--v1);}
+  .bar-fill.final{background:var(--v4);}
+  .bar-caption{
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    color:#8a8270;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  .keylesson{
+    background:#fff;
+    border:2px solid var(--gold);
+    border-radius:8px;
+    padding:26px 26px;
+  }
+  .keylesson h4{
+    font-family:'DM Mono', monospace;
+    font-size:0.8rem;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 12px;
+  }
+  .keylesson p{margin:0; font-size:0.98rem; color:#3a3528;}
+
+  footer{
+    text-align:center;
+    padding:30px 0 46px;
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    color:#8a8270;
+  }
+
+  @media (max-width:680px){
+    .cardrow, .compare-grid{grid-template-columns:1fr;}
+    table.delta{font-size:0.78rem;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Prompt Evolution · Writing Coach Trace</p>
+  <h1>An Anatomy of a Prompt for:<br>Theory Into Practice</h1>
+  <p class="subtitle">Four passes, one narrative — watching a visualization brief become buildable.</p>
+  <p class="premise">This traces the actual prompt iterations from this conversation: a request to visualize two halves of a BOLLI AI-literacy session — the Foundations lecture and the live Writing Coach demo — sharpened, cycle by cycle, into a complete build instruction.</p>
+</header>
+
+<nav class="pillnav">
+  <div class="pillrow">
+    <a href="#v1" class="nv1">V1 · Subject</a>
+    <a href="#v2" class="nv2">V2 · Frame &amp; Stakes</a>
+    <a href="#v3" class="nv3">V3 · Named Identity</a>
+    <a href="#v4" class="nv4">V4 · Build Instruction</a>
+    <a href="#compare" class="ncompare">Compare</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ VERSION 1 ============ -->
+  <section class="version-block" id="v1">
+    <div class="vhead">
+      <div class="badge" style="background:var(--v1);">1</div>
+      <div>
+        <h2>Version 1 — The Subject, Unframed</h2>
+        <p class="vsub">First pass: two topics named, two questions asked, no mechanism or destination yet.</p>
+      </div>
+    </div>
+
+    <div class="pillrow dims">
+      <span class="dim-pill on" style="background:var(--v1);">✓ Subject</span>
+      <span class="dim-pill off">✗ Identity</span>
+      <span class="dim-pill off">✗ Purpose</span>
+      <span class="dim-pill off">✗ Audience</span>
+      <span class="dim-pill off">✗ Success Criterion</span>
+      <span class="dim-pill off">✗ Intellectual Frame</span>
+    </div>
+
+    <div class="prompt-panel">
+      <button class="ptoggle" aria-expanded="false">▸ Full prompt text</button>
+      <div class="ptext">I want visualize two major parts of the Zoom transcript
+- The learning session in the Foundations - Meaning of Words,Generative,and RAG
+- The use of the prompt narrative coach to create a comprehensive prompt
+How these two parts are related
+How the attendees responded to this learning</div>
+    </div>
+
+    <div class="cardrow">
+      <div class="infocard working">
+        <h3>✦ What's working</h3>
+        <ul>
+          <li>"How these two parts are related" reaches for synthesis, not just a recap of two topics.</li>
+          <li>"How the attendees responded" asks for reception, not just content — a more alive request than a standard summary.</li>
+        </ul>
+      </div>
+      <div class="infocard missing">
+        <h3>→ What's still missing</h3>
+        <ul>
+          <li>No stated relationship — "related" is a question, not an answer.</li>
+          <li>No destination: who is this visualization actually for?</li>
+          <li>No success criterion: nothing defines what the finished piece needs to demonstrate.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector">
+    <span class="arrow" style="color:var(--v2);">↓</span>
+    <span class="label">+ what next version adds</span>
+    <p class="adds">Intellectual Frame (theory→practice) · Success Criterion (Claude's role) · Purpose (engage attendees) · a first, generic ask for evidence</p>
+  </div>
+
+  <!-- ============ VERSION 2 ============ -->
+  <section class="version-block" id="v2">
+    <div class="vhead">
+      <div class="badge" style="background:var(--v2);">2</div>
+      <div>
+        <h2>Version 2 — Frame &amp; Stakes</h2>
+        <p class="vsub">The relationship gets named, the mechanism gets a sentence, and a purpose appears.</p>
+      </div>
+    </div>
+
+    <div class="pillrow dims">
+      <span class="dim-pill on" style="background:var(--v2);">✓ Subject</span>
+      <span class="dim-pill off">✗ Identity</span>
+      <span class="dim-pill on" style="background:var(--v2);">✓ Purpose</span>
+      <span class="dim-pill off">✗ Audience</span>
+      <span class="dim-pill on" style="background:var(--v2);">✓ Success Criterion</span>
+      <span class="dim-pill on" style="background:var(--v2);">✓ Intellectual Frame</span>
+    </div>
+
+    <div class="prompt-panel">
+      <button class="ptoggle" aria-expanded="false">▸ Full prompt text</button>
+      <div class="ptext">I want visualize two major parts of the Zoom transcript
+- The learning session in the Foundations - Meaning of Words,Generative,and RAG
+- The use of the prompt narrative coach to create a comprehensive prompt
+How these two parts are related
+How the attendees responded to this learning
+<mark class="added">Describe how the foundation concepts are the theory put into practice of the writing coach - how it works
+The key point is that the writing coach process uses Claude to assess the current state of the prompt and improve it
+Include specific member comments to illustrate how the writing coach is being perceived and assimilated by the attendees
+The purpose is help the attendees to engage in the writing coach to create their own narratives and the results and prompt evolution</mark></div>
+    </div>
+
+    <div class="cardrow">
+      <div class="infocard working">
+        <h3>✦ What's working</h3>
+        <ul>
+          <li>"theory put into practice... how it works" gives the visualization a spine instead of two floating topics.</li>
+          <li>"uses Claude to assess the current state of the prompt and improve it" — one clean sentence anchoring the whole middle section.</li>
+        </ul>
+      </div>
+      <div class="infocard missing">
+        <h3>→ What's still missing</h3>
+        <ul>
+          <li>"Include specific member comments" is still a directive, not a selection — risk of generic, easiest-to-find quotes.</li>
+          <li>Destination still unstated: portal slot, Grand Learning View, or something else?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector">
+    <span class="arrow" style="color:var(--v3);">↓</span>
+    <span class="label">+ what next version adds</span>
+    <p class="adds">Identity — three real names replace "specific member comments"</p>
+  </div>
+
+  <!-- ============ VERSION 3 ============ -->
+  <section class="version-block" id="v3">
+    <div class="vhead">
+      <div class="badge" style="background:var(--v3);">3</div>
+      <div>
+        <h2>Version 3 — Named Identity</h2>
+        <p class="vsub">Generic "members" becomes Mark Lewis, Dennis McCarthy, Hal Shear — guesswork removed.</p>
+      </div>
+    </div>
+
+    <div class="pillrow dims">
+      <span class="dim-pill on" style="background:var(--v3);">✓ Subject</span>
+      <span class="dim-pill on" style="background:var(--v3);">✓ Identity</span>
+      <span class="dim-pill on" style="background:var(--v3);">✓ Purpose</span>
+      <span class="dim-pill off">✗ Audience</span>
+      <span class="dim-pill on" style="background:var(--v3);">✓ Success Criterion</span>
+      <span class="dim-pill on" style="background:var(--v3);">✓ Intellectual Frame</span>
+    </div>
+
+    <div class="prompt-panel">
+      <button class="ptoggle" aria-expanded="false">▸ Full prompt text</button>
+      <div class="ptext">I want visualize two major parts of the Zoom transcript
+- The learning session in the Foundations - Meaning of Words,Generative,and RAG
+- The use of the prompt narrative coach to create a comprehensive prompt
+How these two parts are related
+How the attendees responded to this learning
+Describe how the foundation concepts are the theory put into practice of the writing coach - how it works
+The key point is that the writing coach process uses Claude to assess the current state of the prompt and improve it
+<mark class="added">Include specific members (Mark Lewis,Dennis McCarthy,Hal Shear) comments</mark> to illustrate how the writing coach is being perceived and assimilated by the attendees
+The purpose is help the attendees to engage in the writing coach to create their own narratives and the results and prompt evolution</div>
+    </div>
+
+    <div class="cardrow">
+      <div class="infocard working">
+        <h3>✦ What's working</h3>
+        <ul>
+          <li>Naming the three people directly removes the AI's guesswork entirely — it will pull the exact moments that show assimilation, not just any comment.</li>
+          <li>This took the prior round's suggestion further than the suggestion itself: a technique ("name specific people") became an instance (these three people).</li>
+        </ul>
+      </div>
+      <div class="infocard missing">
+        <h3>→ What's still missing</h3>
+        <ul>
+          <li>Which moment each person should illustrate is still implicit — workable, but one layer short of fully locked in.</li>
+          <li>Destination/audience for the finished artifact: still never stated.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector">
+    <span class="arrow" style="color:var(--v4);">↓</span>
+    <span class="label">+ what next version adds</span>
+    <p class="adds">A literal build instruction — and a constraint on how it should be built</p>
+  </div>
+
+  <!-- ============ VERSION 4 ============ -->
+  <section class="version-block" id="v4">
+    <div class="vhead">
+      <div class="badge" style="background:var(--v4);">4</div>
+      <div>
+        <h2>Version 4 — The Build Instruction</h2>
+        <p class="vsub">A narrative review becomes a deliverable, with an explicit implementation constraint.</p>
+      </div>
+    </div>
+
+    <div class="pillrow dims">
+      <span class="dim-pill on" style="background:var(--v4);">✓ Subject</span>
+      <span class="dim-pill on" style="background:var(--v4);">✓ Identity</span>
+      <span class="dim-pill on" style="background:var(--v4);">✓ Purpose</span>
+      <span class="dim-pill off">✗ Audience</span>
+      <span class="dim-pill on" style="background:var(--v4);">✓ Success Criterion</span>
+      <span class="dim-pill on" style="background:var(--v4);">✓ Intellectual Frame</span>
+    </div>
+
+    <div class="prompt-panel">
+      <button class="ptoggle" aria-expanded="false">▸ Full prompt text</button>
+      <div class="ptext">I want visualize two major parts of the Zoom transcript
+- The learning session in the Foundations - Meaning of Words,Generative,and RAG
+- The use of the prompt narrative coach to create a comprehensive prompt
+How these two parts are related
+How the attendees responded to this learning
+Describe how the foundation concepts are the theory put into practice of the writing coach - how it works
+The key point is that the writing coach process uses Claude to assess the current state of the prompt and improve it
+Include specific members (Mark Lewis,Dennis McCarthy,Hal Shear) comments to illustrate how the writing coach is being perceived and assimilated by the attendees
+The purpose is help the attendees to engage in the writing coach to create their own narratives and the results and prompt evolution
+<mark class="added">Please create an HTML file artifact that visualizes your response to this narrative — don't create any API calls in the artifact.</mark></div>
+    </div>
+
+    <div class="cardrow">
+      <div class="infocard working">
+        <h3>✦ What's working</h3>
+        <ul>
+          <li>"create an HTML file artifact" converts a narrative review into an actual build instruction — no more interpretation needed about the deliverable's form.</li>
+          <li>"don't create any API calls" removes implementation ambiguity outright, before any code gets written.</li>
+        </ul>
+      </div>
+      <div class="infocard missing">
+        <h3>→ What's still missing</h3>
+        <ul>
+          <li>Audience/destination — who the finished artifact actually serves — was never pinned down across all four versions. Format is now fully specified; the reader for that format is not.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPARE ============ -->
+  <section id="compare">
+    <div class="vhead">
+      <div class="badge">⇄</div>
+      <div>
+        <h2>Compare: V1 → Final</h2>
+        <p class="vsub">What four cycles actually changed.</p>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card v1side">
+        <h4>V1 — Original</h4>
+        <div class="ptext">I want visualize two major parts of the Zoom transcript
+- The learning session in the Foundations - Meaning of Words,Generative,and RAG
+- The use of the prompt narrative coach to create a comprehensive prompt
+How these two parts are related
+How the attendees responded to this learning</div>
+      </div>
+      <div class="compare-card finalside">
+        <h4>V4 — Final</h4>
+        <div class="ptext">...Describe how the foundation concepts are the theory put into practice of the writing coach - how it works
+The key point is that the writing coach process uses Claude to assess the current state of the prompt and improve it
+Include specific members (Mark Lewis, Dennis McCarthy, Hal Shear) comments...
+The purpose is help the attendees to engage in the writing coach to create their own narratives and the results and prompt evolution
+Please create an HTML file artifact that visualizes your response to this narrative — don't create any API calls in the artifact.</div>
+      </div>
+    </div>
+
+    <table class="delta">
+      <thead>
+        <tr><th>Dimension</th><th>V1 state</th><th>Final state</th><th>Impact on Claude's output</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dim">Subject</td>
+          <td>Two topics named clearly from the start</td>
+          <td>Unchanged — already precise</td>
+          <td>No impact: this dimension never needed work.</td>
+        </tr>
+        <tr>
+          <td class="dim">Identity</td>
+          <td>Absent — "attendees" only</td>
+          <td>Mark Lewis, Dennis McCarthy, Hal Shear named</td>
+          <td>Without names, Claude must guess which quotes show assimilation. With names, the exact three moments get pulled, anchored to the right cycle step.</td>
+        </tr>
+        <tr>
+          <td class="dim">Purpose</td>
+          <td>Absent</td>
+          <td>"Help attendees engage... create their own narratives"</td>
+          <td>Without it, the piece risks reading as a static record. With it, the output ends on an invitation, not a summary.</td>
+        </tr>
+        <tr>
+          <td class="dim">Audience</td>
+          <td>Absent</td>
+          <td>Still absent</td>
+          <td>Claude had to infer a destination (matching the existing portal/session-summary design language from memory) rather than being told one directly.</td>
+        </tr>
+        <tr>
+          <td class="dim">Success Criterion</td>
+          <td>Absent</td>
+          <td>"Claude assesses the current state of the prompt and improves it"</td>
+          <td>Without it, the middle section could drift into re-narrating the demo. With it, every panel anchors to one mechanism.</td>
+        </tr>
+        <tr>
+          <td class="dim">Intellectual Frame</td>
+          <td>Posed as an open question ("how are these related?")</td>
+          <td>Answered directly — theory enables practice</td>
+          <td>Without the claim, the two transcript halves render as separate sections. With it, a single bridge motif becomes the spine of the whole piece.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="scorebars">
+      <h4>Dimension Completeness — V1 vs. Final</h4>
+      <div id="bars"></div>
+    </div>
+
+    <div class="keylesson">
+      <h4>Key Lesson</h4>
+      <p>A prompt isn't complete because it's long — it's complete when each dimension shaping the response has been named. Subject was solid from the first draft, but Identity, Purpose, Success Criterion, and Intellectual Frame each only arrived once stated outright: theory-into-practice as the throughline, Claude's assessment role as the mechanism, real names instead of "members," and a literal build instruction instead of a request. The one dimension that never resolved — Audience, who the finished artifact actually serves — is the most human of the six, because it asks not what you want, but who you're making it for. A complete prompt narrows what a model has to search; specificity still has to come from the person writing, one cycle at a time.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>BOLLI AI Literacy SIG · Prompt Evolution Trace</footer>
+
+<script>
+  // Collapsible prompt panels
+  document.querySelectorAll('.ptoggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var panel = btn.nextElementSibling;
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      panel.classList.toggle('expanded', !expanded);
+      btn.setAttribute('aria-expanded', String(!expanded));
+      btn.textContent = (expanded ? '▸ ' : '▾ ') + 'Full prompt text';
+    });
+  });
+
+  // Score bar data: [label, v1 value, final value]
+  var dims = [
+    ['Subject', 90, 95],
+    ['Identity', 10, 90],
+    ['Purpose', 15, 85],
+    ['Audience', 10, 25],
+    ['Success Criterion', 5, 90],
+    ['Intellectual Frame', 20, 90]
+  ];
+
+  var barsContainer = document.getElementById('bars');
+  dims.forEach(function(d){
+    var row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML =
+      '<div class="bar-label"><span>' + d[0] + '</span></div>' +
+      '<div class="bar-caption"><span class="mono">V1</span><span class="mono">' + d[1] + '%</span></div>' +
+      '<div class="bar-track"><div class="bar-fill v1" data-target="' + d[1] + '"></div></div>' +
+      '<div class="bar-caption"><span class="mono">Final</span><span class="mono">' + d[2] + '%</span></div>' +
+      '<div class="bar-track"><div class="bar-fill final" data-target="' + d[2] + '"></div></div>';
+    barsContainer.appendChild(row);
+  });
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var fills = entry.target.querySelectorAll('.bar-fill');
+        fills.forEach(function(fill){
+          fill.style.width = (reduceMotion ? fill.dataset.target : fill.dataset.target) + '%';
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.3});
+
+  document.querySelectorAll('.bar-row').forEach(function(row){
+    observer.observe(row);
+  });
+</script>
+
+</body>
+</html>

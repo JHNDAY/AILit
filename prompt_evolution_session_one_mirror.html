@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An Anatomy of a Prompt — The Session One Mirror</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f4f1eb;
+    --paper: #fffdf7;
+    --ink: #241f19;
+    --ink-soft: #5c5448;
+    --rule: rgba(36,31,25,0.16);
+    --v1: #b02a1e;
+    --v2: #c06010;
+    --v3: #7a6800;
+    --v4: #1e7a40;
+    --v5: #1a5c96;
+    --compare: #6a2a8e;
+    --gold: #8a6a10;
+    --gold-bg: #f6e9c4;
+    --green-bg: #e3f0e2;
+    --shadow: rgba(36,31,25,0.18);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Lora', serif;
+    line-height: 1.6;
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 28px 100px; }
+
+  /* ---------------- HEADER ---------------- */
+  header.top {
+    text-align: center;
+    padding: 60px 0 36px;
+    border-bottom: 3px double var(--ink);
+    margin-bottom: 0;
+  }
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  header.top h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.12;
+    margin: 0 0 16px;
+  }
+  .subtitle {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 18px;
+    max-width: 540px;
+    margin: 0 auto 22px;
+  }
+  .premise {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------------- STICKY NAV ---------------- */
+  nav.pillbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(244,241,235,0.94);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+  nav.pillbar a {
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--rule);
+    background: var(--paper);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  nav.pillbar a:hover { transform: translateY(-1px); }
+  nav.pillbar a.n1 { border-color: var(--v1); }
+  nav.pillbar a.n2 { border-color: var(--v2); }
+  nav.pillbar a.n3 { border-color: var(--v3); }
+  nav.pillbar a.n4 { border-color: var(--v4); }
+  nav.pillbar a.ncompare { border-color: var(--compare); color: var(--compare); font-weight: 600; }
+
+  /* ---------------- VERSION BLOCKS ---------------- */
+  section.vblock {
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  section.vblock.in-view { opacity: 1; transform: translateY(0); }
+
+  .vhead { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+  .vbadge {
+    flex: 0 0 auto;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: #fffdf7;
+  }
+  .vhead h2 { font-family: 'DM Serif Display', serif; font-size: 24px; margin: 0; }
+
+  .pillrow { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .dim-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink-soft);
+  }
+  .dim-pill.yes { color: #fff; border-color: transparent; }
+  .dim-pill.no { text-decoration: line-through; opacity: 0.55; }
+
+  .panel-wrap { background: var(--paper); border: 1px solid var(--rule); margin-bottom: 18px; box-shadow: 0 6px 16px var(--shadow); }
+  .panel-toggle {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    padding: 13px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .panel-toggle:hover { color: var(--ink); }
+  .panel-toggle .arrow { transition: transform 0.25s ease; }
+  .panel-toggle.open .arrow { transform: rotate(180deg); }
+  .panel-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    border-top: 1px solid var(--rule);
+  }
+  .panel-content.open { max-height: 600px; }
+  .panel-content .ptext {
+    padding: 18px 22px 20px;
+    font-size: 15px;
+    white-space: pre-wrap;
+    color: var(--ink);
+  }
+  .panel-content .ptext mark {
+    background: var(--gold-bg);
+    color: var(--ink);
+    padding: 1px 3px;
+    box-decoration-break: clone;
+  }
+
+  .cardrow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 6px; }
+  @media (max-width: 620px) { .cardrow { grid-template-columns: 1fr; } }
+  .mini-card { padding: 16px 18px; border-radius: 4px; font-size: 14.5px; }
+  .mini-card.work { background: var(--green-bg); border-left: 4px solid var(--v4); }
+  .mini-card.miss { background: var(--gold-bg); border-left: 4px solid var(--gold); }
+  .mini-card .label { font-family: 'DM Mono', monospace; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px; }
+  .mini-card.work .label { color: var(--v4); }
+  .mini-card.miss .label { color: var(--gold); }
+  .mini-card ul { margin: 0; padding-left: 18px; }
+  .mini-card li { margin-bottom: 4px; }
+
+  .connector {
+    text-align: center;
+    margin: 30px 0 46px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .connector .arrow-down { display: block; font-size: 18px; margin-bottom: 6px; }
+
+  /* ---------------- COMPARE SECTION ---------------- */
+  section.compare {
+    margin-top: 70px;
+    padding-top: 50px;
+    border-top: 3px double var(--ink);
+  }
+  .compare-head { text-align: center; margin-bottom: 36px; }
+  .compare-head h2 { font-family: 'DM Serif Display', serif; color: var(--compare); font-size: 30px; margin: 0 0 8px; }
+  .compare-head p { color: var(--ink-soft); font-size: 15px; max-width: 520px; margin: 0 auto; }
+
+  .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 44px; }
+  @media (max-width: 620px) { .vs-grid { grid-template-columns: 1fr; } }
+  .vs-card { background: var(--paper); padding: 22px 24px; box-shadow: 0 8px 20px var(--shadow); }
+  .vs-card.v1c { border-top: 4px solid var(--v1); }
+  .vs-card.finalc { border-top: 4px solid var(--v4); }
+  .vs-card h3 { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 12px; }
+  .vs-card.v1c h3 { color: var(--v1); }
+  .vs-card.finalc h3 { color: var(--v4); }
+  .vs-card p { font-size: 14.5px; color: var(--ink); margin: 0; }
+
+  table.delta { width: 100%; border-collapse: collapse; margin-bottom: 44px; font-size: 14px; background: var(--paper); box-shadow: 0 8px 20px var(--shadow); }
+  table.delta th, table.delta td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  table.delta th { font-family: 'DM Mono', monospace; font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--compare); border-bottom: 2px solid var(--compare); }
+  table.delta tr:last-child td { border-bottom: none; }
+
+  .scores { margin-bottom: 48px; }
+  .score-row { margin-bottom: 18px; }
+  .score-label { font-family: 'DM Mono', monospace; font-size: 12.5px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .score-track { position: relative; height: 10px; background: rgba(36,31,25,0.08); border-radius: 6px; margin-bottom: 4px; overflow: hidden; }
+  .score-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; border-radius: 6px; transition: width 1.1s ease; }
+  .score-fill.v1f { background: var(--v1); opacity: 0.85; }
+  .score-track.final .score-fill { background: var(--v4); }
+  .score-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .score-tag { font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--ink-soft); }
+
+  .lesson-card {
+    border: 2px solid var(--gold);
+    background: var(--paper);
+    padding: 30px 32px;
+    box-shadow: 0 10px 24px var(--shadow);
+    position: relative;
+  }
+  .lesson-card::before {
+    content: "THE COACHING PRINCIPLE";
+    position: absolute;
+    top: -12px; left: 24px;
+    background: var(--parchment);
+    padding: 0 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+  }
+  .lesson-card p { font-size: 15.5px; color: var(--ink); margin: 0; }
+
+  footer.bottom {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+    padding-top: 40px;
+    opacity: 0.75;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    section.vblock, .score-fill, .panel-toggle .arrow { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow">Prompt Evolution · AILit SIG</div>
+  <h1>An Anatomy of a Prompt for:<br>The Session One Mirror</h1>
+  <p class="subtitle">Four passes. Six dimensions. One transcript turned into something a cohort could recognize itself in.</p>
+  <p class="premise">This traces the review-and-advise cycle behind the request to visualize the AILit SIG's inaugural session — from a bare list of three questions to a complete brief for a piece the attendees themselves would see.</p>
+</header>
+
+<nav class="pillbar">
+  <a class="n1" href="#v1">V1</a>
+  <a class="n2" href="#v2">V2</a>
+  <a class="n3" href="#v3">V3</a>
+  <a class="n4" href="#v4">V4</a>
+  <a class="ncompare" href="#compare">Compare</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- ============ VERSION 1 ============ -->
+  <section class="vblock" id="v1">
+    <div class="vhead">
+      <div class="vbadge" style="background:var(--v1);">1</div>
+      <h2>Version 1 — Subject &amp; Success Criterion</h2>
+    </div>
+    <div class="pillrow">
+      <span class="dim-pill yes" style="background:var(--v1);">✓ Subject</span>
+      <span class="dim-pill no">Identity</span>
+      <span class="dim-pill no">Purpose</span>
+      <span class="dim-pill no">Audience</span>
+      <span class="dim-pill yes" style="background:var(--v1);">✓ Success Criterion</span>
+      <span class="dim-pill no">Intellectual Frame</span>
+    </div>
+
+    <div class="panel-wrap">
+      <button class="panel-toggle" data-target="p1">Show full prompt <span class="arrow">▾</span></button>
+      <div class="panel-content" id="p1">
+        <div class="ptext">Review and advise: I want to create an HTML file artifact visualization of the uploaded Zoom transcript AlitJun2326.TXT
+This was the inaugural session of the AILit SIG.
+I want to see —
+how the attendees responded to the introduction to the portal
+what did the attendees express most interest in
+Let's characterize the mood of the group to this new SIG</div>
+      </div>
+    </div>
+
+    <div class="cardrow">
+      <div class="mini-card work">
+        <span class="label">✦ What's working</span>
+        <ul>
+          <li>Concrete source named — the actual transcript, not a vague topic</li>
+          <li>Three clear questions to answer: reception, interest, mood</li>
+        </ul>
+      </div>
+      <div class="mini-card miss">
+        <span class="label">→ What's still missing</span>
+        <ul>
+          <li>No audience — internal record? Planning tool? Cohort-facing piece?</li>
+          <li>No frame for handling the session's real friction</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector" style="color:var(--v2);"><span class="arrow-down">↓</span>+ What Next Version Adds</div>
+
+  <!-- ============ VERSION 2 ============ -->
+  <section class="vblock" id="v2">
+    <div class="vhead">
+      <div class="vbadge" style="background:var(--v2);">2</div>
+      <h2>Version 2 — Audience &amp; Purpose</h2>
+    </div>
+    <div class="pillrow">
+      <span class="dim-pill yes" style="background:var(--v2);">✓ Subject</span>
+      <span class="dim-pill no">Identity</span>
+      <span class="dim-pill yes" style="background:var(--v2);">✓ Purpose</span>
+      <span class="dim-pill yes" style="background:var(--v2);">✓ Audience</span>
+      <span class="dim-pill yes" style="background:var(--v2);">✓ Success Criterion</span>
+      <span class="dim-pill no">Intellectual Frame</span>
+    </div>
+
+    <div class="panel-wrap">
+      <button class="panel-toggle" data-target="p2">Show full prompt <span class="arrow">▾</span></button>
+      <div class="panel-content" id="p2">
+        <div class="ptext">Review and advise: I want to create an HTML file artifact visualization of the uploaded Zoom transcript AlitJun2326.TXT
+This was the inaugural session of the AILit SIG.
+I want to see —
+how the attendees responded to the introduction to the portal
+what did the attendees express most interest in
+Let's characterize the mood of the group to this new SIG
+<mark>I intend to show the cohort themselves — a "here's how your first session went" mirror</mark></div>
+      </div>
+    </div>
+
+    <div class="cardrow">
+      <div class="mini-card work">
+        <span class="label">✦ What's working</span>
+        <ul>
+          <li>Audience and purpose now explicit, in one phrase</li>
+          <li>"Mirror" reframes the whole task from analysis to reflection</li>
+        </ul>
+      </div>
+      <div class="mini-card miss">
+        <span class="label">→ What's still missing</span>
+        <ul>
+          <li>No guidance for narrating friction to the people who lived it</li>
+          <li>No safeguard against the loudest voices dominating</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector" style="color:var(--v3);"><span class="arrow-down">↓</span>+ What Next Version Adds</div>
+
+  <!-- ============ VERSION 3 ============ -->
+  <section class="vblock" id="v3">
+    <div class="vhead">
+      <div class="vbadge" style="background:var(--v3);">3</div>
+      <h2>Version 3 — Intellectual Frame</h2>
+    </div>
+    <div class="pillrow">
+      <span class="dim-pill yes" style="background:var(--v3);">✓ Subject</span>
+      <span class="dim-pill no">Identity</span>
+      <span class="dim-pill yes" style="background:var(--v3);">✓ Purpose</span>
+      <span class="dim-pill yes" style="background:var(--v3);">✓ Audience</span>
+      <span class="dim-pill yes" style="background:var(--v3);">✓ Success Criterion</span>
+      <span class="dim-pill yes" style="background:var(--v3);">✓ Intellectual Frame</span>
+    </div>
+
+    <div class="panel-wrap">
+      <button class="panel-toggle" data-target="p3">Show full prompt <span class="arrow">▾</span></button>
+      <div class="panel-content" id="p3">
+        <div class="ptext">Review and advise: I want to create an HTML file artifact visualization of the uploaded Zoom transcript AlitJun2326.TXT
+This was the inaugural session of the AILit SIG.
+I want to see —
+how the attendees responded to the introduction to the portal
+what did the attendees express most interest in
+Let's characterize the mood of the group to this new SIG
+I intend to show the cohort themselves — a "here's how your first session went" mirror
+<mark>Frame technical hiccups warmly — as part of the adventure, not as problems, in the spirit of "we're all figuring this out together"</mark></div>
+      </div>
+    </div>
+
+    <div class="cardrow">
+      <div class="mini-card work">
+        <span class="label">✦ What's working</span>
+        <ul>
+          <li>A genuine interpretive lens — friction becomes adventure, not deficiency</li>
+          <li>One sentence now shapes tone across every panel</li>
+        </ul>
+      </div>
+      <div class="mini-card miss">
+        <span class="label">→ What's still missing</span>
+        <ul>
+          <li>Still likely that five or six loudest members dominate a quote-driven piece</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector" style="color:var(--v4);"><span class="arrow-down">↓</span>+ What Next Version Adds</div>
+
+  <!-- ============ VERSION 4 ============ -->
+  <section class="vblock" id="v4">
+    <div class="vhead">
+      <div class="vbadge" style="background:var(--v4);">4</div>
+      <h2>Version 4 — Identity (Inclusive Representation)</h2>
+    </div>
+    <div class="pillrow">
+      <span class="dim-pill yes" style="background:var(--v4);">✓ Subject</span>
+      <span class="dim-pill yes" style="background:var(--v4);">✓ Identity</span>
+      <span class="dim-pill yes" style="background:var(--v4);">✓ Purpose</span>
+      <span class="dim-pill yes" style="background:var(--v4);">✓ Audience</span>
+      <span class="dim-pill yes" style="background:var(--v4);">✓ Success Criterion</span>
+      <span class="dim-pill yes" style="background:var(--v4);">✓ Intellectual Frame</span>
+    </div>
+
+    <div class="panel-wrap">
+      <button class="panel-toggle" data-target="p4">Show full prompt <span class="arrow">▾</span></button>
+      <div class="panel-content" id="p4">
+        <div class="ptext">Review and advise: I want to create an HTML file artifact visualization of the uploaded Zoom transcript AlitJun2326.TXT
+This was the inaugural session of the AILit SIG.
+I want to see —
+how the attendees responded to the introduction to the portal
+what did the attendees express most interest in
+Let's characterize the mood of the group to this new SIG
+I intend to show the cohort themselves — a "here's how your first session went" mirror
+Frame technical hiccups warmly — as part of the adventure, not as problems, in the spirit of "we're all figuring this out together"
+<mark>Be sure to include the quieter voices in the member representation</mark></div>
+      </div>
+    </div>
+
+    <div class="cardrow">
+      <div class="mini-card work">
+        <span class="label">✦ What's working</span>
+        <ul>
+          <li>Explicit inclusivity instruction — the mirror now reflects everyone who showed up</li>
+          <li>All six dimensions present — ready to build</li>
+        </ul>
+      </div>
+      <div class="mini-card miss">
+        <span class="label">→ What's still missing</span>
+        <ul>
+          <li>Only what execution will discover — section balance, length, how many quotes per person</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPARE ============ -->
+  <section class="compare" id="compare">
+    <div class="compare-head">
+      <h2>Compare: V1 vs. Final</h2>
+      <p>Same three questions from the first line. Everything else around them got built.</p>
+    </div>
+
+    <div class="vs-grid">
+      <div class="vs-card v1c">
+        <h3>Version 1</h3>
+        <p>A named transcript and three bare questions. No audience, no purpose, no frame, no inclusivity instruction. A capable analyst could answer it — but wouldn't know who they were writing for, or why.</p>
+      </div>
+      <div class="vs-card finalc">
+        <h3>Final (V4)</h3>
+        <p>The same three questions, now held inside a clear purpose — a mirror for the cohort — narrated through a warm frame, and built to include every voice in the room, not just the loudest.</p>
+      </div>
+    </div>
+
+    <table class="delta">
+      <thead>
+        <tr><th>Dimension</th><th>V1 State</th><th>Final State</th><th>Impact on Claude's Output</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Subject</td><td>Transcript + 3 questions named</td><td>Unchanged</td><td>Anchored scope from the first line</td></tr>
+        <tr><td>Audience</td><td>Unspecified</td><td>The cohort itself</td><td>Shifts register from analysis to reflection</td></tr>
+        <tr><td>Purpose</td><td>Unspecified</td><td>A "mirror" — a memory object, not a report</td><td>Determines what gets included, and how</td></tr>
+        <tr><td>Identity</td><td>Loud voices would dominate by default</td><td>Every member gets recognition</td><td>Ten named voices instead of five</td></tr>
+        <tr><td>Success Criterion</td><td>Three separate bullet questions</td><td>Same three, now answered inside one coherent piece</td><td>Criteria met as a whole, not as disconnected sections</td></tr>
+        <tr><td>Intellectual Frame</td><td>None</td><td>Friction framed as adventure, not deficiency</td><td>Same facts, warmer and more honest narration</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scores">
+      <div class="score-row" data-dim="Subject">
+        <div class="score-label"><span>Subject</span></div>
+        <div class="score-pair">
+          <div><div class="score-tag">V1</div><div class="score-track"><div class="score-fill v1f" data-target="75"></div></div></div>
+          <div><div class="score-tag">Final</div><div class="score-track final"><div class="score-fill" data-target="90"></div></div></div>
+        </div>
+      </div>
+      <div class="score-row" data-dim="Audience">
+        <div class="score-label"><span>Audience</span></div>
+        <div class="score-pair">
+          <div><div class="score-tag">V1</div><div class="score-track"><div class="score-fill v1f" data-target="5"></div></div></div>
+          <div><div class="score-tag">Final</div><div class="score-track final"><div class="score-fill" data-target="95"></div></div></div>
+        </div>
+      </div>
+      <div class="score-row" data-dim="Purpose">
+        <div class="score-label"><span>Purpose</span></div>
+        <div class="score-pair">
+          <div><div class="score-tag">V1</div><div class="score-track"><div class="score-fill v1f" data-target="10"></div></div></div>
+          <div><div class="score-tag">Final</div><div class="score-track final"><div class="score-fill" data-target="95"></div></div></div>
+        </div>
+      </div>
+      <div class="score-row" data-dim="Identity">
+        <div class="score-label"><span>Identity</span></div>
+        <div class="score-pair">
+          <div><div class="score-tag">V1</div><div class="score-track"><div class="score-fill v1f" data-target="10"></div></div></div>
+          <div><div class="score-tag">Final</div><div class="score-track final"><div class="score-fill" data-target="95"></div></div></div>
+        </div>
+      </div>
+      <div class="score-row" data-dim="Success Criterion">
+        <div class="score-label"><span>Success Criterion</span></div>
+        <div class="score-pair">
+          <div><div class="score-tag">V1</div><div class="score-track"><div class="score-fill v1f" data-target="60"></div></div></div>
+          <div><div class="score-tag">Final</div><div class="score-track final"><div class="score-fill" data-target="90"></div></div></div>
+        </div>
+      </div>
+      <div class="score-row" data-dim="Intellectual Frame">
+        <div class="score-label"><span>Intellectual Frame</span></div>
+        <div class="score-pair">
+          <div><div class="score-tag">V1</div><div class="score-track"><div class="score-fill v1f" data-target="0"></div></div></div>
+          <div><div class="score-tag">Final</div><div class="score-track final"><div class="score-fill" data-target="90"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-card">
+      <p>A prompt's completeness isn't measured by length — it's measured by how many of these six dimensions it answers: who's reading this, why it exists, what counts as success, whose identity gets reflected, and what lens should color the facts. V1 named a subject and a wish-list of questions; nothing else. Each coaching pass surfaced exactly one missing dimension at a time, because a writer can act on one clear gap more easily than three vague ones. By V4, the original three questions hadn't changed at all — everything around them had. The facts stayed constant. The shape of attention around them did all the work.</p>
+    </div>
+  </section>
+
+  <footer class="bottom">Prompt Evolution · AILit SIG · drawn from this conversation</footer>
+
+</div>
+
+<script>
+  // Collapsible panels
+  document.querySelectorAll('.panel-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      const opening = !target.classList.contains('open');
+      target.classList.toggle('open');
+      btn.classList.toggle('open');
+    });
+  });
+
+  // Reveal version blocks on scroll
+  const blocks = document.querySelectorAll('.vblock');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.12 });
+  blocks.forEach(b => revealObs.observe(b));
+
+  // Animate score bars when comparison section scrolls into view
+  const scoreSection = document.querySelector('.scores');
+  let scoresAnimated = false;
+  const scoreObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !scoresAnimated) {
+        scoresAnimated = true;
+        document.querySelectorAll('.score-fill').forEach(fill => {
+          const target = fill.getAttribute('data-target');
+          requestAnimationFrame(() => { fill.style.width = target + '%'; });
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+  if (scoreSection) scoreObs.observe(scoreSection);
+</script>
+
+</body>
+</html>
