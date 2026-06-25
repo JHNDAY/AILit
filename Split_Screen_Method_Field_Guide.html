@@ -125,6 +125,14 @@
     font-family:'JetBrains Mono', monospace;
     letter-spacing: .02em;
   }
+  .hero-caption a{
+    color: var(--gold-soft);
+    text-decoration: underline;
+    text-decoration-color: rgba(227,196,121,.4);
+    text-underline-offset: 2px;
+    transition: opacity .15s ease;
+  }
+  .hero-caption a:hover{ opacity: .75; }
 
   /* ===== INTRO ===== */
   .intro{
@@ -176,6 +184,12 @@
     padding: 2px 6px;
     border-radius: 4px;
     color: var(--navy);
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .start-strip .meta a{ text-decoration: none; }
+  .start-strip .meta a:hover code{
+    border-color: var(--gold);
+    color: var(--sienna);
   }
 
   /* ===== STEP RAIL ===== */
@@ -371,7 +385,7 @@
         <span class="flag flag-left">Your draft</span>
         <span class="flag flag-right">Your coach</span>
       </div>
-      <div class="hero-caption">Split View, realized — jhnday.github.io/AI&#8209;Research&#8209;Collective/ailit_portal</div>
+      <div class="hero-caption">Split View, realized — <a href="https://jhnday.github.io/AI-Research-Collective/ailit_portal" target="_blank" rel="noopener">jhnday.github.io/AI&#8209;Research&#8209;Collective/ailit_portal</a></div>
     </div>
   </section>
 
@@ -385,7 +399,7 @@
       </div>
       <div class="meta">
         <span class="eyebrow">Everything starts here</span>
-        <p>Open the AILit portal — <code>jhnday.github.io/AI&#8209;Research&#8209;Collective/ailit_portal</code> — and look for the Resource Bar along the bottom.</p>
+        <p>Open the AILit portal — <a href="https://jhnday.github.io/AI-Research-Collective/ailit_portal" target="_blank" rel="noopener"><code>jhnday.github.io/AI&#8209;Research&#8209;Collective/ailit_portal</code></a> — and look for the Resource Bar along the bottom.</p>
       </div>
     </div>
   </section>
