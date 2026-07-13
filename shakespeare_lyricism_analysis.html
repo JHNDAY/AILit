@@ -47,20 +47,55 @@
             padding: 2rem;
         }
 
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background-color: #fff9f5;
-            border-radius: 4px;
-            border-left: 4px solid #d4af37;
+        .accordion-container {
+            margin-bottom: 1.5rem;
         }
 
-        nav button {
-            padding: 0.75rem 1.5rem;
+        .accordion-pill {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background-color: #1a365d;
+            color: #f5f1ed;
+            border: 2px solid #d4af37;
+            border-radius: 3px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        .accordion-pill:hover {
+            background-color: #d4af37;
+            color: #1a365d;
+            transform: translateY(-2px);
+        }
+
+        .accordion-pill.active {
+            background-color: #d4af37;
+            color: #1a365d;
+            font-weight: 600;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 2rem;
+            background-color: #fff9f5;
+            border: 2px solid #d4af37;
+            border-top: none;
+            border-radius: 0 0 3px 3px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        .collapse-pill {
+            display: block;
+            width: 100%;
+            padding: 1rem 1.5rem;
             background-color: #1a365d;
             color: #f5f1ed;
             border: 2px solid #d4af37;
@@ -69,27 +104,15 @@
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
+            margin-top: 1.5rem;
         }
 
-        nav button:hover {
-            background-color: #d4af37;
-            color: #1a365d;
-            transform: translateY(-2px);
-        }
-
-        nav button.active {
+        .collapse-pill:hover {
             background-color: #d4af37;
             color: #1a365d;
             font-weight: 600;
-        }
-
-        section {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        section.active {
-            display: block;
+            transform: translateY(-2px);
         }
 
         @keyframes fadeIn {
@@ -105,7 +128,7 @@
 
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #1a365d;
             margin-bottom: 1.5rem;
             padding-bottom: 0.75rem;
@@ -115,7 +138,7 @@
         .subsection {
             margin-bottom: 2.5rem;
             padding: 1.5rem;
-            background-color: #fff9f5;
+            background-color: #f5f1ed;
             border-left: 4px solid #d4af37;
             border-radius: 3px;
         }
@@ -195,6 +218,7 @@
             margin-bottom: 1rem;
             border-radius: 3px;
             transition: all 0.3s ease;
+            text-align: left;
         }
 
         .collapsible:hover {
@@ -214,6 +238,7 @@
             border: 1px solid #d4af37;
             border-top: none;
             margin-bottom: 1rem;
+            border-radius: 0 0 3px 3px;
         }
 
         .collapsible-content.active {
@@ -247,12 +272,8 @@
                 grid-template-columns: 1fr;
             }
 
-            nav {
-                flex-direction: column;
-            }
-
-            nav button {
-                width: 100%;
+            .accordion-pill {
+                font-size: 1rem;
             }
         }
 
@@ -266,7 +287,7 @@
         }
 
         .example-analysis {
-            background-color: #fff9f5;
+            background-color: #f5f1ed;
             padding: 1.25rem;
             margin: 1rem 0;
             border-radius: 3px;
@@ -275,6 +296,11 @@
 
         .example-analysis strong {
             color: #1a365d;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+            margin-top: 0.75rem;
         }
     </style>
 </head>
@@ -302,310 +328,335 @@ How is Shakespeare's unparalled use of language use to express each of these typ
 I want to contrast with examples the dramatic impact of using lyricism in each of these plays</div>
         </div>
 
-        <nav>
-            <button class="nav-btn active" onclick="showSection('overview')">Overview</button>
-            <button class="nav-btn" onclick="showSection('sound')">What It Sounds Like</button>
-            <button class="nav-btn" onclick="showSection('persona')">Dramatic Persona</button>
-            <button class="nav-btn" onclick="showSection('universal')">Universal Elements</button>
-            <button class="nav-btn" onclick="showSection('language')">Shakespeare's Technique</button>
-            <button class="nav-btn" onclick="showSection('impact')">Dramatic Impact</button>
-            <button class="nav-btn" onclick="showSection('conclusion')">The Paradox</button>
-        </nav>
-
-        <!-- OVERVIEW SECTION -->
-        <section id="overview" class="active">
-            <h2 class="section-title">The Central Question</h2>
-            
-            <div class="subsection">
-                <h3>Who Is Most Lyrical?</h3>
-                <p><strong>The answer: Both equally, but in opposite directions.</strong></p>
-                <p style="margin-top: 1rem;">One sings downward into darkness, the other upward into enchantment. Yet both achieve what makes them lyrical masterpieces: the complete fusion of form and content, where the beauty of the language performs the meaning rather than merely describing it.</p>
-            </div>
-
-            <div class="subsection">
-                <h3>The Paradox</h3>
-                <p>Most playwrights use lyricism as <em>enhancement</em>—beautiful language draped over action. Shakespeare uses it as <em>action itself</em>. The language doesn't describe what's happening; it performs what's happening in real time.</p>
-            </div>
-
-            <div class="highlight-truth">
-                <strong>The Central Truth:</strong> In both plays, increased lyricism means decreased rational control. The more poetic the speech, the less the character is in command of themselves—a complete inversion of naturalistic drama.
-            </div>
-        </section>
-
-        <!-- SOUND SECTION -->
-        <section id="sound">
-            <h2 class="section-title">What Lyricism Sounds Like</h2>
-
-            <div class="contrast-box">
-                <div class="play-column macbeth-column">
-                    <h4>Macbeth: Music of Disintegration</h4>
-                    <p><strong>Character:</strong> Incantatory and corrupted</p>
-                    <p style="margin-top: 0.75rem; font-style: italic;">Beautiful and monstrous simultaneously</p>
-                </div>
-                <div class="play-column dream-column">
-                    <h4>A Midsummer Night's Dream: Music of Enchantment</h4>
-                    <p><strong>Character:</strong> Sensuous, flowing, erotic</p>
-                    <p style="margin-top: 0.75rem; font-style: italic;">Playful and self-aware, delighting in transformation</p>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>Macbeth: The Disintegration Soliloquy</h3>
-                <div class="quote-block">
-                    Tomorrow, and tomorrow, and tomorrow,<br>
-                    Creeps in this petty pace from day to day<br>
-                    To the last syllable of recorded time;<br>
-                    And all our yesterdays have lighted fools<br>
-                    The way to dusty death.
-                </div>
-                <p><strong>Listen to the sound:</strong></p>
-                <ul style="margin-left: 1.5rem; margin-top: 0.75rem;">
-                    <li>Insistent repetition: "Tomorrow, and tomorrow"</li>
-                    <li>Spondaic weight: Heavy, deliberate stresses</li>
-                    <li>Slow accumulation: Syllables that mimic exhaustion</li>
-                    <li>The form performs its own meaning</li>
-                </ul>
-            </div>
-
-            <div class="subsection">
-                <h3>Macbeth: The Witches' Incantation</h3>
-                <div class="quote-block">
-                    Double, double toil and trouble;<br>
-                    Fire burn and caldron bubble.
-                </div>
-                <p><strong>The technique:</strong> Rhyming couplets, assonance (double/trouble), hammering iambic rhythm. It sounds magical and hypnotic—but it's <em>corrupting</em> magic. The lyricism is beautiful and monstrous simultaneously.</p>
-            </div>
-
-            <div class="subsection">
-                <h3>A Midsummer Night's Dream: The Ensorcelled Speech</h3>
-                <div class="quote-block">
-                    Lord, what fools these mortals be!<br>
-                    How canst thou thus for shame, Titania,<br>
-                    Knowing I know thy love to me?
-                </div>
-                <p><strong>The quality:</strong> Lighter touch, puns, teasing meters. The language delights in its own wordplay and capacity for transformation. Notice the playfulness—the lyricism is self-aware and joyful.</p>
-            </div>
-
-            <div class="subsection">
-                <h3>A Midsummer Night's Dream: Titania's Enchantment</h3>
-                <div class="quote-block">
-                    Methought, I was enamour'd of an ass.
-                </div>
-                <p><strong>The paradox:</strong> When Titania speaks under enchantment, she becomes more lyric, more poetic, than when she's sane. The magic of language is the magic of becoming authentic.</p>
-            </div>
-        </section>
-
-        <!-- DRAMATIC PERSONA SECTION -->
-        <section id="persona">
-            <h2 class="section-title">How Lyricism Creates Dramatic Persona</h2>
-
-            <div class="contrast-box">
-                <div class="play-column macbeth-column">
-                    <h4>Macbeth's Persona</h4>
-                    <p><strong>A man destroyed by his own eloquence</strong></p>
-                    <p style="margin-top: 0.75rem;">Lyricism traps the protagonist. Language becomes the instrument of his damnation. He knows what's happening but is powerless to stop it.</p>
-                </div>
-                <div class="play-column dream-column">
-                    <h4>Dream Characters' Personas</h4>
-                    <p><strong>People freed by surrendering to language and desire</strong></p>
-                    <p style="margin-top: 0.75rem;">Lyricism liberates. In the forest, increased poetry signals increased authenticity and transformation.</p>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>Macbeth: Lyricism as Prison</h3>
-                <ul style="margin-left: 1.5rem;">
-                    <li><strong>"Out, damned spot" scene:</strong> Lady Macbeth's fractured lyricism mirrors her fractured mind</li>
-                    <li><strong>Macbeth's soliloquies:</strong> Increasingly desperate precisely because increasingly eloquent—we watch eloquence fail</li>
-                    <li><strong>The paradox:</strong> The beauty of his language proves he's trapped—a truly rational man wouldn't need this many words</li>
-                </ul>
-            </div>
-
-            <div class="subsection">
-                <h3>A Midsummer Night's Dream: Lyricism as Liberation</h3>
-                <ul style="margin-left: 1.5rem;">
-                    <li><strong>Puck's asides:</strong> Lyrical freedom—he's not bound by naturalistic speech</li>
-                    <li><strong>Titania enchanted:</strong> More poetic than when sane—lyricism = authenticity</li>
-                    <li><strong>The lovers' speech:</strong> Becomes increasingly lyrical as they lose rational control—which makes them more truthful</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- UNIVERSAL ELEMENTS SECTION -->
-        <section id="universal">
-            <h2 class="section-title">What's Universal in Shakespeare's Lyricism</h2>
-
-            <button class="collapsible" onclick="toggleCollapsible(event)">1. Lyricism as Surrender</button>
-            <div class="collapsible-content">
-                <p>In both plays, increased lyricism means <em>decreased rational control</em>. The more poetic the speech, the less the character is in command of themselves.</p>
-                <p style="margin-top: 1rem;"><strong>This inverts naturalistic drama,</strong> where eloquence typically equals power. Shakespeare reveals eloquence as a symptom of <em>vulnerability</em>.</p>
-                <p style="margin-top: 1rem;"><strong>Macbeth:</strong> Eloquence as he descends into madness</p>
-                <p><strong>Dream:</strong> Eloquence as they ascend into authenticity</p>
-                <p style="margin-top: 0.75rem;"><em>Same principle, opposite directions.</em></p>
-            </div>
-
-            <button class="collapsible" onclick="toggleCollapsible(event)">2. Sound as Substance</button>
-            <div class="collapsible-content">
-                <p>Shakespeare doesn't use lyricism as <em>decoration</em>. The sonic texture <em>is</em> the meaning.</p>
-                <p style="margin-top: 1rem;"><strong>Macbeth:</strong> The pounding monosyllables of "Out, damned spot; out, I say!" perform obsessive repetition. The sound <em>is</em> the obsession.</p>
-                <p style="margin-top: 1rem;"><strong>Dream:</strong> The lilting tetrameter performs lightness and magic. The sound <em>is</em> the enchantment.</p>
-                <p style="margin-top: 1rem;">Form and content are inseparable. The medium is the message.</p>
-            </div>
-
-            <button class="collapsible" onclick="toggleCollapsible(event)">3. Lyricism as Temporal Distortion</button>
-            <div class="collapsible-content">
-                <p><strong>Macbeth:</strong> Time collapses. The "Tomorrow, and tomorrow" soliloquy shows a mind trying to hold time that's slipping away. Lyricism is how consciousness resists temporal dissolution.</p>
-                <p style="margin-top: 1rem;"><strong>Dream:</strong> Time is elastic and reversible. Magic, enchantment, and lyricism make the normal rules of time irrelevant. Lyricism allows for simultaneity and transformation.</p>
-                <p style="margin-top: 1rem;">In both cases, <em>increased lyricism = altered temporal experience</em>.</p>
-            </div>
-
-            <button class="collapsible" onclick="toggleCollapsible(event)">4. The Gap Between Speaker and Speech</button>
-            <div class="collapsible-content">
-                <p>In both plays, characters often speak in language that <em>exceeds their immediate circumstances</em>. This gap is where the drama lives.</p>
-                <p style="margin-top: 1rem;"><strong>Macbeth</strong> speaks like a tragic poet about his own tragedy. The gap between the soldier and the poet within him creates his tragedy.</p>
-                <p style="margin-top: 1rem;"><strong>The lovers</strong> speak like enchanted fools because they are enchanted. But this is also when they speak most truthfully about love.</p>
-                <p style="margin-top: 1rem;">The gap between ordinary speech and lyric speech is the space of transformation and revelation.</p>
-            </div>
-        </section>
-
-        <!-- LANGUAGE TECHNIQUE SECTION -->
-        <section id="language">
-            <h2 class="section-title">Shakespeare's Unparalleled Use of Language</h2>
-
-            <div class="two-column">
+        <!-- OVERVIEW ACCORDION -->
+        <div class="accordion-container">
+            <button class="accordion-pill" onclick="toggleAccordion(event, 'overview')">Overview</button>
+            <div id="overview" class="accordion-content">
+                <h2 class="section-title">The Central Question</h2>
+                
                 <div class="subsection">
-                    <h3>Macbeth: Compression & Repetition</h3>
-                    <div class="quote-block">
-                        Life's but a walking shadow, a poor player<br>
-                        That struts and frets his hour upon the stage<br>
-                        And then is heard no more.
-                    </div>
-                    <p><strong>Technique:</strong></p>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.75rem;">
-                        <li><strong>Compressed syntax:</strong> No wasted words</li>
-                        <li><strong>Metaphorical density:</strong> Multiple transformations in three lines</li>
-                        <li><strong>Alliteration & assonance:</strong> "struts and frets" binds sound to meaning</li>
-                    </ul>
-                    <p style="margin-top: 1rem;"><strong>Result:</strong> Language that <em>sounds like thought disintegrating</em>.</p>
+                    <h3>Who Is Most Lyrical?</h3>
+                    <p><strong>The answer: Both equally, but in opposite directions.</strong></p>
+                    <p style="margin-top: 1rem;">One sings downward into darkness, the other upward into enchantment. Yet both achieve what makes them lyrical masterpieces: the complete fusion of form and content, where the beauty of the language performs the meaning rather than merely describing it.</p>
                 </div>
 
                 <div class="subsection">
-                    <h3>Dream: Accumulation & Variation</h3>
-                    <div class="quote-block">
-                        The more I hate, the more she follows me.<br>
-                        The more I love, the more she hateth me.
-                    </div>
-                    <p><strong>Technique:</strong></p>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.75rem;">
-                        <li><strong>Parallel structures:</strong> Invite variation and play</li>
-                        <li><strong>Lighter vowels:</strong> Faster, airier rhythms</li>
-                        <li><strong>Puns & double meanings:</strong> Language that enjoys itself</li>
-                    </ul>
-                    <p style="margin-top: 1rem;"><strong>Result:</strong> Language that <em>sounds like thought multiplying and transforming</em>.</p>
+                    <h3>The Paradox</h3>
+                    <p>Most playwrights use lyricism as <em>enhancement</em>—beautiful language draped over action. Shakespeare uses it as <em>action itself</em>. The language doesn't describe what's happening; it performs what's happening in real time.</p>
                 </div>
-            </div>
 
-            <div class="subsection" style="margin-top: 2rem;">
-                <h3>The Fundamental Difference</h3>
+                <div class="highlight-truth">
+                    <strong>The Central Truth:</strong> In both plays, increased lyricism means decreased rational control. The more poetic the speech, the less the character is in command of themselves—a complete inversion of naturalistic drama.
+                </div>
+
+                <button class="collapse-pill" onclick="toggleAccordion(event, 'overview')">Collapse Section</button>
+            </div>
+        </div>
+
+        <!-- SOUND ACCORDION -->
+        <div class="accordion-container">
+            <button class="accordion-pill" onclick="toggleAccordion(event, 'sound')">What It Sounds Like</button>
+            <div id="sound" class="accordion-content">
+                <h2 class="section-title">What Lyricism Sounds Like</h2>
+
                 <div class="contrast-box">
                     <div class="play-column macbeth-column">
-                        <h4>Macbeth's Language</h4>
-                        <p><strong>Direction:</strong> Inward and downward</p>
-                        <p style="margin-top: 0.75rem;"><strong>Movement:</strong> Consolidation into obsession</p>
-                        <p style="margin-top: 0.75rem;"><strong>Effect:</strong> Claustrophobia and inevitability</p>
+                        <h4>Macbeth: Music of Disintegration</h4>
+                        <p><strong>Character:</strong> Incantatory and corrupted</p>
+                        <p style="margin-top: 0.75rem; font-style: italic;">Beautiful and monstrous simultaneously</p>
                     </div>
                     <div class="play-column dream-column">
-                        <h4>Dream's Language</h4>
-                        <p><strong>Direction:</strong> Outward and upward</p>
-                        <p style="margin-top: 0.75rem;"><strong>Movement:</strong> Multiplication and transformation</p>
-                        <p style="margin-top: 0.75rem;"><strong>Effect:</strong> Possibility and freedom</p>
+                        <h4>A Midsummer Night's Dream: Music of Enchantment</h4>
+                        <p><strong>Character:</strong> Sensuous, flowing, erotic</p>
+                        <p style="margin-top: 0.75rem; font-style: italic;">Playful and self-aware, delighting in transformation</p>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- DRAMATIC IMPACT SECTION -->
-        <section id="impact">
-            <h2 class="section-title">Dramatic Impact in Action</h2>
-
-            <div class="subsection">
-                <h3>Macbeth: Lyricism as Entrapment</h3>
-                <p><strong>The Soliloquy:</strong> "If it were done when 'tis done"</p>
-                
-                <div class="quote-block">
-                    If it were done when 'tis done, then 'twere well<br>
-                    It were done quickly: that but this blow<br>
-                    Might be the be-all and the end-all here.
+                <div class="subsection">
+                    <h3>Macbeth: The Disintegration Soliloquy</h3>
+                    <div class="quote-block">
+                        Tomorrow, and tomorrow, and tomorrow,<br>
+                        Creeps in this petty pace from day to day<br>
+                        To the last syllable of recorded time;<br>
+                        And all our yesterdays have lighted fools<br>
+                        The way to dusty death.
+                    </div>
+                    <p><strong>Listen to the sound:</strong></p>
+                    <ul>
+                        <li>Insistent repetition: "Tomorrow, and tomorrow"</li>
+                        <li>Spondaic weight: Heavy, deliberate stresses</li>
+                        <li>Slow accumulation: Syllables that mimic exhaustion</li>
+                        <li>The form performs its own meaning</li>
+                    </ul>
                 </div>
 
-                <div class="example-analysis">
-                    <p><strong>What's happening:</strong> The obsessive repetition of "done" (8 times in the soliloquy) doesn't clarify—it <em>entangles</em>. Macbeth's mind circles the act, unable to escape.</p>
-                    <p style="margin-top: 0.75rem;"><strong>The lyricism performs cognitive paralysis.</strong> He's eloquent, and that eloquence <em>proves</em> he's trapped—a truly rational man wouldn't need this many words to commit to one act.</p>
-                    <p style="margin-top: 0.75rem;"><strong>Dramatic impact:</strong> We see a man <em>talking himself into damnation</em>. The beauty of the language makes the damnation more terrible.</p>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>A Midsummer Night's Dream: Lyricism as Liberation</h3>
-                <p><strong>Puck's Final Speech:</strong></p>
-                
-                <div class="quote-block">
-                    If we shadows have offended,<br>
-                    Think but this, and all is mended,—<br>
-                    That you have but slumber'd here<br>
-                    While these visions did appear.
+                <div class="subsection">
+                    <h3>Macbeth: The Witches' Incantation</h3>
+                    <div class="quote-block">
+                        Double, double toil and trouble;<br>
+                        Fire burn and caldron bubble.
+                    </div>
+                    <p><strong>The technique:</strong> Rhyming couplets, assonance (double/trouble), hammering iambic rhythm. It sounds magical and hypnotic—but it's <em>corrupting</em> magic. The lyricism is beautiful and monstrous simultaneously.</p>
                 </div>
 
-                <div class="example-analysis">
-                    <p><strong>What's happening:</strong> Notice the shift from trickster chaos into singsong tetrameter. Puck's lyricism <em>resolves</em> what was fractured. The play's disorder is contained in pretty verse.</p>
-                    <p style="margin-top: 0.75rem;"><strong>The lyricism performs reconciliation.</strong> Puck is asking for applause—the lyricism seduces the audience. Theater magic is revealed as linguistic magic.</p>
-                    <p style="margin-top: 0.75rem;"><strong>Dramatic impact:</strong> We understand that <em>we are the enchanted ones</em>. The form validates the content: if it sounds this beautiful, it must be true.</p>
+                <div class="subsection">
+                    <h3>A Midsummer Night's Dream: The Ensorcelled Speech</h3>
+                    <div class="quote-block">
+                        Lord, what fools these mortals be!<br>
+                        How canst thou thus for shame, Titania,<br>
+                        Knowing I know thy love to me?
+                    </div>
+                    <p><strong>The quality:</strong> Lighter touch, puns, teasing meters. The language delights in its own wordplay and capacity for transformation. Notice the playfulness—the lyricism is self-aware and joyful.</p>
                 </div>
-            </div>
 
-            <div class="highlight-truth" style="margin-top: 2rem;">
-                <strong>The Inverse Truth:</strong><br><br>
-                In <em>Macbeth</em>, lyricism is the symptom of a world breaking. Shakespeare uses lyric intensity to measure moral descent.<br><br>
-                In <em>A Midsummer Night's Dream</em>, lyricism is the symptom of a world being healed. Shakespeare uses lyric lightness to measure spiritual ascent.<br><br>
-                <em>Same tool. Opposite uses. Both revelatory.</em>
-            </div>
-        </section>
-
-        <!-- CONCLUSION SECTION -->
-        <section id="conclusion">
-            <h2 class="section-title">The Paradox Resolved</h2>
-
-            <div class="subsection">
-                <h3>Why Shakespeare Is Unparalleled</h3>
-                <p>Most playwrights use lyricism as <em>enhancement</em>—beautiful language draped over action.</p>
-                <p style="margin-top: 1rem;"><strong>Shakespeare uses it as action itself.</strong></p>
-                <p style="margin-top: 1rem;">The language doesn't <em>describe</em> what's happening; it <em>performs</em> what's happening in real time.</p>
-
-                <ul style="margin: 1.5rem 0 0 1.5rem;">
-                    <li><strong>When Macbeth speaks,</strong> we don't hear his thoughts <em>about</em> despair; we hear despair <em>happening in real time</em> through syntax, meter, and sound.</li>
-                    <li><strong>When Titania speaks under enchantment,</strong> we don't hear words <em>describing</em> magic; we hear magic <em>happening through the words themselves</em>.</li>
-                </ul>
-            </div>
-
-            <div class="subsection">
-                <h3>The Answer to the Mirror's Question</h3>
-                <div class="highlight-truth">
-                    <strong>Who is the most lyrical?</strong><br><br>
-                    The mirror shows us not who is most lyrical, but how <em>lyricism itself is a form of truth-telling</em>:<br><br>
-                    • About <strong>damnation</strong> and <strong>redemption</strong><br>
-                    • About <strong>chaos</strong> and <strong>order</strong><br>
-                    • About the <strong>self lost</strong> and the <strong>self found</strong><br><br>
-                    <strong>Both plays are masterpieces of lyricism precisely because they understood that lyricism is not decoration—it is how human consciousness experiences crisis and transformation.</strong>
+                <div class="subsection">
+                    <h3>A Midsummer Night's Dream: Titania's Enchantment</h3>
+                    <div class="quote-block">
+                        Methought, I was enamour'd of an ass.
+                    </div>
+                    <p><strong>The paradox:</strong> When Titania speaks under enchantment, she becomes more lyric, more poetic, than when she's sane. The magic of language is the magic of becoming authentic.</p>
                 </div>
-            </div>
 
-            <div class="subsection">
-                <h3>The Final Insight</h3>
-                <p>These plays are "worlds apart" thematically, yes. But in their use of lyricism, they reveal something universal about the human condition:</p>
-                <p style="margin-top: 1rem; font-style: italic;"><strong>We become most eloquent at the moments when we are most powerless, most transformed, most desperate, most in love, most ourselves.</strong></p>
-                <p style="margin-top: 1rem;">Lyricism is the language of extremity. And Shakespeare knew that extremity—whether toward darkness or toward light—is where the deepest truths live.</p>
+                <button class="collapse-pill" onclick="toggleAccordion(event, 'sound')">Collapse Section</button>
             </div>
-        </section>
+        </div>
+
+        <!-- DRAMATIC PERSONA ACCORDION -->
+        <div class="accordion-container">
+            <button class="accordion-pill" onclick="toggleAccordion(event, 'persona')">Dramatic Persona</button>
+            <div id="persona" class="accordion-content">
+                <h2 class="section-title">How Lyricism Creates Dramatic Persona</h2>
+
+                <div class="contrast-box">
+                    <div class="play-column macbeth-column">
+                        <h4>Macbeth's Persona</h4>
+                        <p><strong>A man destroyed by his own eloquence</strong></p>
+                        <p style="margin-top: 0.75rem;">Lyricism traps the protagonist. Language becomes the instrument of his damnation. He knows what's happening but is powerless to stop it.</p>
+                    </div>
+                    <div class="play-column dream-column">
+                        <h4>Dream Characters' Personas</h4>
+                        <p><strong>People freed by surrendering to language and desire</strong></p>
+                        <p style="margin-top: 0.75rem;">Lyricism liberates. In the forest, increased poetry signals increased authenticity and transformation.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Macbeth: Lyricism as Prison</h3>
+                    <ul>
+                        <li><strong>"Out, damned spot" scene:</strong> Lady Macbeth's fractured lyricism mirrors her fractured mind</li>
+                        <li><strong>Macbeth's soliloquies:</strong> Increasingly desperate precisely because increasingly eloquent—we watch eloquence fail</li>
+                        <li><strong>The paradox:</strong> The beauty of his language proves he's trapped—a truly rational man wouldn't need this many words</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>A Midsummer Night's Dream: Lyricism as Liberation</h3>
+                    <ul>
+                        <li><strong>Puck's asides:</strong> Lyrical freedom—he's not bound by naturalistic speech</li>
+                        <li><strong>Titania enchanted:</strong> More poetic than when sane—lyricism = authenticity</li>
+                        <li><strong>The lovers' speech:</strong> Becomes increasingly lyrical as they lose rational control—which makes them more truthful</li>
+                    </ul>
+                </div>
+
+                <button class="collapse-pill" onclick="toggleAccordion(event, 'persona')">Collapse Section</button>
+            </div>
+        </div>
+
+        <!-- UNIVERSAL ELEMENTS ACCORDION -->
+        <div class="accordion-container">
+            <button class="accordion-pill" onclick="toggleAccordion(event, 'universal')">Universal Elements</button>
+            <div id="universal" class="accordion-content">
+                <h2 class="section-title">What's Universal in Shakespeare's Lyricism</h2>
+
+                <button class="collapsible" onclick="toggleCollapsible(event)">1. Lyricism as Surrender</button>
+                <div class="collapsible-content">
+                    <p>In both plays, increased lyricism means <em>decreased rational control</em>. The more poetic the speech, the less the character is in command of themselves.</p>
+                    <p style="margin-top: 1rem;"><strong>This inverts naturalistic drama,</strong> where eloquence typically equals power. Shakespeare reveals eloquence as a symptom of <em>vulnerability</em>.</p>
+                    <p style="margin-top: 1rem;"><strong>Macbeth:</strong> Eloquence as he descends into madness</p>
+                    <p><strong>Dream:</strong> Eloquence as they ascend into authenticity</p>
+                    <p style="margin-top: 0.75rem;"><em>Same principle, opposite directions.</em></p>
+                </div>
+
+                <button class="collapsible" onclick="toggleCollapsible(event)">2. Sound as Substance</button>
+                <div class="collapsible-content">
+                    <p>Shakespeare doesn't use lyricism as <em>decoration</em>. The sonic texture <em>is</em> the meaning.</p>
+                    <p style="margin-top: 1rem;"><strong>Macbeth:</strong> The pounding monosyllables of "Out, damned spot; out, I say!" perform obsessive repetition. The sound <em>is</em> the obsession.</p>
+                    <p style="margin-top: 1rem;"><strong>Dream:</strong> The lilting tetrameter performs lightness and magic. The sound <em>is</em> the enchantment.</p>
+                    <p style="margin-top: 1rem;">Form and content are inseparable. The medium is the message.</p>
+                </div>
+
+                <button class="collapsible" onclick="toggleCollapsible(event)">3. Lyricism as Temporal Distortion</button>
+                <div class="collapsible-content">
+                    <p><strong>Macbeth:</strong> Time collapses. The "Tomorrow, and tomorrow" soliloquy shows a mind trying to hold time that's slipping away. Lyricism is how consciousness resists temporal dissolution.</p>
+                    <p style="margin-top: 1rem;"><strong>Dream:</strong> Time is elastic and reversible. Magic, enchantment, and lyricism make the normal rules of time irrelevant. Lyricism allows for simultaneity and transformation.</p>
+                    <p style="margin-top: 1rem;">In both cases, <em>increased lyricism = altered temporal experience</em>.</p>
+                </div>
+
+                <button class="collapsible" onclick="toggleCollapsible(event)">4. The Gap Between Speaker and Speech</button>
+                <div class="collapsible-content">
+                    <p>In both plays, characters often speak in language that <em>exceeds their immediate circumstances</em>. This gap is where the drama lives.</p>
+                    <p style="margin-top: 1rem;"><strong>Macbeth</strong> speaks like a tragic poet about his own tragedy. The gap between the soldier and the poet within him creates his tragedy.</p>
+                    <p style="margin-top: 1rem;"><strong>The lovers</strong> speak like enchanted fools because they are enchanted. But this is also when they speak most truthfully about love.</p>
+                    <p style="margin-top: 1rem;">The gap between ordinary speech and lyric speech is the space of transformation and revelation.</p>
+                </div>
+
+                <button class="collapse-pill" onclick="toggleAccordion(event, 'universal')">Collapse Section</button>
+            </div>
+        </div>
+
+        <!-- LANGUAGE TECHNIQUE ACCORDION -->
+        <div class="accordion-container">
+            <button class="accordion-pill" onclick="toggleAccordion(event, 'language')">Shakespeare's Technique</button>
+            <div id="language" class="accordion-content">
+                <h2 class="section-title">Shakespeare's Unparalleled Use of Language</h2>
+
+                <div class="two-column">
+                    <div class="subsection">
+                        <h3>Macbeth: Compression & Repetition</h3>
+                        <div class="quote-block">
+                            Life's but a walking shadow, a poor player<br>
+                            That struts and frets his hour upon the stage<br>
+                            And then is heard no more.
+                        </div>
+                        <p><strong>Technique:</strong></p>
+                        <ul>
+                            <li><strong>Compressed syntax:</strong> No wasted words</li>
+                            <li><strong>Metaphorical density:</strong> Multiple transformations in three lines</li>
+                            <li><strong>Alliteration & assonance:</strong> "struts and frets" binds sound to meaning</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Result:</strong> Language that <em>sounds like thought disintegrating</em>.</p>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Dream: Accumulation & Variation</h3>
+                        <div class="quote-block">
+                            The more I hate, the more she follows me.<br>
+                            The more I love, the more she hateth me.
+                        </div>
+                        <p><strong>Technique:</strong></p>
+                        <ul>
+                            <li><strong>Parallel structures:</strong> Invite variation and play</li>
+                            <li><strong>Lighter vowels:</strong> Faster, airier rhythms</li>
+                            <li><strong>Puns & double meanings:</strong> Language that enjoys itself</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Result:</strong> Language that <em>sounds like thought multiplying and transforming</em>.</p>
+                    </div>
+                </div>
+
+                <div class="subsection" style="margin-top: 2rem;">
+                    <h3>The Fundamental Difference</h3>
+                    <div class="contrast-box">
+                        <div class="play-column macbeth-column">
+                            <h4>Macbeth's Language</h4>
+                            <p><strong>Direction:</strong> Inward and downward</p>
+                            <p style="margin-top: 0.75rem;"><strong>Movement:</strong> Consolidation into obsession</p>
+                            <p style="margin-top: 0.75rem;"><strong>Effect:</strong> Claustrophobia and inevitability</p>
+                        </div>
+                        <div class="play-column dream-column">
+                            <h4>Dream's Language</h4>
+                            <p><strong>Direction:</strong> Outward and upward</p>
+                            <p style="margin-top: 0.75rem;"><strong>Movement:</strong> Multiplication and transformation</p>
+                            <p style="margin-top: 0.75rem;"><strong>Effect:</strong> Possibility and freedom</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="collapse-pill" onclick="toggleAccordion(event, 'language')">Collapse Section</button>
+            </div>
+        </div>
+
+        <!-- DRAMATIC IMPACT ACCORDION -->
+        <div class="accordion-container">
+            <button class="accordion-pill" onclick="toggleAccordion(event, 'impact')">Dramatic Impact</button>
+            <div id="impact" class="accordion-content">
+                <h2 class="section-title">Dramatic Impact in Action</h2>
+
+                <div class="subsection">
+                    <h3>Macbeth: Lyricism as Entrapment</h3>
+                    <p><strong>The Soliloquy:</strong> "If it were done when 'tis done"</p>
+                    
+                    <div class="quote-block">
+                        If it were done when 'tis done, then 'twere well<br>
+                        It were done quickly: that but this blow<br>
+                        Might be the be-all and the end-all here.
+                    </div>
+
+                    <div class="example-analysis">
+                        <p><strong>What's happening:</strong> The obsessive repetition of "done" (8 times in the soliloquy) doesn't clarify—it <em>entangles</em>. Macbeth's mind circles the act, unable to escape.</p>
+                        <p style="margin-top: 0.75rem;"><strong>The lyricism performs cognitive paralysis.</strong> He's eloquent, and that eloquence <em>proves</em> he's trapped—a truly rational man wouldn't need this many words to commit to one act.</p>
+                        <p style="margin-top: 0.75rem;"><strong>Dramatic impact:</strong> We see a man <em>talking himself into damnation</em>. The beauty of the language makes the damnation more terrible.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>A Midsummer Night's Dream: Lyricism as Liberation</h3>
+                    <p><strong>Puck's Final Speech:</strong></p>
+                    
+                    <div class="quote-block">
+                        If we shadows have offended,<br>
+                        Think but this, and all is mended,—<br>
+                        That you have but slumber'd here<br>
+                        While these visions did appear.
+                    </div>
+
+                    <div class="example-analysis">
+                        <p><strong>What's happening:</strong> Notice the shift from trickster chaos into singsong tetrameter. Puck's lyricism <em>resolves</em> what was fractured. The play's disorder is contained in pretty verse.</p>
+                        <p style="margin-top: 0.75rem;"><strong>The lyricism performs reconciliation.</strong> Puck is asking for applause—the lyricism seduces the audience. Theater magic is revealed as linguistic magic.</p>
+                        <p style="margin-top: 0.75rem;"><strong>Dramatic impact:</strong> We understand that <em>we are the enchanted ones</em>. The form validates the content: if it sounds this beautiful, it must be true.</p>
+                    </div>
+                </div>
+
+                <div class="highlight-truth" style="margin-top: 2rem;">
+                    <strong>The Inverse Truth:</strong><br><br>
+                    In <em>Macbeth</em>, lyricism is the symptom of a world breaking. Shakespeare uses lyric intensity to measure moral descent.<br><br>
+                    In <em>A Midsummer Night's Dream</em>, lyricism is the symptom of a world being healed. Shakespeare uses lyric lightness to measure spiritual ascent.<br><br>
+                    <em>Same tool. Opposite uses. Both revelatory.</em>
+                </div>
+
+                <button class="collapse-pill" onclick="toggleAccordion(event, 'impact')">Collapse Section</button>
+            </div>
+        </div>
+
+        <!-- CONCLUSION ACCORDION -->
+        <div class="accordion-container">
+            <button class="accordion-pill" onclick="toggleAccordion(event, 'conclusion')">The Paradox</button>
+            <div id="conclusion" class="accordion-content">
+                <h2 class="section-title">The Paradox Resolved</h2>
+
+                <div class="subsection">
+                    <h3>Why Shakespeare Is Unparalleled</h3>
+                    <p>Most playwrights use lyricism as <em>enhancement</em>—beautiful language draped over action.</p>
+                    <p style="margin-top: 1rem;"><strong>Shakespeare uses it as action itself.</strong></p>
+                    <p style="margin-top: 1rem;">The language doesn't <em>describe</em> what's happening; it <em>performs</em> what's happening in real time.</p>
+
+                    <ul style="margin: 1.5rem 0 0 1.5rem;">
+                        <li><strong>When Macbeth speaks,</strong> we don't hear his thoughts <em>about</em> despair; we hear despair <em>happening in real time</em> through syntax, meter, and sound.</li>
+                        <li><strong>When Titania speaks under enchantment,</strong> we don't hear words <em>describing</em> magic; we hear magic <em>happening through the words themselves</em>.</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>The Answer to the Mirror's Question</h3>
+                    <div class="highlight-truth">
+                        <strong>Who is the most lyrical?</strong><br><br>
+                        The mirror shows us not who is most lyrical, but how <em>lyricism itself is a form of truth-telling</em>:<br><br>
+                        • About <strong>damnation</strong> and <strong>redemption</strong><br>
+                        • About <strong>chaos</strong> and <strong>order</strong><br>
+                        • About the <strong>self lost</strong> and the <strong>self found</strong><br><br>
+                        <strong>Both plays are masterpieces of lyricism precisely because they understood that lyricism is not decoration—it is how human consciousness experiences crisis and transformation.</strong>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>The Final Insight</h3>
+                    <p>These plays are "worlds apart" thematically, yes. But in their use of lyricism, they reveal something universal about the human condition:</p>
+                    <p style="margin-top: 1rem; font-style: italic;"><strong>We become most eloquent at the moments when we are most powerless, most transformed, most desperate, most in love, most ourselves.</strong></p>
+                    <p style="margin-top: 1rem;">Lyricism is the language of extremity. And Shakespeare knew that extremity—whether toward darkness or toward light—is where the deepest truths live.</p>
+                </div>
+
+                <button class="collapse-pill" onclick="toggleAccordion(event, 'conclusion')">Collapse Section</button>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -614,27 +665,13 @@ I want to contrast with examples the dramatic impact of using lyricism in each o
     </footer>
 
     <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
+        function toggleAccordion(event, sectionId) {
+            const pill = event.target;
+            const content = document.getElementById(sectionId);
 
-            // Remove active class from all nav buttons
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(button => {
-                button.classList.remove('active');
-            });
-
-            // Show selected section
-            document.getElementById(sectionId).classList.add('active');
-
-            // Add active class to clicked button
-            event.target.classList.add('active');
-
-            // Scroll to top
-            window.scrollTo(0, 0);
+            // Toggle active state
+            pill.classList.toggle('active');
+            content.classList.toggle('active');
         }
 
         function toggleCollapsible(event) {
