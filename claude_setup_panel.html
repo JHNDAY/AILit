@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Claude Setup Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1b1e24;
+    --panel:#23272f;
+    --panel-2:#282d36;
+    --border:#3a4049;
+    --text:#edeae2;
+    --text-dim:#9aa1ac;
+    --text-faint:#6b7381;
+    --amber:#e3a857;
+    --amber-dim:#5c4a2e;
+    --teal:#5fa1a6;
+    --teal-dim:#2e4a4c;
+    --sage:#8fae7f;
+    --sage-dim:#3c4a37;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 50% -200px, #262b33 0%, var(--bg) 60%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+    padding:48px 20px 100px;
+  }
+  .page{
+    max-width:760px;
+    margin:0 auto;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    text-align:center;
+    padding-bottom:36px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:44px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin-bottom:14px;
+  }
+  .eyebrow span{color:var(--amber);}
+  h1{
+    font-family:'Newsreader',serif;
+    font-weight:500;
+    font-style:italic;
+    font-size:clamp(32px,6vw,48px);
+    margin:0 0 14px;
+    letter-spacing:-.01em;
+  }
+  .sub{
+    color:var(--text-dim);
+    font-size:15.5px;
+    max-width:480px;
+    margin:0 auto;
+  }
+  .plate{
+    display:inline-flex;
+    gap:18px;
+    margin-top:26px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+  }
+  .plate div{border:1px solid var(--border);border-radius:4px;padding:5px 10px;}
+
+  /* ---------- prompt dropdown ---------- */
+  .prompt-drop{
+    margin:26px auto 0;
+    max-width:520px;
+    text-align:left;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--panel);
+    overflow:hidden;
+  }
+  .prompt-drop summary{
+    list-style:none;
+    cursor:pointer;
+    padding:11px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+  .prompt-drop summary::-webkit-details-marker{display:none;}
+  .prompt-drop summary .chev{
+    transition:transform .2s;
+    color:var(--text-faint);
+  }
+  .prompt-drop[open] summary .chev{transform:rotate(90deg);}
+  .prompt-drop .prompt-body{
+    padding:2px 16px 16px;
+    border-top:1px solid var(--border);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    line-height:1.7;
+    color:var(--text-dim);
+    text-align:left;
+    white-space:pre-wrap;
+  }
+
+  /* ---------- Section header ---------- */
+  .section{margin-bottom:56px;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:8px;
+  }
+  .code-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    padding:3px 8px;
+    border-radius:3px;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    letter-spacing:.04em;
+    flex:none;
+  }
+  .section h2{
+    font-family:'Newsreader',serif;
+    font-weight:500;
+    font-size:26px;
+    margin:0;
+  }
+  .section-desc{
+    color:var(--text-dim);
+    font-size:14.5px;
+    margin:0 0 22px;
+    max-width:600px;
+  }
+
+  /* accent theming per section */
+  .privacy .code-tag{color:var(--amber);border-color:var(--amber-dim);}
+  .security .code-tag{color:var(--teal);border-color:var(--teal-dim);}
+  .cost .code-tag{color:var(--sage);border-color:var(--sage-dim);}
+
+  /* ---------- Switch panel ---------- */
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .row{
+    display:grid;
+    grid-template-columns:74px 1fr;
+    gap:18px;
+    padding:20px 22px;
+    border-bottom:1px solid var(--border);
+    align-items:start;
+  }
+  .row:last-child{border-bottom:none;}
+  .row:hover{background:var(--panel-2);}
+
+  /* --- toggle switch --- */
+  .switch{
+    --glow:var(--amber);
+    width:52px;height:30px;
+    border-radius:15px;
+    background:#14161a;
+    border:1px solid var(--border);
+    position:relative;
+    cursor:pointer;
+    flex:none;
+    box-shadow:inset 0 2px 4px rgba(0,0,0,.5);
+    transition:box-shadow .25s;
+  }
+  .switch .knob{
+    position:absolute;
+    top:3px;left:3px;
+    width:22px;height:22px;
+    border-radius:50%;
+    background:linear-gradient(180deg,#5a5f68,#3a3e46);
+    transition:transform .25s cubic-bezier(.4,0,.2,1), background .25s;
+    box-shadow:0 1px 2px rgba(0,0,0,.6);
+  }
+  .switch.on{box-shadow:inset 0 2px 4px rgba(0,0,0,.5), 0 0 12px 1px var(--glow);}
+  .switch.on .knob{
+    transform:translateX(22px);
+    background:linear-gradient(180deg,var(--glow),color-mix(in srgb, var(--glow) 70%, black));
+  }
+  .privacy .switch{--glow:var(--amber);}
+  .security .switch{--glow:var(--teal);}
+  .cost .switch{--glow:var(--sage);}
+
+  .switch-col{display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:2px;}
+  .state-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;
+    letter-spacing:.1em;
+    color:var(--text-faint);
+    min-height:12px;
+  }
+  .row.recommend-off .switch{--glow:#c96a5b;}
+
+  .row-body h3{
+    font-size:15.5px;
+    margin:0 0 4px;
+    font-weight:600;
+  }
+  .row-body p{
+    margin:0 0 8px;
+    color:var(--text-dim);
+    font-size:14px;
+  }
+  .path{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--text-faint);
+    background:#181b20;
+    display:inline-block;
+    padding:3px 8px;
+    border-radius:4px;
+    border:1px solid var(--border);
+  }
+  .path b{color:var(--text-dim);font-weight:500;}
+
+  /* ---------- callouts ---------- */
+  .note{
+    margin-top:16px;
+    font-size:13.5px;
+    color:var(--text-dim);
+    border-left:2px solid var(--border);
+    padding:4px 0 4px 14px;
+  }
+  .note b{color:var(--text);}
+
+  /* ---------- recap ---------- */
+  .recap{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:26px 26px 22px;
+  }
+  .recap h2{
+    font-family:'Newsreader',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:22px;
+    margin:0 0 16px;
+  }
+  .recap ul{margin:0;padding:0;list-style:none;}
+  .recap li{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    font-size:14px;
+    color:var(--text-dim);
+    padding:7px 0;
+    border-bottom:1px dashed var(--border);
+  }
+  .recap li:last-child{border-bottom:none;}
+  .recap li::before{
+    content:"—";
+    color:var(--text-faint);
+    flex:none;
+  }
+  .recap b{color:var(--text);font-weight:500;}
+
+  footer{
+    text-align:center;
+    margin-top:44px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+    letter-spacing:.05em;
+  }
+  footer a{color:var(--text-dim);}
+
+  @media (max-width:520px){
+    .row{grid-template-columns:56px 1fr;padding:16px;}
+    .switch{width:44px;height:26px;}
+    .switch .knob{width:18px;height:18px;}
+    .switch.on .knob{transform:translateX(18px);}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .switch, .switch .knob{transition:none;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead">
+    <div class="eyebrow">Claude <span>·</span> Account Configuration</div>
+    <h1>Setting up your panel</h1>
+    <p class="sub">A short, practical pass through privacy, security, and cost controls — so your Claude account is tuned before you rely on it daily.</p>
+    <div class="plate"><div>3 modules</div><div>11 switches</div><div>~6 min</div></div>
+
+    <details class="prompt-drop">
+      <summary>Prompt <span class="chev">›</span></summary>
+      <div class="prompt-body">Assume that I am a new user of Claude and want to learn how to tailor my account for privacy and security and cost effective use. I want to have an HTML artifact that is a tutorial of how to best setup my Claude account.</div>
+    </details>
+  </div>
+
+  <!-- PRIVACY -->
+  <div class="section privacy">
+    <div class="section-head">
+      <span class="code-tag">PRIV</span>
+      <h2>Privacy</h2>
+    </div>
+    <p class="section-desc">These controls decide what Claude remembers, what it can look up about your past chats, and whether your conversations help train future models.</p>
+
+    <div class="panel">
+      <div class="row" data-state="off">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Model training on your chats</h3>
+          <p>Free, Pro, and Max accounts can choose whether new conversations are used to help train future Claude models. Turning this off keeps your standard 30-day retention window; turning it on extends retention to five years for those chats.</p>
+          <span class="path"><b>Settings</b> › Privacy</span>
+        </div>
+      </div>
+
+      <div class="row" data-state="on">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Use incognito chats for sensitive topics</h3>
+          <p>Click the ghost icon on a new chat to start a conversation that's never saved to history, never used for memory, and never used for training — closing it deletes it for good.</p>
+          <span class="path"><b>New chat</b> › ghost icon</span>
+        </div>
+      </div>
+
+      <div class="row" data-state="on">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Generate memory from chat history</h3>
+          <p>Claude can build a running summary of your role, preferences, and recurring context so new chats aren't blank slates. If you'd rather each chat start fresh, pause or reset memory here — pausing keeps it, resetting deletes it permanently.</p>
+          <span class="path"><b>Settings</b> › Capabilities › Memory</span>
+        </div>
+      </div>
+
+      <div class="row" data-state="on">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Search and reference past chats</h3>
+          <p>Available on paid plans. Lets you ask Claude to pull up something from an earlier conversation. It only searches when you prompt it to — nothing runs in the background.</p>
+          <span class="path"><b>Settings</b> › Capabilities › Preferences</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="note"><b>Worth knowing:</b> even with training off, conversations flagged by safety systems can still be reviewed to enforce policies — so treat Claude like any other place you wouldn't paste a password or a bank account number.</p>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="section security">
+    <div class="section-head">
+      <span class="code-tag">SEC</span>
+      <h2>Security</h2>
+    </div>
+    <p class="section-desc">Claude.ai signs you in through a passwordless link or a linked Google/Apple account rather than a traditional password — so the strongest moves are around that login path and what you connect to it.</p>
+
+    <div class="panel">
+      <div class="row" data-state="on">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Lock down the inbox behind your login</h3>
+          <p>Since Claude sends a secure sign-in link to your email (or routes through Google/Apple sign-in), that account is effectively your master key. Make sure it has its own strong password and two-factor authentication turned on.</p>
+          <span class="path">Your email provider's <b>security settings</b></span>
+        </div>
+      </div>
+
+      <div class="row" data-state="off">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>"Stay signed in" on shared devices</h3>
+          <p>On a public or company computer, skip options that keep you logged in. It's a small friction cost that prevents the next person on that machine from picking up your session.</p>
+          <span class="path">Login screen</span>
+        </div>
+      </div>
+
+      <div class="row" data-state="on">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Audit connected apps and connectors</h3>
+          <p>Every connector (Google Drive, Slack, Gmail, and similar) sees only what your account already has permission to view — but the list still grows quietly over time. Review it periodically and remove anything you no longer use.</p>
+          <span class="path"><b>Settings</b> › Connectors</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="note"><b>Worth knowing:</b> if you ever suspect the account is compromised, exporting your data first (below) gives you a record before you change credentials or delete anything.</p>
+  </div>
+
+  <!-- COST -->
+  <div class="section cost">
+    <div class="section-head">
+      <span class="code-tag">COST</span>
+      <h2>Cost-effective use</h2>
+    </div>
+    <p class="section-desc">Usage limits are shared across claude.ai, Claude Code, and Claude Desktop, and reset on a rolling five-hour window (plus a weekly cap). A few habits stretch that budget a lot further.</p>
+
+    <div class="panel">
+      <div class="row" data-state="on">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Match the model to the task</h3>
+          <p>Reach for a lighter model on quick lookups, reformatting, or simple edits, and save your heaviest model plus extended thinking for genuinely hard problems. It's the single biggest lever on both speed and usage.</p>
+          <span class="path">Model picker › top of chat</span>
+        </div>
+      </div>
+
+      <div class="row" data-state="on">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Put recurring work in a Project</h3>
+          <p>Documents you upload to a project's knowledge are cached — reusing them across questions costs far less than re-pasting the same material into fresh chats.</p>
+          <span class="path"><b>Projects</b> › new project</span>
+        </div>
+      </div>
+
+      <div class="row" data-state="off">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Extended thinking &amp; web search, left on by default</h3>
+          <p>Both are token-hungry. Leave them off for everyday writing or simple questions, and switch them on deliberately for the tasks that actually need deeper reasoning or current information.</p>
+          <span class="path">Tools menu › in chat</span>
+        </div>
+      </div>
+
+      <div class="row" data-state="on">
+        <div class="switch-col"><div class="switch"><div class="knob"></div></div><div class="state-label"></div></div>
+        <div class="row-body">
+          <h3>Watch the usage dial, not the wall</h3>
+          <p>Your five-hour and weekly bars live in one place — check them before starting long sessions. If you consistently run out, a spending cap on usage credits is often cheaper than jumping a whole plan tier.</p>
+          <span class="path"><b>Settings</b> › Usage</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="note"><b>Worth knowing:</b> a conversation's cost compounds — Claude re-reads everything above your latest message each turn. Starting a new chat for a new topic is often the fastest way to lighten the load.</p>
+  </div>
+
+  <!-- RECAP -->
+  <div class="recap">
+    <h2>Before you close this panel</h2>
+    <ul>
+      <li><b>Privacy:</b> decide your training preference, and know where the incognito ghost icon lives.</li>
+      <li><b>Security:</b> your email (or Google/Apple login) is the real front door — protect it accordingly.</li>
+      <li><b>Cost:</b> pick models deliberately, use Projects for anything recurring, and check Settings › Usage before a long session.</li>
+    </ul>
+  </div>
+
+  <footer>Click any switch above to flip it — nothing here is saved, this panel just mirrors your settings.<br>See <a href="https://support.claude.com" target="_blank" rel="noopener">support.claude.com</a> and <a href="https://privacy.claude.com" target="_blank" rel="noopener">privacy.claude.com</a> for the full, current detail.</footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.row').forEach(row=>{
+    const sw = row.querySelector('.switch');
+    const label = row.querySelector('.state-label');
+    const recommended = row.dataset.state === 'on';
+    let isOn = recommended;
+
+    function render(){
+      sw.classList.toggle('on', isOn);
+      label.textContent = isOn ? 'ON' : 'OFF';
+      if(!recommended && !isOn){ row.classList.add('recommend-off'); } else { row.classList.remove('recommend-off'); }
+    }
+    render();
+
+    sw.addEventListener('click', ()=>{
+      isOn = !isOn;
+      render();
+    });
+    sw.setAttribute('tabindex','0');
+    sw.setAttribute('role','switch');
+    sw.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); sw.click(); }
+    });
+  });
+</script>
+</body>
+</html>
