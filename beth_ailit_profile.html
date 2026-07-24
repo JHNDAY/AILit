@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beth's AI Literacy Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2.5rem;
+        }
+
+        @media (max-width: 1100px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+        }
+
+        .card-content {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .question-mark {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .activity-mark {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #48bb78;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .literacy-framework {
+            background: #f0f4ff;
+            border-left: 4px solid #764ba2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .framework-title {
+            font-weight: 600;
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .framework-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .check-mark {
+            color: #48bb78;
+            font-weight: bold;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .framework-text {
+            color: #2c3e50;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin-top: 1rem;
+        }
+
+        .highlight-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 0.75rem;
+        }
+
+        .highlight-text {
+            color: #3f3f00;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .connection-arrow {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: #2c3e50;
+        }
+
+        .insight-box strong {
+            color: #d63031;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .quote {
+            font-style: italic;
+            color: #764ba2;
+            border-left: 3px solid #764ba2;
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+
+        details {
+            margin-top: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        summary {
+            cursor: pointer;
+            padding: 1rem 1.5rem;
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #667eea;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        summary:hover {
+            background: #e8ecff;
+        }
+
+        details[open] summary {
+            border-radius: 6px 6px 0 0;
+            background: #e8ecff;
+        }
+
+        .prompt-content {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 0 0 6px 6px;
+            padding: 1.5rem;
+            color: #555;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.95rem;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Beth's AI Literacy Journey</h1>
+            <p>Mapping Questions, Activities, and Learning Outcomes Against BOLLI AI Literacy Goals</p>
+            
+            <details style="margin-top: 1.5rem;">
+                <summary>📧 View Original Prompt</summary>
+                <div class="prompt-content"><strong style="color: #667eea; font-size: 1rem;">📋 Task:</strong>
+Visualize (in html file artifact and not an in-line widget) the questions that Beth has and the activities that she is doing (see email below) - cast this in light of the BOLLI goals of AI literacy.
+
+---
+
+<strong style="color: #667eea; margin-top: 1rem; display: block;">Beth's Email:</strong>
+
+I am writing to catch up on your class. I didn't know about the course until after the first session and I cdnt find the link to your materials for the second class (I see it now…). So I apologize for my non-participation in class. I just tried to follow along as best I could and have been going through the materials since.
+
+Am I right to understand that the "writing coach" is you? Claude didn't know anything about it so I'm assuming it's your methodology that you are teaching us to get results that have more depth and aren't just regurgitating my confirmation bias. Or is it a concrete thing (like fill in these blanks) instead of methodology?
+
+I have a good understanding of of how to do what I think is called a Boolean search since I used Lexus, nexus, and westlaw when I practiced law. I think I still think in those terms when I'm constructing search questions. Is that helpful for AI or should I try to think differently?
+
+I have done a few searches with Claude to get the feel for it. We had a lengthy discussion of how trump gets away with lying so much. I also used it to buy a toy for my 10 month old granddaughter. Her mom/my daughter is a talented artist that manifested very very young. I've notice my little one at 10 mos has the pincer grip skills of an 18 month old so I did a search to find a drawing toy that was safe (since she puts everything in her mouth) but skill age appropriate. I had tried this on google AI and ChatGPT but wasn't satisfied. Maybe I was able to drill down harder bc Claude found one that was truly safe albeit geared to 18 month olds. The searches I'd done earlier had recommended the kind that use a magnet to draw, but Claude pointed out that it's possible to bite the tips of the stylus off. The one I did buy after the search (and my daughter's permission) uses water to bring out colors. So I may be learning how to construct better requests.
+
+Please let me know where I'm off and what else I can do to be ready for class.</div>
+            </details>
+        </div>
+
+        <div class="content">
+            <!-- LEFT COLUMN: BETH'S QUESTIONS -->
+            <div class="section">
+                <h2 class="section-title">Beth's Core Questions</h2>
+
+                <div class="card">
+                    <span class="question-mark">1</span>
+                    <div class="card-title">Understanding the "Writing Coach"</div>
+                    <div class="card-content">
+                        <strong>The Question:</strong> Is the writing coach methodology or a concrete tool? Is it about avoiding confirmation bias and regurgitation?
+                        <div style="background: #e8f0ff; border-left: 3px solid #667eea; padding: 1rem; margin-top: 1rem; border-radius: 4px;">
+                            <div style="font-size: 0.9rem; color: #2c3e50; line-height: 1.6;">
+                                <strong style="color: #667eea;">📝 John's Response:</strong><br>
+                                It is a methodology that I created to generate a comprehensive prompt about a research topic. I used Claude to create the viz to package the methodology. I think we will defer engaging too much with this methodology until we have some experience with the basics.
+                            </div>
+                        </div>
+                        <div class="literacy-framework">
+                            <div class="framework-title">🎯 Literacy Connection:</div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text"><strong>Critical evaluation:</strong> Understanding how AI tools work (methodology vs. tool)</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text"><strong>Depth beyond surface:</strong> Moving from regurgitation to reasoning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="question-mark">2</span>
+                    <div class="card-title">Adapting Legal Research Skills</div>
+                    <div class="card-content">
+                        <strong>The Question:</strong> Is Boolean search (from law background) helpful for AI, or should she think differently?
+                        <div style="background: #e8f0ff; border-left: 3px solid #667eea; padding: 1rem; margin-top: 1rem; border-radius: 4px;">
+                            <div style="font-size: 0.9rem; color: #2c3e50; line-height: 1.6;">
+                                <strong style="color: #667eea;">📝 John's Response:</strong><br>
+                                It is definitely time to think differently. How to search with AI will be the main focus of the SIG for the near future.
+                            </div>
+                        </div>
+                        <div class="literacy-framework">
+                            <div class="framework-title">🎯 Literacy Connection:</div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text"><strong>Transfer of knowledge:</strong> Recognizing where old skills apply and where new thinking is needed</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text"><strong>Prompt engineering awareness:</strong> Understanding AI prompt construction vs. Boolean logic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="question-mark">3</span>
+                    <div class="card-title">Self-Assessment for Readiness</div>
+                    <div class="card-content">
+                        <strong>The Question:</strong> Where am I off? What else should I do to be ready for class?
+                        <div style="background: #e8f0ff; border-left: 3px solid #667eea; padding: 1rem; margin-top: 1rem; border-radius: 4px;">
+                            <div style="font-size: 0.9rem; color: #2c3e50; line-height: 1.6;">
+                                <strong style="color: #667eea;">📝 John's Response:</strong><br>
+                                You are exactly on the mark by trying different prompts for different reasons. We learn best by doing.
+                            </div>
+                        </div>
+                        <div class="literacy-framework">
+                            <div class="framework-title">🎯 Literacy Connection:</div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text"><strong>Metacognition:</strong> Reflecting on her own learning and gaps</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text"><strong>Growth mindset:</strong> Actively seeking feedback and improvement</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: BETH'S ACTIVITIES -->
+            <div class="section">
+                <h2 class="section-title">Beth's Active Learning</h2>
+
+                <div class="card">
+                    <span class="activity-mark">A</span>
+                    <div class="card-title">Trump & Misinformation Search</div>
+                    <div class="card-content">
+                        <strong>What she did:</strong> Conducted extended discussion with Claude on how Trump gets away with lying.
+                        <div class="literacy-framework">
+                            <div class="framework-title">🎯 Literacy Skills Demonstrated:</div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Engaging with complex, real-world issues</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Extended dialogue for deeper understanding (not surface-level)</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Critical thinking about information credibility</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="activity-mark">B</span>
+                    <div class="card-title">Toy Selection (Comparative Search)</div>
+                    <div class="card-content">
+                        <strong>What she did:</strong> Multi-tool comparison (Google AI, ChatGPT, Claude) for safe, age-appropriate toy. Found Claude's answer superior; identified specific safety issue (magnet stylus) others missed.
+                        <div class="literacy-framework">
+                            <div class="framework-title">🎯 Literacy Skills Demonstrated:</div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Practical problem-solving with real stakes</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Comparative evaluation of different AI systems</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Identifying reasoning depth (drill-down capability)</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Safety-first thinking with multi-tool verification</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="activity-mark">C</span>
+                    <div class="card-title">Reflective Practice & Iteration</div>
+                    <div class="card-content">
+                        <strong>What she did:</strong> Recognized her own improvement in search construction through experimentation; became aware that she's "learning how to construct better requests."
+                        <div class="literacy-framework">
+                            <div class="framework-title">🎯 Literacy Skills Demonstrated:</div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Iterative refinement of prompts/requests</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Self-awareness of improvement</span>
+                            </div>
+                            <div class="framework-item">
+                                <span class="check-mark">✓</span>
+                                <span class="framework-text">Moving beyond venting to reasoning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <strong>⭐ Pattern Emerging:</strong> Beth is spontaneously discovering prompt engineering principles without formal instruction—she's learning through doing and reflection. This is exactly the "reading and reasoning" approach.
+                </div>
+            </div>
+        </div>
+
+        <!-- SYNTHESIS SECTION -->
+        <div style="padding: 2rem 2.5rem; background: #f0f4ff; border-top: 2px solid #e0e0e0;">
+            <h2 class="section-title" style="border-bottom-color: #764ba2; color: #764ba2;">Where Beth Already Shines in AI Literacy</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                <div class="card" style="border-left-color: #48bb78;">
+                    <div style="font-weight: 600; color: #48bb78; margin-bottom: 0.75rem; font-size: 1.1rem;">✓ Practical Application</div>
+                    <p style="color: #555; line-height: 1.6;">Not theoretical—she's already using Claude for real problems (toy safety, understanding complex social dynamics). This grounds her learning.</p>
+                </div>
+
+                <div class="card" style="border-left-color: #48bb78;">
+                    <div style="font-weight: 600; color: #48bb78; margin-bottom: 0.75rem; font-size: 1.1rem;">✓ Comparative Thinking</div>
+                    <p style="color: #555; line-height: 1.6;">She's comparing Claude to Google AI and ChatGPT, developing judgment about which tool works better for which tasks—critical media literacy.</p>
+                </div>
+
+                <div class="card" style="border-left-color: #48bb78;">
+                    <div style="font-weight: 600; color: #48bb78; margin-bottom: 0.75rem; font-size: 1.1rem;">✓ Depth Over Breadth</div>
+                    <p style="color: #555; line-height: 1.6;">Her realization that Claude "pointed out" the stylus hazard shows she's seeking depth. She's moving away from surface answers.</p>
+                </div>
+
+                <div class="card" style="border-left-color: #48bb78;">
+                    <div style="font-weight: 600; color: #48bb78; margin-bottom: 0.75rem; font-size: 1.1rem;">✓ Metacognitive Awareness</div>
+                    <p style="color: #555; line-height: 1.6;">She's explicitly reflecting on her learning ("I may be learning how to construct better requests"). This self-awareness is advanced.</p>
+                </div>
+
+                <div class="card" style="border-left-color: #48bb78;">
+                    <div style="font-weight: 600; color: #48bb78; margin-bottom: 0.75rem; font-size: 1.1rem;">✓ Transfer Learning Mindset</div>
+                    <p style="color: #555; line-height: 1.6;">Asking whether Boolean search applies to AI shows she's thinking about where old expertise transfers and where new thinking is needed.</p>
+                </div>
+
+                <div class="card" style="border-left-color: #48bb78;">
+                    <div style="font-weight: 600; color: #48bb78; margin-bottom: 0.75rem; font-size: 1.1rem;">✓ Intentional Accountability</div>
+                    <p style="color: #555; line-height: 1.6;">Missing sessions but staying engaged, asking for guidance, and seeking permission from her daughter before acting—responsible use of AI recommendations.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECOMMENDATIONS SECTION -->
+        <div style="padding: 2rem 2.5rem; background: #fff3cd; border-top: 2px solid #ffc107;">
+            <h2 class="section-title" style="border-bottom-color: #ffc107; color: #856404;">Where Beth Can Grow (Guidance for Next Session)</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                <div class="card" style="border-left-color: #ffc107;">
+                    <div style="font-weight: 600; color: #d39e00; margin-bottom: 0.75rem; font-size: 1rem;">📚 Boolean Search & AI Prompting</div>
+                    <p style="color: #555; line-height: 1.6; margin-bottom: 1rem;">She has strong Boolean intuition. <strong>Teaching point:</strong> Show how AND/OR/NOT map to prompt logic, but emphasize that natural language prompting in Claude works differently. Her legal precision is an asset, but AI rewards conversational clarity.</p>
+                </div>
+
+                <div class="card" style="border-left-color: #ffc107;">
+                    <div style="font-weight: 600; color: #d39e00; margin-bottom: 0.75rem; font-size: 1rem;">🎯 Naming the Writing Coach</div>
+                    <p style="color: #555; line-height: 1.6; margin-bottom: 1rem;">She's confused about whether it's methodology or tool. <strong>Clarify:</strong> It's both. It's a methodology (iterative refinement toward depth) embedded in a tool (the Writing Coach artifact). Show her examples of how prompts evolve.</p>
+                </div>
+
+                <div class="card" style="border-left-color: #ffc107;">
+                    <div style="font-weight: 600; color: #d39e00; margin-bottom: 0.75rem; font-size: 1rem;">🔍 Deepen the Trump Example</div>
+                    <p style="color: #555; line-height: 1.6; margin-bottom: 1rem;"><strong>Opportunity:</strong> In next session, use her Trump/misinformation discussion as a case study. Ask: "How did you know to ask follow-ups? What would make the conversation even more rigorous?" This surfaces her reasoning process.</p>
+                </div>
+
+                <div class="card" style="border-left-color: #ffc107;">
+                    <div style="font-weight: 600; color: #d39e00; margin-bottom: 0.75rem; font-size: 1rem;">🧠 Formalize Her Tacit Knowledge</div>
+                    <p style="color: #555; line-height: 1.6; margin-bottom: 1rem;">She's discovering prompt refinement intuitively. <strong>Next step:</strong> Have her articulate the principles she's using. What makes her toy search better than the first attempt? This moves knowledge from implicit to explicit.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ASSESSMENT SECTION -->
+        <div style="padding: 2rem 2.5rem; background: white; border-top: 2px solid #e0e0e0;">
+            <h2 class="section-title">Alignment with BOLLI AI Literacy Goals</h2>
+            
+            <div style="margin-top: 1.5rem;">
+                <p style="color: #2c3e50; line-height: 1.8; margin-bottom: 1.5rem;">
+                    <strong>BOLLI's Vision: Move from "venting and raging to reading and reasoning."</strong>
+                </p>
+                <p style="color: #555; line-height: 1.8;">
+                    Beth is already well into the reading and reasoning phase. She's not raging about AI—she's thoughtfully experimenting with it. Her trajectory shows:
+                </p>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                <div style="display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start;">
+                    <div style="font-size: 2rem;">📈</div>
+                    <div>
+                        <strong style="color: #2c3e50; font-size: 1.05rem;">Her Learning Arc</strong>
+                        <p style="color: #555; margin-top: 0.75rem; line-height: 1.6;">
+                            From "I don't know what this is" → "I'm trying to follow along" → "I'm experimenting and noticing patterns" → "I'm improving my request construction." This is exactly the self-directed learning BOLLI seeks to foster in retired adults.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1.5rem; background: #f0fff4; border-radius: 8px; border-left: 4px solid #48bb78;">
+                <div style="display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start;">
+                    <div style="font-size: 2rem;">💡</div>
+                    <div>
+                        <strong style="color: #2c3e50; font-size: 1.05rem;">What She Needs from Class</strong>
+                        <p style="color: #555; margin-top: 0.75rem; line-height: 1.6;">
+                            Not remedial catching up. She's ahead. She needs <strong>language</strong> for what she's already discovering (prompt engineering, iterative refinement, model comparison) and <strong>structure</strong> to formalize her tacit knowledge.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Summary for John:</strong> Beth is a strong self-directed learner with practical reasoning already in evidence. She arrived mid-course but has maintained engagement, asked smart questions, and demonstrated comparative judgment. She's ready for deeper, more structured content on prompt design and critical evaluation of AI outputs. Consider her as a peer educator in the group—her toy search story is a perfect teaching example.</p>
+        </div>
+    </div>
+</body>
+</html>
