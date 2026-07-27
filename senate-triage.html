@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where to Send Your Hours — 2026 Senate Volunteer Triage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12151c;
+    --ink-2:#1b2029;
+    --paper:#f1ece0;
+    --paper-dim:#cfc9ba;
+    --line: rgba(241,236,224,0.14);
+    --urgent:#c1440e;
+    --high:#c99a2e;
+    --moderate:#3f7d6e;
+    --watch:#5b6472;
+    --text-dim: rgba(241,236,224,0.62);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:72px 0 48px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--urgent);
+    margin:0 0 18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:8px;height:8px;
+    background:var(--urgent);
+    border-radius:50%;
+    display:inline-block;
+    animation:pulse 2.2s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .eyebrow::before{animation:none;} }
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1);}
+    50%{opacity:.45;transform:scale(0.8);}
+  }
+  h1.title{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:800;
+    font-size:clamp(40px,7vw,74px);
+    line-height:0.98;
+    letter-spacing:-0.01em;
+    margin:0 0 20px;
+    color:var(--paper);
+    text-transform:uppercase;
+  }
+  h1.title span{color:var(--paper-dim);}
+  .hero-sub{
+    font-size:18px;
+    line-height:1.55;
+    max-width:560px;
+    color:var(--text-dim);
+    margin:0;
+  }
+  .hero-meta{
+    display:flex;
+    gap:32px;
+    margin-top:36px;
+    flex-wrap:wrap;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .hero-meta .stat b{
+    display:block;
+    font-size:28px;
+    color:var(--paper);
+    font-weight:700;
+  }
+  .prompt-box{
+    margin:22px 0 28px;
+    max-width:560px;
+  }
+  .prompt-box summary{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    cursor:pointer;
+    padding:8px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    list-style:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .prompt-box summary::-webkit-details-marker{display:none;}
+  .prompt-box summary::after{
+    content:"+";
+    font-size:14px;
+    color:var(--text-dim);
+  }
+  .prompt-box[open] summary::after{content:"–";}
+  .prompt-box summary:hover{color:var(--paper);}
+  .prompt-box p{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    line-height:1.6;
+    color:var(--paper-dim);
+    margin:14px 0 0;
+    padding:0 0 4px;
+  }
+
+  .hero-meta .stat span{
+    display:block;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin-top:4px;
+  }
+
+  /* ---------- SECTION LABELS ---------- */
+  .section-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin:56px 0 20px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+  }
+  .section-label:first-of-type{border-top:none;}
+
+  /* ---------- TRIAGE CARDS ---------- */
+  .card{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:2px;
+    padding:28px 30px 26px;
+    margin-bottom:18px;
+    position:relative;
+    opacity:0;
+    transform:translateY(14px);
+    animation:rise 0.6s ease-out forwards;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .card{opacity:1;transform:none;animation:none;}
+  }
+  @keyframes rise{ to{opacity:1;transform:translateY(0);} }
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    margin-bottom:6px;
+  }
+  .rank{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    font-weight:700;
+    padding:4px 9px;
+    border-radius:20px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    color:var(--paper);
+  }
+  .rank.urgent{background:var(--urgent);}
+  .rank.high{background:var(--high); color:var(--ink);}
+  .rank.moderate{background:var(--moderate);}
+  .rank.watch{background:var(--watch);}
+
+  .card h2{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:800;
+    font-size:30px;
+    text-transform:uppercase;
+    margin:0;
+    letter-spacing:-0.005em;
+  }
+  .card .race{
+    font-size:15px;
+    color:#5a5346;
+    margin:2px 0 18px;
+  }
+  .card .race b{color:var(--ink);}
+
+  /* Gauge */
+  .gauge-label{
+    display:flex;
+    justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:#6b6353;
+    margin-bottom:6px;
+  }
+  .gauge{
+    position:relative;
+    height:10px;
+    background:#e2dcc9;
+    border-radius:6px;
+    overflow:visible;
+    margin-bottom:20px;
+  }
+  .gauge-fill{
+    height:100%;
+    border-radius:6px;
+    width:0%;
+    transition:width 1.1s cubic-bezier(.2,.8,.2,1);
+  }
+  .gauge-fill.urgent{background:var(--urgent);}
+  .gauge-fill.high{background:var(--high);}
+  .gauge-fill.moderate{background:var(--moderate);}
+  .gauge-fill.watch{background:var(--watch);}
+  .gauge-flag{
+    position:absolute;
+    top:-5px;
+    width:20px;height:20px;
+    transform:translateX(-50%);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .gauge-flag::after{
+    content:"";
+    width:2px;height:20px;
+    background:var(--ink);
+    opacity:0.35;
+  }
+
+  .facts{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:14px 20px;
+    margin-bottom:18px;
+  }
+  .fact span{
+    display:block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:#6b6353;
+    margin-bottom:3px;
+  }
+  .fact b{
+    font-size:15px;
+    font-weight:600;
+    line-height:1.3;
+  }
+
+  .verdict{
+    font-size:15px;
+    line-height:1.55;
+    border-top:1px solid #ddd5c1;
+    padding-top:14px;
+    margin:0;
+  }
+  .verdict b{background:none;}
+
+  /* Watch-list variant */
+  .card.watch-card{
+    background:transparent;
+    border:1px dashed var(--paper-dim);
+    color:var(--paper);
+    padding:20px 26px;
+  }
+  .card.watch-card h2{color:var(--paper); font-size:22px;}
+  .card.watch-card .race{color:var(--text-dim);}
+  .card.watch-card .race b{color:var(--paper);}
+  .card.watch-card .verdict{border-top:1px solid var(--line); color:var(--text-dim);}
+
+  footer{
+    margin-top:50px;
+    padding:26px 0 60px;
+    border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    line-height:1.7;
+  }
+
+  @media (max-width:560px){
+    .card{padding:22px 18px;}
+    h1.title{font-size:44px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">2026 senate volunteer triage</p>
+    <h1 class="title">Where to<br>send your <span>hours.</span></h1>
+
+    <details class="prompt-box">
+      <summary>Prompt</summary>
+      <p>Create an html and not an in-line widget that visualizes and organizes the last response in this conversation</p>
+    </details>
+
+    <p class="hero-sub">Money finds well-known campaigns easily. Volunteer hours don't — they go wherever someone happens to point them. Ranked below by which Democratic Senate campaign actually lacks capacity, not just which race is closest.</p>
+    <div class="hero-meta">
+      <div class="stat"><b>~100</b><span>days to Nov 3</span></div>
+      <div class="stat"><b>4</b><span>seats to flip for D control</span></div>
+      <div class="stat"><b>Jul 25</b><span>ME nominee named</span></div>
+    </div>
+  </header>
+
+  <p class="section-label">Ranked by need — most urgent first</p>
+
+  <!-- CARD 1 -->
+  <div class="card" style="animation-delay:.05s">
+    <div class="card-top">
+      <h2>Troy Jackson</h2>
+      <span class="rank urgent">01 · Urgent</span>
+    </div>
+    <p class="race">Maine · vs. <b>Sen. Susan Collins (R)</b>, seeking a 6th term</p>
+
+    <div class="gauge-label"><span>Well-resourced</span><span>Needs you now</span></div>
+    <div class="gauge">
+      <div class="gauge-fill urgent" data-fill="95"></div>
+      <div class="gauge-flag" style="left:95%"></div>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><span>Nominated</span><b>Jul 25, 2026 — days ago</b></div>
+      <div class="fact"><span>Raised so far</span><b>~$1M</b></div>
+      <div class="fact"><span>Collins war chest</span><b>Multiple millions</b></div>
+      <div class="fact"><span>Infrastructure</span><b>Rebuilding from zero</b></div>
+    </div>
+    <p class="verdict">Emergency replacement nominee after Platner's withdrawal — inherited a volunteer network but has to build a statewide campaign, staff, and fundraising base in just over 100 days. Explicitly asked for help from anyone willing. The clearest case where your hours aren't a drop in an ocean of existing capacity.</p>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="card" style="animation-delay:.15s">
+    <div class="card-top">
+      <h2>Sherrod Brown</h2>
+      <span class="rank high">02 · High</span>
+    </div>
+    <p class="race">Ohio · vs. <b>Sen. Jon Husted (R)</b>, appointed incumbent</p>
+
+    <div class="gauge-label"><span>Well-resourced</span><span>Needs you now</span></div>
+    <div class="gauge">
+      <div class="gauge-fill high" data-fill="70"></div>
+      <div class="gauge-flag" style="left:70%"></div>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><span>Status</span><b>Won primary, May 2026</b></div>
+      <div class="fact"><span>Polling</span><b>Trailing Husted</b></div>
+      <div class="fact"><span>Media market</span><b>Expensive, statewide</b></div>
+      <div class="fact"><span>Infrastructure</span><b>Established, name recognition</b></div>
+    </div>
+    <p class="verdict">A known quantity with real institutional backing, but genuinely trailing in a state that's gotten harder for Democrats and costly to compete in. Established operation, still a real uphill fight — more capacity than Maine, but far from flush.</p>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="card" style="animation-delay:.25s">
+    <div class="card-top">
+      <h2>Jon Ossoff</h2>
+      <span class="rank moderate">03 · Moderate</span>
+    </div>
+    <p class="race">Georgia · seeking re-election</p>
+
+    <div class="gauge-label"><span>Well-resourced</span><span>Needs you now</span></div>
+    <div class="gauge">
+      <div class="gauge-fill moderate" data-fill="30"></div>
+      <div class="gauge-flag" style="left:30%"></div>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><span>Cash on hand</span><b>$25M+</b></div>
+      <div class="fact"><span>Fundraising rank</span><b>#1, any Senate candidate</b></div>
+      <div class="fact"><span>Operation</span><b>Mature, fully staffed</b></div>
+      <div class="fact"><span>Bottleneck</span><b>Not capacity</b></div>
+    </div>
+    <p class="verdict">Top fundraiser of any Senate candidate in the country — Republican or Democrat. Will happily take your hours through Mobilize, but money is closer to the whole game here than volunteer labor. Lowest need of the three you named.</p>
+  </div>
+
+  <p class="section-label">Watch list — not yet a priority, but worth tracking</p>
+
+  <div class="card watch-card">
+    <div class="card-top">
+      <h2>Roy Cooper</h2>
+      <span class="rank watch">Watch</span>
+    </div>
+    <p class="race">North Carolina · vs. <b>Michael Whatley (R)</b> — open seat</p>
+    <p class="verdict">Democrats' best pickup opportunity this cycle, well-funded and well-known. Not under-resourced, but the state is huge and expensive enough that it can always absorb more hours.</p>
+  </div>
+
+  <div class="card watch-card">
+    <div class="card-top">
+      <h2>Michigan open seat</h2>
+      <span class="rank watch">Pending</span>
+    </div>
+    <p class="race">Michigan · Democratic primary — <b>Aug 4, 2026</b></p>
+    <p class="verdict">Nominee not yet settled. Worth checking back after August 4 — a freshly-nominated candidate often means the same kind of scramble for volunteers Jackson faced in Maine.</p>
+  </div>
+
+  <footer>
+    Reflects the state of these races as of late July 2026 — polling, fundraising, and nominations shift fast this close to a midterm. Re-check before committing significant time.
+  </footer>
+
+</div>
+
+<script>
+  // Animate gauges on load / on scroll into view, respecting reduced-motion (CSS transition already no-ops visually if user has it set to no-preference off — this just triggers the width)
+  const fills = document.querySelectorAll('.gauge-fill');
+  const setFill = el => { el.style.width = el.getAttribute('data-fill') + '%'; };
+
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setFill(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    fills.forEach(el => obs.observe(el));
+  } else {
+    fills.forEach(setFill);
+  }
+</script>
+
+</body>
+</html>
