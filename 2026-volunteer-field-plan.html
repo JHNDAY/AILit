@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Plan — Fall 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#141a2c;
+    --navy-light:#1f2740;
+    --navy-border:#323d5c;
+    --paper:#e8e2cc;
+    --paper-dark:#dcd4b8;
+    --paper-line:#c9c0a0;
+    --gold:#d4a73a;
+    --gold-bright:#e6bd4f;
+    --brick:#b23a2e;
+    --olive:#5c7a4f;
+    --ink:#181c1a;
+    --cream:#ede9dd;
+    --muted:#9a9a86;
+    --muted-dark:#6f7386;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--cream);
+    font-family:'Source Serif 4', serif;
+    line-height:1.55;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    font-size:0.72rem;
+    font-weight:600;
+  }
+  h1,h2,h3{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    margin:0;
+  }
+  a{color:inherit;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:4.5rem 6vw 3.5rem;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .hero .eyebrow{color:var(--gold-bright);}
+  .hero h1{
+    font-size:clamp(2.4rem, 6vw, 4.6rem);
+    line-height:0.98;
+    margin:0.6rem 0 1.4rem;
+    color:var(--cream);
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--gold-bright);
+  }
+  .hero p.lede{
+    max-width:640px;
+    font-size:1.08rem;
+    color:#cfcabb;
+  }
+  .prompt-drop{
+    margin:1.1rem 0 1.6rem;
+    max-width:640px;
+    border:1px solid var(--navy-border);
+    border-left:4px solid var(--gold);
+    border-radius:2px;
+    background:var(--navy-light);
+  }
+  .prompt-drop summary{
+    cursor:pointer;
+    list-style:none;
+    padding:0.7rem 1rem;
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    user-select:none;
+  }
+  .prompt-drop summary::-webkit-details-marker{display:none;}
+  .prompt-drop summary::before{
+    content:'+';
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--gold-bright);
+    font-size:0.9rem;
+    width:1em;
+  }
+  .prompt-drop[open] summary::before{content:'–';}
+  .prompt-drop summary .eyebrow{color:var(--gold-bright); margin:0;}
+  .prompt-drop p{
+    margin:0;
+    padding:0 1.1rem 1.1rem;
+    font-size:0.88rem;
+    color:#c6c2b3;
+    border-top:1px dashed var(--navy-border);
+    padding-top:0.8rem;
+  }
+
+  .criteria-strip{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.5rem 0.7rem;
+    margin-top:1.6rem;
+  }
+  .criteria-strip span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    border:1px solid var(--navy-border);
+    color:var(--muted);
+    padding:0.32rem 0.6rem;
+    border-radius:2px;
+  }
+
+  /* ---------- SEAT BAR (signature element) ---------- */
+  .seatbar-wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 6vw 4.5rem;
+  }
+  .seatbar-label{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--muted);
+    margin-bottom:0.6rem;
+  }
+  .seatbar-label .maj{color:var(--gold-bright);}
+  .seatbar{
+    display:flex;
+    width:100%;
+    height:34px;
+    border-radius:3px;
+    overflow:hidden;
+    border:1px solid var(--navy-border);
+  }
+  .seatbar .seg{
+    height:100%;
+    transition:transform 0.15s ease;
+  }
+  .seatbar .seg:hover{transform:scaleY(1.15);}
+  .seg.r{background:#5a3d3d;}
+  .seg.d{background:#3d4f5a;}
+  .seg.target{background:var(--gold); position:relative;}
+  .seatbar-flags{
+    position:relative;
+    height:38px;
+  }
+  .flag{
+    position:absolute;
+    top:0;
+    transform:translateX(-50%);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    color:var(--gold-bright);
+    text-align:center;
+    white-space:nowrap;
+  }
+  .flag::before{
+    content:'';
+    display:block;
+    width:1px;
+    height:8px;
+    background:var(--gold-bright);
+    margin:0 auto 3px;
+  }
+  .seatbar-note{
+    margin-top:0.9rem;
+    font-size:0.86rem;
+    color:var(--muted);
+    max-width:640px;
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{
+    padding:3.6rem 6vw;
+  }
+  .section.paper{
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .section-head{
+    max-width:1180px;
+    margin:0 auto 2.2rem;
+    display:flex;
+    align-items:baseline;
+    gap:1rem;
+    flex-wrap:wrap;
+    border-bottom:2px solid currentColor;
+    padding-bottom:1rem;
+  }
+  .section.paper .section-head{border-color:var(--ink);}
+  .section:not(.paper) .section-head{border-color:var(--navy-border);}
+  .section-head h2{font-size:clamp(1.6rem,3.4vw,2.4rem);}
+  .section-head .eyebrow{opacity:0.65;}
+  .section.paper .eyebrow{color:var(--brick);}
+  .section:not(.paper) .eyebrow{color:var(--gold-bright);}
+
+  /* ---------- RACE CARDS ---------- */
+  .races{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(255px, 1fr));
+    gap:1.1rem;
+  }
+  .card{
+    background:var(--paper-dark);
+    border:1px solid var(--paper-line);
+    border-radius:2px;
+    padding:1.3rem 1.3rem 1.5rem;
+    position:relative;
+  }
+  .card .tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:0.22rem 0.5rem;
+    border-radius:2px;
+    margin-bottom:0.7rem;
+    font-weight:600;
+  }
+  .tag.primary{background:#e4d3a0; color:#5a4416;}
+  .tag.defend{background:#e3c3bd; color:var(--brick);}
+  .tag.tossup{background:#d6dfd0; color:var(--olive);}
+  .tag.fresh{background:#d0d9e6; color:#2c4a68;}
+  .card h3{
+    font-family:'Source Serif 4', serif;
+    font-weight:700;
+    text-transform:none;
+    font-size:1.28rem;
+    margin-bottom:0.2rem;
+  }
+  .card .who{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    color:#5f5a44;
+    margin-bottom:0.75rem;
+  }
+  .card p{font-size:0.93rem; margin:0 0 0.7rem;}
+  .card .fit{
+    font-size:0.82rem;
+    border-top:1px dashed var(--paper-line);
+    padding-top:0.7rem;
+    margin-top:0.7rem;
+  }
+  .card .fit b{color:var(--brick);}
+  .card .cta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    text-decoration:none;
+    border-bottom:1px solid var(--ink);
+  }
+  .aside-card{
+    background:transparent;
+    border:1px dashed var(--paper-line);
+  }
+  .aside-card h3{font-size:1.05rem;}
+
+  /* ---------- ACTIVITY FILTER + GRID ---------- */
+  .filters{
+    max-width:1180px;
+    margin:0 auto 1.8rem;
+    display:flex;
+    gap:0.6rem;
+    flex-wrap:wrap;
+  }
+  .filter-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    background:transparent;
+    border:1px solid var(--navy-border);
+    color:var(--muted);
+    padding:0.45rem 0.85rem;
+    border-radius:20px;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .filter-btn:hover{border-color:var(--gold-bright); color:var(--gold-bright);}
+  .filter-btn.active{background:var(--gold); border-color:var(--gold); color:var(--navy);}
+  .activities{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:1rem;
+  }
+  .act-card{
+    background:var(--navy-light);
+    border:1px solid var(--navy-border);
+    border-left:4px solid var(--muted-dark);
+    border-radius:2px;
+    padding:1.2rem 1.3rem;
+    transition:opacity 0.2s ease, transform 0.2s ease;
+  }
+  .act-card[data-fit="try"]{border-left-color:var(--olive);}
+  .act-card[data-fit="consider"]{border-left-color:var(--gold);}
+  .act-card[data-fit="skip"]{border-left-color:var(--brick);}
+  .act-card.hidden{display:none;}
+  .act-card .fit-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    font-weight:600;
+    margin-bottom:0.5rem;
+    display:block;
+  }
+  .act-card[data-fit="try"] .fit-label{color:var(--olive);}
+  .act-card[data-fit="consider"] .fit-label{color:var(--gold-bright);}
+  .act-card[data-fit="skip"] .fit-label{color:#d98a80;}
+  .act-card h3{
+    font-family:'Source Serif 4', serif;
+    font-weight:700;
+    text-transform:none;
+    font-size:1.15rem;
+    color:var(--cream);
+    margin-bottom:0.5rem;
+  }
+  .act-card p{
+    font-size:0.9rem;
+    color:#c6c2b3;
+    margin:0 0 0.5rem;
+  }
+  .act-card .why{
+    font-size:0.82rem;
+    color:var(--muted);
+    border-top:1px dashed var(--navy-border);
+    padding-top:0.6rem;
+    margin-top:0.7rem;
+  }
+  .act-card .why b{color:#c6c2b3;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:3rem 6vw 3.5rem;
+    max-width:1180px;
+    margin:0 auto;
+    border-top:1px solid var(--navy-border);
+  }
+  footer p{
+    font-size:0.9rem;
+    color:var(--muted);
+    max-width:640px;
+  }
+  footer .eyebrow{color:var(--gold-bright); display:block; margin-bottom:0.7rem;}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <span class="eyebrow">Volunteer field plan — fall 2026</span>
+  <h1>Where your <em>hours</em><br>do the most good</h1>
+
+  <details class="prompt-drop">
+    <summary><span class="eyebrow">Prompt</span></summary>
+    <p>I would like to get involved in this fall's elections for the Democratic Party. I live in Massachusetts, a reliably blue state. I would not mind working for moulton in the primary (I think markey's best days are behind him), but for the general election, I'd like to help a candidate in a swing state. I would prefer to help someone in the senate (bc despite gerrymandering, it seems the dems are likely to take control). I really want Jon Ossoff to keep his seat and for Sherrod Brown to regain his seat and for Troy Jackson to defeat the hand wringing &ldquo;overly concerned&rdquo; Susan Collins to be ousted. (Did you know she used to say that no senator should seek more than 2 terms?). So, I'd like to know which of those candidates could use a volunteer from another state? What other candidates aren't I considering but should? What help (other than donations) could I provide? I don't want to go live in another state, even temporarily since I have commitments here. I have done letter writing in the past, but I'm not super keen. I've made telephone calls in the past but found it frustrating. I am a good writer but have my doubts that any candidate needs that. Perhaps you could help me explore that last idea more thoroughly and give me ideas I haven't thought of.</p>
+  </details>
+
+  <p class="lede">Massachusetts is safe territory. The Senate majority runs through Maine, Ohio, and Georgia — and it's decided by people willing to put in time from anywhere.</p>
+  <div class="criteria-strip">
+    <span>Volunteering only</span>
+    <span>No relocation</span>
+    <span>Senate races preferred</span>
+    <span>Swing states for the general</span>
+    <span>Skip cold calls</span>
+    <span>Skip postcards/letters</span>
+    <span>Not writing-only</span>
+  </div>
+</section>
+
+<div class="seatbar-wrap">
+  <div class="seatbar-label">
+    <span>U.S. Senate — current split</span>
+    <span class="maj">51 needed for majority</span>
+  </div>
+  <div class="seatbar" aria-label="Senate seat composition, 53 Republican, 47 Democratic, with Georgia, Ohio, and Maine highlighted as this cycle's targets">
+    <div class="seg r" style="width:53%"></div>
+    <div class="seg target" style="width:3%" title="Georgia — Ossoff, defend"></div>
+    <div class="seg target" style="width:3%" title="Ohio — Brown, toss-up"></div>
+    <div class="seg target" style="width:3%" title="Maine — Jackson vs. Collins"></div>
+    <div class="seg d" style="width:38%"></div>
+  </div>
+  <div class="seatbar-flags">
+    <span class="flag" style="left:53%">GA · defend</span>
+    <span class="flag" style="left:56%">OH · flip</span>
+    <span class="flag" style="left:59%">ME · flip</span>
+  </div>
+  <p class="seatbar-note">Three gold seats, roughly, decide control. Democrats also have to hold open seats in Michigan and Minnesota, and are watching North Carolina and Alaska — but Georgia, Ohio, and Maine are the ones you asked about.</p>
+</div>
+
+<section class="section paper" id="races">
+  <div class="section-head">
+    <h2>The Races</h2>
+    <span class="eyebrow">One primary at home, three general elections that matter</span>
+  </div>
+  <div class="races">
+
+    <div class="card">
+      <span class="tag primary">Primary · Sept 1</span>
+      <h3>Massachusetts, U.S. Senate</h3>
+      <div class="who">Ed Markey (inc.) vs. Seth Moulton</div>
+      <p>A genuinely close primary — recent polling has Markey up by low single digits to high single digits, depending on the poll. Your own backyard, your own primary vote.</p>
+      <div class="fit"><b>Your take:</b> you're open to Moulton, skeptical Markey's best days are ahead of him.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag defend">Defend · General</span>
+      <h3>Georgia, U.S. Senate</h3>
+      <div class="who">Jon Ossoff (inc.)</div>
+      <p>The only Democratic senator up for re-election in a state Trump carried — widely considered the most competitive, most expensive Senate race in the country this cycle.</p>
+      <div class="fit"><b>Your ask:</b> keep Ossoff's seat. Campaign already runs remote phone/text banks on Mobilize.</div>
+      <a class="cta" href="https://electjon.com" target="_blank" rel="noopener">electjon.com →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag tossup">Toss-up · General</span>
+      <h3>Ohio, U.S. Senate</h3>
+      <div class="who">Sherrod Brown vs. Jon Husted (inc.)</div>
+      <p>Brown, a former three-term senator, is trying to reclaim the seat he lost narrowly in 2024. Cook Political Report rates it a toss-up.</p>
+      <div class="fit"><b>Your ask:</b> Brown regains his seat. Active volunteer sign-ups underway.</div>
+      <a class="cta" href="https://www.sherrodbrown.com" target="_blank" rel="noopener">sherrodbrown.com →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag fresh">New nominee · Jul 25</span>
+      <h3>Maine, U.S. Senate</h3>
+      <div class="who">Troy Jackson vs. Susan Collins (inc.)</div>
+      <p>Jackson was just chosen by state delegates two days ago, replacing a nominee who withdrew after an assault allegation. Volunteer infrastructure is standing up right now — 101 days to Election Day.</p>
+      <div class="fit"><b>Your ask:</b> oust Collins. Early-entry advantage if you sign up now.</div>
+    </div>
+
+    <div class="card aside-card">
+      <h3>Also on the map</h3>
+      <p>North Carolina and Alaska are the other two Senate pickup opportunities. Michigan and Minnesota are open Democratic-held seats that need defending. Less crowded with out-of-state volunteers than Georgia, if you want more direct leverage.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="activities">
+  <div class="section-head">
+    <h2>How To Help</h2>
+    <span class="eyebrow">Filtered against what you've tried, liked, and want to avoid</span>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="try">Try this</button>
+    <button class="filter-btn" data-filter="consider">Consider</button>
+    <button class="filter-btn" data-filter="skip">Lower fit</button>
+  </div>
+
+  <div class="activities">
+
+    <div class="act-card" data-fit="try">
+      <span class="fit-label">Try this</span>
+      <h3>Relational / text-relay organizing</h3>
+      <p>Send your own words to your own contacts through a campaign's peer-to-peer texting tool, rather than reading a script live to strangers.</p>
+      <div class="why"><b>Why it fits:</b> asynchronous, remote, and avoids the live-call friction you've run into before.</div>
+    </div>
+
+    <div class="act-card" data-fit="try">
+      <span class="fit-label">Try this</span>
+      <h3>Digital &amp; list / data work</h3>
+      <p>Cleaning voter files, flagging duplicates, tracking local coverage for opposition research. Always needed, entirely remote.</p>
+      <div class="why"><b>Why it fits:</b> no phone skills required, done on your own schedule.</div>
+    </div>
+
+    <div class="act-card" data-fit="try">
+      <span class="fit-label">Try this</span>
+      <h3>Local chapter support</h3>
+      <p>Indivisible or Swing Left chapters "sistered" with a swing-state candidate often need help with admin, comms, or event coordination — remote and low-pressure.</p>
+      <div class="why"><b>Why it fits:</b> a steady, ongoing role rather than one-off shifts.</div>
+    </div>
+
+    <div class="act-card" data-fit="consider">
+      <span class="fit-label">Consider</span>
+      <h3>Virtual GOTV phone banks</h3>
+      <p>Remains the highest-impact tactic in the final days before an election, when turnout — not persuasion — is the goal.</p>
+      <div class="why"><b>Why it's a maybe:</b> you've found calls frustrating before, but GOTV calls are shorter and more transactional than persuasion calls.</div>
+    </div>
+
+    <div class="act-card" data-fit="consider">
+      <span class="fit-label">Consider</span>
+      <h3>Letters to the editor</h3>
+      <p>Short, local op-eds in Maine, Ohio, or Georgia papers — self-directed, not assigned by a campaign, and read closely by local voters.</p>
+      <div class="why"><b>Why it's a maybe:</b> plays to a real skill, but shouldn't be your whole plan — one tool among several, not the job.</div>
+    </div>
+
+    <div class="act-card" data-fit="consider">
+      <span class="fit-label">Consider</span>
+      <h3>Virtual fundraising house parties</h3>
+      <p>Hosting or co-hosting a small-dollar virtual fundraiser for one of these campaigns, using your own network.</p>
+      <div class="why"><b>Why it's a maybe:</b> different skill set — organizing people, not persuading strangers.</div>
+    </div>
+
+    <div class="act-card" data-fit="skip">
+      <span class="fit-label">Lower fit</span>
+      <h3>Postcards &amp; letters to voters</h3>
+      <p>Modestly effective — studies show a small turnout bump — but you've done this before and said you're not keen.</p>
+      <div class="why"><b>Why it's lower fit:</b> effective for others, but you already know it's not for you.</div>
+    </div>
+
+    <div class="act-card" data-fit="skip">
+      <span class="fit-label">Lower fit</span>
+      <h3>Persuasion phone banking</h3>
+      <p>Cold outreach to undecided voters, working from a script, mid-cycle.</p>
+      <div class="why"><b>Why it's lower fit:</b> the version of calling you've found most frustrating in the past.</div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <span class="eyebrow">Next step</span>
+  <p>Sign up for Maine's Troy Jackson campaign early — infrastructure is brand new as of this week, so early volunteers tend to get better-defined roles. For Georgia and Ohio, Mobilize listings under each campaign already run text and data-entry shifts you can filter for remote-only work.</p>
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.act-card');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        if(filter === 'all' || card.dataset.fit === filter){
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
