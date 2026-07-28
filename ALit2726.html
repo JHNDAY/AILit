@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AILit Session Visualization - Learning & Engagement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #e8f0f7;
+            color: #1a1a1a;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f8fafb;
+            box-shadow: 0 0 30px rgba(0,0,0,0.08);
+            padding: 60px 50px;
+        }
+
+        /* MASTHEAD */
+        header {
+            border-top: 3px solid #1a1a1a;
+            border-bottom: 2px solid #1a1a1a;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        header::before {
+            content: '✦ BRANDEIS OSHER LIFELONG LEARNING INSTITUTE ✦';
+            display: block;
+            font-size: 0.8em;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        h1 {
+            font-size: 3em;
+            font-weight: bold;
+            line-height: 1.1;
+            margin: 15px 0;
+            font-family: 'Georgia', serif;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ARTICLE GRID - BROADSHEET COLUMNS */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .grid > :nth-child(3) {
+            grid-column: 1;
+        }
+
+        .grid > :nth-child(4) {
+            grid-column: 2;
+        }
+
+        .card {
+            background: #d4e8f7;
+            border: 1px solid #c5ddf5;
+            padding: 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: #1a1a1a;
+        }
+
+        .card-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            padding: 20px 20px 10px 20px;
+            border-bottom: 1px solid #eee;
+            color: #1a1a1a;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-family: 'Georgia', serif;
+        }
+
+        .card-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        .card-list {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .card-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .card-list li:last-child {
+            border-bottom: none;
+        }
+
+        .learning-card::before {
+            background: #d32f2f;
+        }
+
+        .challenges-card::before {
+            background: #f57c00;
+        }
+
+        .interests-card::before {
+            background: #0097a7;
+        }
+
+        .motivation-card::before {
+            background: #0288d1;
+        }
+
+        /* SECTION HEADERS */
+        .participants-section {
+            background: #d4e8f7;
+            border: 1px solid #c5ddf5;
+            border-top: 4px solid #1a1a1a;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .participants-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1a1a1a;
+            font-family: 'Georgia', serif;
+        }
+
+        /* ARTICLE TEXT */
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .participant {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .participant:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .participant-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            font-family: 'Georgia', serif;
+        }
+
+        .participant-role {
+            font-size: 0.95em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 12px;
+            small-caps: all;
+        }
+
+        .participant-focus {
+            background: #d4e8f7;
+            padding: 15px;
+            border-left: 4px solid #1a1a1a;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .theme-block {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 12px 0;
+        }
+
+        .theme-bullet {
+            min-width: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0;
+            background: #1a1a1a;
+        }
+
+        /* PULL QUOTE STYLE */
+        .pullquote {
+            font-size: 1.2em;
+            font-style: italic;
+            padding: 20px 0;
+            margin: 25px 0;
+            border-left: 4px solid #d32f2f;
+            padding-left: 20px;
+            color: #333;
+        }
+
+        .footer {
+            text-align: center;
+            color: #666;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ddd;
+            font-size: 0.85em;
+            font-style: italic;
+        }
+
+        /* DECORATIVE ELEMENTS */
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.2em;
+            color: #999;
+            letter-spacing: 5px;
+        }
+
+        /* TWO COLUMN LAYOUT */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .column-box {
+            border: 1px solid #c5ddf5;
+            padding: 20px;
+            background: #d4e8f7;
+        }
+
+        .column-box strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            color: #1a1a1a;
+        }
+
+        ul {
+            margin-left: 20px;
+            list-style: disc;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+
+        ol {
+            margin-left: 20px;
+            list-style: decimal;
+        }
+
+        ol li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        /* BYLINE STYLE */
+        .byline {
+            font-style: normal;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            margin-top: 15px;
+            font-size: 1.05em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 15px 0;
+            border-top: 2px solid #1a1a1a;
+            border-bottom: 2px solid #1a1a1a;
+        }
+
+        /* PROMPTS SECTION */
+        .prompts-section {
+            background: #d4e8f7;
+            border: 1px solid #c5ddf5;
+            padding: 25px;
+            margin-bottom: 40px;
+            border-radius: 4px;
+        }
+
+        .prompts-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 10px;
+        }
+
+        .prompt-item {
+            margin-bottom: 20px;
+        }
+
+        .prompt-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .prompt-title {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #c5ddf5;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #0288d1;
+            margin-bottom: 12px;
+        }
+
+        details {
+            cursor: pointer;
+        }
+
+        summary {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #c5ddf5;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #0288d1;
+            transition: all 0.3s ease;
+            user-select: none;
+            list-style: none;
+        }
+
+        summary:hover {
+            background: #f0f8ff;
+            border-color: #0288d1;
+        }
+
+        summary::marker {
+            content: '';
+        }
+
+        summary::before {
+            content: '▶';
+            display: inline-block;
+            margin-right: 12px;
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        details[open] summary {
+            background: #e8f4ff;
+            border-color: #0288d1;
+        }
+
+        .prompt-content {
+            padding: 15px 16px;
+            margin-top: 10px;
+            background: white;
+            border: 1px solid #c5ddf5;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            color: #333;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .prompts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #0288d1;
+            border-radius: 16px;
+            color: #0288d1;
+            font-weight: 600;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: #0288d1;
+            color: white;
+        }
+
+        .toggle-btn.active {
+            background: #0288d1;
+            color: white;
+        }
+
+        /* PARTICIPANT SECTION-LEVEL DRILLDOWN */
+        .participant-drilldown {
+            margin-bottom: 20px;
+            border: 1px solid #c5ddf5;
+            border-left: 4px solid #0288d1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .participant-drilldown > summary {
+            padding: 16px 20px;
+            background: white;
+            color: #0288d1;
+            font-weight: 700;
+            font-size: 1.15em;
+            cursor: pointer;
+            user-select: none;
+            list-style: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .participant-drilldown > summary:hover {
+            background: #f0f8ff;
+        }
+
+        .participant-drilldown > summary::marker {
+            content: '';
+        }
+
+        .participant-drilldown > summary::before {
+            content: '▶';
+            display: inline-block;
+            font-size: 0.9em;
+            transition: transform 0.3s ease;
+            min-width: 16px;
+        }
+
+        .participant-drilldown[open] > summary::before {
+            transform: rotate(90deg);
+        }
+
+        .participant-drilldown[open] > summary {
+            background: #e8f4ff;
+            border-bottom: 1px solid #c5ddf5;
+        }
+
+        .participant-content {
+            padding: 20px;
+        }
+
+        .participant-role {
+            font-size: 0.95em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .participant-focus {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .focus-item {
+            background: #f9fafb;
+            padding: 15px;
+            border-left: 3px solid #0288d1;
+            border-radius: 3px;
+        }
+
+        .focus-item-title {
+            font-weight: 600;
+            color: #0288d1;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .focus-item-text {
+            color: #333;
+            line-height: 1.6;
+            font-size: 0.9em;
+        }
+
+        /* THEME SECTION-LEVEL DRILLDOWN */
+        .theme-drilldown {
+            margin-bottom: 15px;
+            border: 1px solid #c5ddf5;
+            border-left: 4px solid #0288d1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .theme-drilldown > summary {
+            padding: 14px 18px;
+            background: white;
+            color: #0288d1;
+            font-weight: 700;
+            font-size: 1em;
+            cursor: pointer;
+            user-select: none;
+            list-style: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-drilldown > summary:hover {
+            background: #f0f8ff;
+        }
+
+        .theme-drilldown > summary::marker {
+            content: '';
+        }
+
+        .theme-drilldown > summary::before {
+            content: '▶';
+            display: inline-block;
+            font-size: 0.85em;
+            transition: transform 0.3s ease;
+            min-width: 16px;
+        }
+
+        .theme-drilldown[open] > summary::before {
+            transform: rotate(90deg);
+        }
+
+        .theme-drilldown[open] > summary {
+            background: #e8f4ff;
+            border-bottom: 1px solid #c5ddf5;
+        }
+
+        .theme-content {
+            padding: 14px 18px;
+            color: #333;
+            line-height: 1.7;
+            font-size: 0.9em;
+        }
+
+        /* STATIC THEME ITEMS */
+        .theme-item {
+            margin-bottom: 18px;
+            padding: 18px;
+            background: white;
+            border: 1px solid #c5ddf5;
+            border-left: 4px solid #0288d1;
+            border-radius: 4px;
+        }
+
+        .theme-item-title {
+            font-weight: 700;
+            font-size: 1.05em;
+            color: #0288d1;
+            margin-bottom: 10px;
+        }
+
+        .theme-item-content {
+            color: #333;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+
+        /* STATIC PARTICIPANT CARDS */
+        .participant-card {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border: 1px solid #c5ddf5;
+            border-left: 4px solid #0288d1;
+            border-radius: 4px;
+        }
+
+        .participant-card-name {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #0288d1;
+            margin-bottom: 8px;
+        }
+
+        /* SECTION-LEVEL DRILLDOWNS */
+        .section-drilldown {
+            margin: 40px 0;
+        }
+
+        .section-drilldown > summary {
+            cursor: pointer;
+            user-select: none;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1a1a1a;
+            padding: 15px;
+            background: #f0f4f8;
+            border: 2px solid #1a1a1a;
+            border-radius: 4px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-drilldown > summary::before {
+            content: '▼';
+            display: inline-block;
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+            min-width: 16px;
+        }
+
+        .section-drilldown[open] > summary::before {
+            transform: rotate(-180deg);
+        }
+
+        .section-drilldown > summary:hover {
+            background: #e8eff7;
+        }
+
+        .section-content {
+            padding: 20px 0;
+            border-bottom: 2px solid #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        /* PARTICIPANT DETAIL DRILLDOWN */
+            margin-bottom: 15px;
+            border-left: 3px solid #0288d1;
+        }
+
+        .participant-detail summary {
+            padding: 12px 15px;
+            background: #f0f8ff;
+            color: #0288d1;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            list-style: none;
+            transition: all 0.3s ease;
+        }
+
+        .participant-detail summary:hover {
+            background: #e0f4ff;
+        }
+
+        .participant-detail summary::marker {
+            content: '';
+        }
+
+        .participant-detail summary::before {
+            content: '▶';
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .participant-detail[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        .participant-detail[open] summary {
+            background: #d4e8f7;
+            border-left-color: #0288d1;
+        }
+
+        .participant-detail-content {
+            padding: 12px 15px;
+            color: #333;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grid > :nth-child(3),
+            .grid > :nth-child(4) {
+                grid-column: auto;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            .participants-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AILit Session Visualization</h1>
+            <p class="subtitle">An examination of Learning Points, Challenges, Interests & Motivations</p>
+            <div class="byline">Brandeis Osher Lifelong Learning Institute | July 27, 2026</div>
+        </header>
+
+        <div class="section-toggle-buttons" style="text-align: center; margin: 25px 0; padding: 15px; background: #f0f4f8; border: 1px solid #d4e8f7; border-radius: 4px;">
+            <button class="toggle-btn" onclick="expandAllSections()" style="margin-right: 10px;">Expand All Sections</button>
+            <button class="toggle-btn" onclick="collapseAllSections()">Collapse All Sections</button>
+        </div>
+
+        <details class="section-drilldown">
+            <summary>📋 Prompts in This Visualization</summary>
+            <div class="section-content">
+                <div class="prompts-section">
+                    <div class="prompt-item">
+                        <div class="prompt-title">Prompt 1: Create Transcript Visualization</div>
+                        <div class="prompt-content">
+                            Create visualization of this transcript that shows points of learning, the challenges, what the attendees where most interested in and motivated by, render the output in an html file artifact (not an inline widget)
+                        </div>
+                    </div>
+
+                    <div class="prompt-item">
+                        <div class="prompt-title">Prompt 2: Add Digital vs Organic Intelligence Section</div>
+                        <div class="prompt-content">
+                            Include a description about the Class Exercise on the difference between digital and organic intlleligence
+                        </div>
+                    </div>
+
+                    <div class="prompt-item">
+                        <div class="prompt-title">Prompt 3: Apply Broadsheet Aesthetic Styling</div>
+                        <div class="prompt-content">
+                            Style this visualization as a broadsheet aestethic
+                        </div>
+                    </div>
+
+                    <div class="prompt-item">
+                        <div class="prompt-title">Prompt 4: Adjust Background Color Palette</div>
+                        <div class="prompt-content">
+                            For the background use something like light grey or pale blue
+                        </div>
+                    </div>
+
+                    <div class="prompt-item">
+                        <div class="prompt-title">Prompt 5: Update Interior Box Colors</div>
+                        <div class="prompt-content">
+                            Make the interior boxes like pale blue background
+                        </div>
+                    </div>
+
+                    <div class="prompt-item">
+                        <div class="prompt-title">Prompt 6: Add Collapsible Prompts Section</div>
+                        <div class="prompt-content">
+                            Just under the masthead insert pill labledprompt which drills down the a lister of the contents of each prompt in this conversation - each prompt separated by at least a line of space - default shoule be the prompt is collapsed
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <details class="section-drilldown">
+            <summary>💡 Points of Learning</summary>
+            <div class="section-content">
+                <ul class="card-list">
+                    <li>Claude has access to secondary sources (reviews, publisher notes) rather than primary texts</li>
+                    <li>OCR technology can convert e-books to text for detailed analysis with AI</li>
+                    <li>Claude functions as a "reading companion" for complex texts like stream-of-consciousness novels</li>
+                    <li>Web crawlers index and collect vast amounts of web content automatically</li>
+                    <li>Data center infrastructure is critical to AI operations</li>
+                    <li>Anthropic's ethical stance on data privacy and government requests</li>
+                    <li>China's surveillance state as a cautionary example of AI misuse</li>
+                    <li>Economic models behind major AI infrastructure investments</li>
+                </ul>
+            </div>
+        </details>
+        <details class="section-drilldown">
+            <summary>⚠️ Challenges Discussed</summary>
+            <div class="section-content">
+                <ul class="card-list">
+                    <li>Difficulty accessing primary source texts (library e-book returns)</li>
+                    <li>Complex texts require significant effort to understand without assistance</li>
+                    <li>Historical data collection (1970s local data) is mysterious in origin</li>
+                    <li>Privacy concerns with global surveillance capabilities</li>
+                    <li>Data center placement disrupting communities and residences</li>
+                    <li>Uncertainty about economic viability of massive AI infrastructure spending</li>
+                    <li>Understanding technical mechanisms behind AI data collection</li>
+                    <li>Digital divide for older learners entering the AI space</li>
+                </ul>
+            </div>
+        </details>
+        <details class="section-drilldown">
+            <summary>⭐ Primary Interests</summary>
+            <div class="section-content">
+                <ul class="card-list">
+                    <li>Literary analysis using AI (analyzing book "Flesh" with Claude)</li>
+                    <li>How AI systems technically work and process information</li>
+                    <li>Data collection mechanisms and source identification</li>
+                    <li>Ethics and privacy implications of AI technology</li>
+                    <li>Practical AI applications for personal hobbies and interests</li>
+                    <li>Information retrieval and historical research</li>
+                    <li>Understanding infrastructure and business models</li>
+                    <li>Technical problem-solving with AI tools</li>
+                </ul>
+            </div>
+        </details>
+        <details class="section-drilldown">
+            <summary>🚀 Motivation Drivers</summary>
+            <div class="section-content">
+                <ul class="card-list">
+                    <li>Curiosity about how AI can enhance existing interests</li>
+                    <li>Desire to master new technology and stay current</li>
+                    <li>Intellectual engagement with complex systems</li>
+                    <li>Community learning and peer discussion</li>
+                    <li>Ethical concern for responsible AI development</li>
+                    <li>Practical application for research and analysis projects</li>
+                    <li>Understanding societal implications of technology</li>
+                    <li>Personal empowerment through technical knowledge</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="section-drilldown">
+            <summary>Class Exercise: Digital vs Organic Intelligence</summary>
+            <div class="section-content">
+                <p>
+                    John Day led a foundational exercise comparing digital (AI) intelligence with organic (human) intelligence. This exercise became the centerpiece of the session's pedagogical approach, establishing the conceptual foundation for all subsequent work with Claude and other AI tools.
+                </p>
+                
+                <div class="two-column" style="margin: 30px 0;">
+                    <div class="column-box" style="border-left: 4px solid #d32f2f;">
+                        <strong style="color: #d32f2f;">🤖 Digital Intelligence (AI)</strong>
+                        <ul style="color: #333;">
+                            <li>Token-based processing: ~100,000 tokens represent English language</li>
+                            <li>Statistical prediction: identifies frequency of token patterns</li>
+                            <li>Probabilistic selection: randomly picks from top 10 likely tokens</li>
+                            <li>Computational intensity: ~100 trillion operations per prompt</li>
+                            <li>Pattern-matching: simultaneous access to entire language corpus</li>
+                            <li>Deterministic: follows mathematical/statistical rules</li>
+                        </ul>
+                    </div>
+                    <div class="column-box" style="border-left: 4px solid #0097a7;">
+                        <strong style="color: #0097a7;">🧠 Organic Intelligence (Human)</strong>
+                        <ul style="color: #333;">
+                            <li>Experience-based: draws from lived experiences and memories</li>
+                            <li>Contextual understanding: grasps nuance, metaphor, cultural meaning</li>
+                            <li>Intentional selection: conscious choice based on purpose</li>
+                            <li>Limited scope: shaped by personal experience and perspective</li>
+                            <li>Semantic depth: understands multiple meanings and implications</li>
+                            <li>Creative capacity: generates original ideas beyond pattern matching</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: #d4e8f7; padding: 20px; margin: 25px 0; border: 2px solid #0288d1; border-radius: 4px; text-align: center;">
+                    <p style="margin: 0 0 12px 0; font-weight: 600; color: #1a1a1a;">Explore the Interactive Framework</p>
+                    <a href="https://jhnday.github.io/AILit/intelligence_framework_interactive" target="_blank" style="display: inline-block; padding: 12px 24px; background: #0288d1; color: white; text-decoration: none; border-radius: 4px; font-weight: 600; transition: background 0.3s ease;">View Interactive Intelligence Framework →</a>
+                </div>
+
+                <div style="background: #fafafa; padding: 30px; margin-bottom: 30px; border: 1px solid #ddd;">
+                    <h3 style="font-size: 1.3em; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #1a1a1a; padding-bottom: 10px;">The Three Levels of Word Meaning: A Teaching Framework</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px;">
+                        <div style="border: 1px solid #ddd; padding: 15px; background: #d4e8f7;">
+                            <div style="font-weight: bold; color: #1a1a1a; margin-bottom: 10px; font-size: 0.95em;">LEVEL 1: DEFINITION</div>
+                            <p style="font-size: 0.9em; line-height: 1.6;">Dictionary definition and basic meaning. "Dog" = canine animal.</p>
+                        </div>
+                        <div style="border: 1px solid #ddd; padding: 15px; background: #d4e8f7;">
+                            <div style="font-weight: bold; color: #1a1a1a; margin-bottom: 10px; font-size: 0.95em;">LEVEL 2: CONTEXT</div>
+                            <p style="font-size: 0.9em; line-height: 1.6;">Contextual transformation and idiom. "Sly dog" = a clever person acting questionably.</p>
+                        </div>
+                        <div style="border: 1px solid #ddd; padding: 15px; background: #d4e8f7;">
+                            <div style="font-weight: bold; color: #1a1a1a; margin-bottom: 10px; font-size: 0.95em;">LEVEL 3: PATTERN</div>
+                            <p style="font-size: 0.9em; line-height: 1.6;">Vast corpus patterns: millions of sentences showing all usage contexts.</p>
+                        </div>
+                    </div>
+                    <div style="border-left: 4px solid #d32f2f; padding-left: 15px; font-style: italic; color: #333;">
+                        <strong>Key Insight:</strong> AI reads all three levels simultaneously, accessing pattern data no individual human could catalog. This simultaneous access is AI's core advantage.
+                    </div>
+                </div>
+
+                <div style="background: #d4e8f7; padding: 25px; margin-bottom: 30px; border: 2px solid #d32f2f;">
+                    <h3 style="font-weight: bold; color: #d32f2f; margin-bottom: 15px; font-size: 1.1em;">⚠️ KEY LIMITATION: HALLUCINATIONS</h3>
+                    <p style="margin-bottom: 12px;">
+                        Because AI generates tokens one at a time based on statistical likelihood—randomly selecting from the top ten most probable options—it can produce what are called "hallucinations." These are nonsensical or fabricated responses that arise from odd runs of the probabilistic selection process. This represents a fundamental limitation of token-based generation.
+                    </p>
+                    <p>
+                        <strong>The Solution:</strong> RAG (Retrieval Augmented Generation) employs word syntax and semantic relationships to reduce searchable data by over ten million times. This approach parallels how legal researchers use Boolean keywords to narrow search results to manageable subsets.
+                    </p>
+                </div>
+            </div>
+        </details>
+
+        <details class="section-drilldown">
+            <summary>🎯 Participant Profiles & Focus Areas</summary>
+            <div class="section-content">
+            <div class="participant-card">
+                <div class="participant-card-name">Abby Pinard</div>
+                <div class="participant-role">Facilitator | Literary Enthusiast | Book Club Leader</div>
+                <div class="participant-focus">
+                    <div class="focus-item">
+                        <div class="focus-item-title">Learning Journey</div>
+                        <div class="focus-item-text">Beginning her exploration of AI, specifically interested in using Claude for literary analysis. Wanted to understand how Claude could analyze "Flesh" compared to her own thorough book club analysis.</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Challenge</div>
+                        <div class="focus-item-text">Accessing primary text sources and understanding what Claude can and cannot do with literary works.</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Key Interest</div>
+                        <div class="focus-item-text">Leveraging AI as an analytical tool for literature and book discussions, learning about OCR and text extraction methods.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-card-name">Paula Corman</div>
+                <div class="participant-role">Information Retrieval Expert | Lifelong Learner | Technical Inquirer</div>
+                <div class="participant-focus">
+                    <div class="focus-item">
+                        <div class="focus-item-title">Learning Journey</div>
+                        <div class="focus-item-text">Deep dive into data infrastructure, web crawling, data center operations, and the technical mechanisms behind AI systems. Also experimenting with practical AI applications (training animals).</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Challenge</div>
+                        <div class="focus-item-text">Understanding how historical data (1970s) was collected and digitized; grasping technical infrastructure questions; skepticism about massive data center investments.</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Key Interest</div>
+                        <div class="focus-item-text">Technical infrastructure, data collection mechanisms, economics of AI, ethics/surveillance concerns, and how information systems work at scale.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-card-name">Jenny Fariborz</div>
+                <div class="participant-role">Technical Pragmatist | Quality Assurance Minded</div>
+                <div class="participant-focus">
+                    <div class="focus-item">
+                        <div class="focus-item-title">Learning Journey</div>
+                        <div class="focus-item-text">Exploring Claude's robustness to imperfect inputs. Tested whether typos and errors in prompts would derail the AI's performance, learning that Claude is remarkably forgiving of small mistakes and automatically corrects them.</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Challenge</div>
+                        <div class="focus-item-text">Understanding the tolerance levels of AI systems when given imperfect or ambiguous prompts.</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Key Interest</div>
+                        <div class="focus-item-text">Why John specifically recommends Claude over other AI tools (ChatGPT, Gemini). Sought to understand the comparative strengths of different AI agents and the reasoning behind tool selection.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-card-name">Beth Poleman (IPHONE 51)</div>
+                <div class="participant-role">Political Activist | Remote Volunteer Strategist | Technical Problem-Solver</div>
+                <div class="participant-focus">
+                    <div class="focus-item">
+                        <div class="focus-item-title">Learning Journey</div>
+                        <div class="focus-item-text">Successfully created her first AI visualization by working through technical troubleshooting. Learned that when Claude isn't loading as expected, the proper response is to stop and explicitly ask for correction rather than assume it's processing in the background.</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Challenge</div>
+                        <div class="focus-item-text">Encountered technical glitches with visualization loading and HTML rendering. Worked across multiple devices (phone for Zoom, iPad for prompts, laptop issues) in a remote environment.</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Key Interest</div>
+                        <div class="focus-item-text">Using AI for political organizing—specifically leveraging Claude to identify optimal volunteer opportunities aligned with personal skills and constraints. Created a nuanced prompt about election volunteering that incorporated geography (Massachusetts), political priorities (Senate vs House), past experience, and skill set (writing).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-card-name">Hal Shear</div>
+                <div class="participant-role">Process Tester | Systems Thinker | Technical Debugger</div>
+                <div class="participant-focus">
+                    <div class="focus-item">
+                        <div class="focus-item-title">Learning Journey</div>
+                        <div class="focus-item-text">Actively tested the visualization workflow and discovered the infinite word-generation feature in the demo. Through hands-on experimentation, learned about visualization capabilities and how to track iterative changes across multiple prompts. Understanding that visualizations can be edited within Claude rather than requiring repeated downloads.</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Challenge</div>
+                        <div class="focus-item-text">The visualization demo ran indefinitely. Grappling with questions about how the system decides when to create visualizations automatically and what determines visual presentation choices (graphics, formatting, layout).</div>
+                    </div>
+                    <div class="focus-item">
+                        <div class="focus-item-title">Key Interest</div>
+                        <div class="focus-item-text">Understanding the mechanics of how AI generates visual outputs—why certain prompts trigger automatic graphic generation, how the system decides on formatting, and the relationship between prompt structure and visual presentation. Also interested in practical workflow optimization and version tracking across iterative changes.</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </details>
+
+        <details class="section-drilldown">
+            <summary>Exercise Methodology: From Prompt to Visualization</summary>
+            <div class="section-content">
+                <p>
+                    The session's primary learning exercise involved a structured workflow using Claude to respond to complex prompts, then visualizing the results for enhanced comprehension. This methodology transforms dense text output into organized, accessible knowledge products.
+                </p>
+            
+            <div style="background: #d4e8f7; padding: 25px; margin-bottom: 30px; border: 1px solid #ddd; border-top: 4px solid #1a1a1a;">
+                <h3 style="font-weight: bold; margin-bottom: 20px; font-size: 1.2em;">The Four-Step Workflow</h3>
+                <ol style="color: #333; line-height: 1.9; margin-left: 30px;">
+                    <li><strong>Write the Prompt:</strong> Use external writing tool (Google Docs, Word) to craft coherent, multi-sentence prompt incorporating personal knowledge. This transcription step ensures clarity before sending to AI.</li>
+                    <li><strong>Paste into Claude:</strong> Copy prompt into Claude interface and execute. Receive comprehensive text response covering the topic.</li>
+                    <li><strong>Request Visualization:</strong> Use the command: "Create an HTML artifact, not an inline widget, that visualizes and organizes the last response in this conversation."</li>
+                    <li><strong>Review & Refine:</strong> Examine the resulting web page. Edit the visualization within Claude if needed. Download or share the resulting HTML file.</li>
+                </ol>
+            </div>
+
+            <div class="two-column" style="margin: 25px 0;">
+                <div class="column-box" style="border-left: 4px solid #0097a7;">
+                    <strong style="color: #0097a7;">✅ Why Visualization Matters</strong>
+                    <ul style="font-size: 0.9em;">
+                        <li>Reduces cognitive load of dense text</li>
+                        <li>Adds hierarchy and clear organization</li>
+                        <li>Uses color and position for emphasis</li>
+                        <li>Enables easier comparison of ideas</li>
+                        <li>Facilitates sharing and presentation</li>
+                        <li>Transforms raw output into knowledge product</li>
+                    </ul>
+                </div>
+                <div class="column-box" style="border-left: 4px solid #d32f2f;">
+                    <strong style="color: #d32f2f;">💡 Key Pedagogical Points</strong>
+                    <ul style="font-size: 0.9em;">
+                        <li>Write prompts outside AI tool (Google Docs)</li>
+                        <li>Include personal knowledge and context</li>
+                        <li>AI can correct typos and small errors</li>
+                        <li>Visualization is optional but powerful</li>
+                        <li>Technique works for ChatGPT, Gemini too</li>
+                        <li>Advanced: "Writing Coach" for iterations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background: #d4e8f7; padding: 25px; margin-bottom: 30px; border: 1px solid #ddd; border-left: 4px solid #0097a7;">
+                <h3 style="font-weight: bold; color: #0097a7; margin-bottom: 15px; font-size: 1.05em;">📌 Technical Details: Understanding "Visualization" in AI Context</h3>
+                <p style="margin-bottom: 12px;">
+                    <strong>HTML Artifact</strong> refers to a web page generated by Claude containing organized, styled information. This is distinct from:
+                </p>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Inline widgets (embedded directly within chat)</li>
+                    <li>Plain text responses (unstyled output)</li>
+                    <li>Downloaded versus viewed-only files</li>
+                </ul>
+                <p>
+                    The HTML artifact can be edited further within Claude, downloaded to local storage, hosted on GitHub Pages, or shared across platforms. This flexibility makes it ideal for creating reusable resources and documentation.
+                </p>
+            </div>
+
+                <div style="background: #d4e8f7; padding: 25px; margin-bottom: 30px; border: 1px solid #ddd; border-left: 4px solid #d32f2f;">
+                    <h3 style="font-weight: bold; color: #d32f2f; margin-bottom: 12px; font-size: 1.05em;">🎯 Session Exercise Topic: Digital vs Organic Intelligence</h3>
+                    <p>
+                        Participants were encouraged to work through this exact workflow using the "Digital vs Organic Intelligence" prompt as the demonstration exercise. This topic was deliberately selected to directly explore the conceptual distinction the class had just learned—helping participants understand AI not as black-box magic, but as a systematic statistical process fundamentally distinct from human cognition.
+                    </p>
+                </div>
+            </div>
+        </details>
+
+        <details class="section-drilldown">
+            <summary>🔄 Cross-Cutting Themes</summary>
+            <div class="section-content">
+            <div class="theme-item">
+                <div class="theme-item-title">Ethics & Responsibility</div>
+                <div class="theme-item-content">
+                    Both participants showed deep concern about ethical implications of AI, from surveillance states to responsible business practices. Anthropic's stance was highlighted as encouraging.
+                </div>
+            </div>
+
+            <div class="theme-item">
+                <div class="theme-item-title">Technical Access & Understanding</div>
+                <div class="theme-item-content">
+                    Gap between curiosity and the ability to fully understand technical mechanisms. Questions often went beyond readily available answers.
+                </div>
+            </div>
+
+            <div class="theme-item">
+                <div class="theme-item-title">Practical Application</div>
+                <div class="theme-item-content">
+                    Both sought concrete ways to use AI for their specific interests—literary analysis and technical investigation—rather than abstract learning.
+                </div>
+            </div>
+
+            <div class="theme-item">
+                <div class="theme-item-title">Intellectual Engagement</div>
+                <div class="theme-item-content">
+                    Motivated by the intellectual challenge of understanding complex systems and their implications for society, not just how to use AI tools.
+                </div>
+            </div>
+            </div>
+        </details>
+
+        <div class="footer">
+            <p style="margin-bottom: 10px;">✦</p>
+            <p>
+                This analysis examines the transcript of an AI Literacy Special Interest Group session,<br/>
+                documenting participant learning, challenges, and intellectual engagement with artificial intelligence.
+            </p>
+            <p style="margin-top: 15px; font-size: 0.8em; letter-spacing: 1px;">
+                BRANDEIS OSHER LIFELONG LEARNING INSTITUTE | AILit SIG
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function expandAllSections() {
+            const sectionElements = document.querySelectorAll('.section-drilldown');
+            sectionElements.forEach(section => {
+                section.open = true;
+            });
+        }
+
+        function collapseAllSections() {
+            const sectionElements = document.querySelectorAll('.section-drilldown');
+            sectionElements.forEach(section => {
+                section.open = false;
+            });
+        }
+    </script>
+</body>
+</html>
