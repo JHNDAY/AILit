@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic & Digital Intelligence - Interactive Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            background-color: #E8EEF5;
+            color: #2B3E50;
+            line-height: 1.8;
+            padding: 60px 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            border-bottom: 2px solid #2C5282;
+            padding-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            color: #2B3E50;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #5A9FD4;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        /* Main Topic Toggle */
+        .topic {
+            margin-bottom: 30px;
+            background-color: #FFFFFF;
+            border: 1px solid #2C5282;
+        }
+
+        .topic-header {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .topic-header:hover {
+            background-color: #F5F9FC;
+        }
+
+        .topic-number {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #2C5282;
+            min-width: 60px;
+            margin-right: 20px;
+        }
+
+        .topic-title {
+            flex: 1;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #2B3E50;
+            letter-spacing: -0.5px;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            color: #2C5282;
+            transition: transform 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .toggle-icon.closed {
+            transform: rotate(-90deg);
+        }
+
+        .topic-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 30px;
+            border-top: 1px solid rgba(201, 119, 87, 0.2);
+        }
+
+        .topic-content.closed {
+            max-height: 0;
+            padding: 0 30px;
+            overflow: hidden;
+        }
+
+        /* Subtopic styles removed - now using flat structure with h4 headers */
+
+        /* Two-column layout for comparison topics */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .column-box {
+            padding: 20px;
+            background-color: #F5F9FC;
+            border-left: 3px solid #5A9FD4;
+        }
+
+        .column-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2C5282;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        .column-box p {
+            margin-bottom: 10px;
+            color: #2B3E50;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .column-box ul {
+            list-style: none;
+        }
+
+        .column-box li {
+            margin-bottom: 8px;
+            padding-left: 0;
+            color: #2B3E50;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .column-box li:before {
+            content: "→ ";
+            color: #5A9FD4;
+            margin-right: 8px;
+            font-weight: 600;
+        }
+
+        /* Bias/Warning Sections */
+        .bias-warning {
+            padding: 30px;
+            background-color: #FFF5F0;
+            border-left: 4px solid #E8C4A0;
+            margin: 25px 0;
+        }
+
+        .bias-warning h4 {
+            color: #2C5282;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .bias-warning p {
+            color: #2B3E50;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .bias-warning p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bias-flow {
+            background-color: #F5F9FC;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid #2C5282;
+        }
+
+        .bias-flow-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #2B3E50;
+        }
+
+        .bias-flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .bias-step-number {
+            background-color: #E8C4A0;
+            color: #2B3E50;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .critical-questions {
+            padding: 25px;
+            background-color: #FFF5F0;
+            border-left: 4px solid #E8C4A0;
+            margin: 25px 0;
+        }
+
+        .critical-questions h5 {
+            color: #2C5282;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .critical-questions ul {
+            list-style: none;
+        }
+
+        .critical-questions li {
+            margin-bottom: 12px;
+            padding-left: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #2B3E50;
+        }
+
+        .critical-questions li:before {
+            content: "? ";
+            color: #E8C4A0;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+
+        .connector-text {
+            color: #2C5282;
+            font-weight: 600;
+        }
+
+        /* Controls */
+        .controls {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border: 1px solid #2C5282;
+        }
+
+        button {
+            background-color: #2C5282;
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            border-radius: 0;
+            font-family: 'Georgia', serif;
+        }
+
+        button:hover {
+            background-color: #3D7CA5;
+        }
+
+        /* Prompt Dropdown */
+        .prompt-section {
+            background-color: #FFFFFF;
+            border: 1px solid #2C5282;
+            margin-bottom: 40px;
+        }
+
+        .prompt-header {
+            display: flex;
+            align-items: center;
+            padding: 20px 25px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .prompt-header:hover {
+            background-color: #F5F9FC;
+        }
+
+        .prompt-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2C5282;
+            flex: 1;
+        }
+
+        .prompt-toggle {
+            color: #2C5282;
+            transition: transform 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .prompt-toggle.closed {
+            transform: rotate(-90deg);
+        }
+
+        .prompt-content {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 25px;
+            border-top: 1px solid rgba(212, 165, 116, 0.2);
+            white-space: pre-wrap;
+            color: #2B3E50;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            background-color: #FAFBFD;
+        }
+
+        .prompt-content.closed {
+            max-height: 0;
+            padding: 0 25px;
+            overflow: hidden;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            body {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .topic-title {
+                font-size: 1.3rem;
+            }
+
+            .topic-header {
+                padding: 20px;
+            }
+
+            .topic-content {
+                padding: 20px;
+            }
+
+            .bias-flow-step {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .bias-step-number {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Organic & Digital Intelligence</h1>
+            <p class="subtitle">An Interactive Framework for Understanding Two Forms of Mind</p>
+        </header>
+
+        <!-- Prompt Dropdown -->
+        <div class="prompt-section">
+            <div class="prompt-header" onclick="togglePrompt(this)">
+                <div class="prompt-title">Prompt</div>
+                <div class="prompt-toggle closed">▼</div>
+            </div>
+            <div class="prompt-content closed">From my use of AI I have come to believe that there is digital and organic and digital intelligence
+
+I want to understand 
+
+1. The difference between these types of intelligence
+2. How do each of these intelligences process information
+3. How have each have been created and developed
+
+I also want to know how human or organic intelligence can benefit from digital intelligence</div>
+        </div>
+
+        <div class="controls">
+            <button onclick="expandAll()">Expand All</button>
+            <button onclick="collapseAll()">Collapse All</button>
+        </div>
+
+        <!-- Topic 1: Core Differences -->
+        <section>
+            <div class="topic" data-topic="1">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <div class="topic-number">1</div>
+                    <div class="topic-title">Core Differences</div>
+                    <div class="toggle-icon closed">▼</div>
+                </div>
+                <div class="topic-content closed">
+                    <p style="margin-bottom: 30px; color: #5A9FD4;">How organic and digital intelligence fundamentally differ in their nature, origin, and operating principles.</p>
+
+                    <!-- Organic Intelligence -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 25px 0 15px 0; font-weight: 600;">Organic Intelligence</h4>
+                    <ul style="margin-left: 20px; list-style: none;">
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Embodied & experiential:</span> grounded in sensing and acting on the physical world</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Evolutionary origin:</span> refined through billions of years of natural selection</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Emotional integration:</span> intuition and implicit knowledge woven throughout</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Meaning-making:</span> creates understanding through narrative and lived experience</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Self-directed:</span> intrinsic motivation and autonomous goal-setting</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Embodied memory:</span> physical experiences anchor learning</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Contextual:</span> understanding shifts based on relationship, time, emotional state</li>
+                    </ul>
+
+                    <!-- Digital Intelligence -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 25px 0 15px 0; font-weight: 600;">Digital Intelligence</h4>
+                    <ul style="margin-left: 20px; list-style: none;">
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Abstract & symbolic:</span> operates on representations of information</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Designed origin:</span> created through data, algorithms, and human engineering</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Pattern-driven:</span> mathematical precision without experiential anchoring</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Statistical inference:</span> recognizes patterns in training data</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Task-directed:</span> goal-driven through explicit programming or training</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Consistent memory:</span> data storage unchanged across retrievals</li>
+                        <li style="margin-bottom: 10px;"><span class="connector-text">Deterministic:</span> identical inputs produce identical outputs</li>
+                    </ul>
+
+                    <p style="text-align: center; color: #5A9FD4; font-style: italic; margin-top: 30px;">
+                        The difference isn't whether one "thinks"—it's that they think through different substrates and constraints.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Topic 2: Information Processing -->
+        <section>
+            <div class="topic" data-topic="2">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <div class="topic-number">2</div>
+                    <div class="topic-title">How Each Processes Information</div>
+                    <div class="toggle-icon closed">▼</div>
+                </div>
+                <div class="topic-content closed">
+                    <p style="margin-bottom: 30px; color: #5A9FD4;">Understanding the mechanisms each intelligence uses to receive, interpret, and act on information.</p>
+
+                    <!-- Organic Processing -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 25px 0 15px 0; font-weight: 600;">Organic Processing</h4>
+                    <p style="margin-bottom: 15px;"><strong style="color: #5A9FD4;">Core mechanism:</strong> Sequential and parallel neural firing patterns</p>
+                    <ul style="margin-left: 20px; list-style: none; margin-bottom: 20px;">
+                        <li style="margin-bottom: 10px;"><strong>Integration:</strong> Weaves together sensory, emotional, and conceptual information</li>
+                        <li style="margin-bottom: 10px;"><strong>Memory:</strong> Reconstructive—each recall reshapes memory through current context</li>
+                        <li style="margin-bottom: 10px;"><strong>Learning:</strong> Through action, failure, reflection, and embodied practice</li>
+                        <li style="margin-bottom: 10px;"><strong>Speed:</strong> Slower processing but creates genuinely novel ideas</li>
+                        <li style="margin-bottom: 10px;"><strong>Attention:</strong> Selective focus shaped by emotion, interest, and bodily state</li>
+                        <li style="margin-bottom: 10px;"><strong>Flexibility:</strong> Can rapidly pivot understanding based on new context</li>
+                    </ul>
+                    <p style="margin-bottom: 20px; color: #2C5282;"><strong>Core question:</strong> "What does this mean in my world?"</p>
+
+                    <!-- Digital Processing -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 25px 0 15px 0; font-weight: 600;">Digital Processing</h4>
+                    <p style="margin-bottom: 15px;"><strong style="color: #5A9FD4;">Core mechanism:</strong> Vectorized parallel computation across dimensions</p>
+                    <ul style="margin-left: 20px; list-style: none; margin-bottom: 20px;">
+                        <li style="margin-bottom: 10px;"><strong>Specialization:</strong> Optimized for specific data distributions in training</li>
+                        <li style="margin-bottom: 10px;"><strong>Memory:</strong> Consistent storage—data unchanged across retrievals</li>
+                        <li style="margin-bottom: 10px;"><strong>Learning:</strong> Parameter optimization through statistical adjustment</li>
+                        <li style="margin-bottom: 10px;"><strong>Speed:</strong> Fast pattern recognition on familiar territory</li>
+                        <li style="margin-bottom: 10px;"><strong>Consistency:</strong> No fatigue, emotional state, or attention fluctuation</li>
+                        <li style="margin-bottom: 10px;"><strong>Constraint:</strong> Limited to patterns similar to training data</li>
+                    </ul>
+                    <p style="margin-bottom: 20px; color: #2C5282;"><strong>Core question:</strong> "What patterns in my training data does this resemble?"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Topic 3: Creation & Development -->
+        <section>
+            <div class="topic" data-topic="3">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <div class="topic-number">3</div>
+                    <div class="topic-title">Creation and Development</div>
+                    <div class="toggle-icon closed">▼</div>
+                </div>
+                <div class="topic-content closed">
+                    <p style="margin-bottom: 30px; color: #5A9FD4;">How each form of intelligence came to be and how it develops over time.</p>
+
+                    <!-- Organic Intelligence Development -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 25px 0 15px 0; font-weight: 600;">Organic Intelligence Development</h4>
+                    <ul style="margin-left: 20px; list-style: none; margin-bottom: 20px;">
+                        <li style="margin-bottom: 10px;"><strong>Evolutionary timeline:</strong> 3.8 billion years of natural selection refining neural architecture</li>
+                        <li style="margin-bottom: 10px;"><strong>Individual development:</strong> Each person develops uniquely through childhood and lived experience</li>
+                        <li style="margin-bottom: 10px;"><strong>Variation:</strong> No two minds process identically—shaped by unique embodied history</li>
+                        <li style="margin-bottom: 10px;"><strong>Continuous learning:</strong> Develops and changes across entire lifespan</li>
+                        <li style="margin-bottom: 10px;"><strong>Wisdom accumulation:</strong> Deeper understanding emerges from repeated engagement with life</li>
+                        <li style="margin-bottom: 10px;"><strong>Social transmission:</strong> Culture, language, and knowledge passed between generations</li>
+                        <li style="margin-bottom: 10px;"><strong>Integration:</strong> Combines biological inheritance with environmental shaping</li>
+                    </ul>
+
+                    <!-- Digital Intelligence Development -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 25px 0 15px 0; font-weight: 600;">Digital Intelligence Development</h4>
+                    <ul style="margin-left: 20px; list-style: none; margin-bottom: 20px;">
+                        <li style="margin-bottom: 10px;"><strong>Timeline:</strong> ~70 years from early AI concepts to present systems</li>
+                        <li style="margin-bottom: 10px;"><strong>Training development:</strong> Reaches maturity through data training in weeks or months</li>
+                        <li style="margin-bottom: 10px;"><strong>Consistency:</strong> All instances of a model operate identically from the same weights</li>
+                        <li style="margin-bottom: 10px;"><strong>Progress drivers:</strong> Computational breakthroughs, larger datasets, better algorithms</li>
+                        <li style="margin-bottom: 10px;"><strong>Fixed learning:</strong> Learning stops at end of training; no further development without retraining</li>
+                        <li style="margin-bottom: 10px;"><strong>Planned architecture:</strong> Designed structure determined by engineers, not evolution</li>
+                        <li style="margin-bottom: 10px;"><strong>Replicability:</strong> Same model can be instantiated identically millions of times</li>
+                    </ul>
+
+                    <p style="text-align: center; color: #5A9FD4; font-style: italic; margin-top: 30px;">
+                        Striking asymmetry: organic intelligence took evolutionary time to create but only years to develop individually. Digital intelligence took decades to create but reaches maturity in weeks.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Topic 4: Augmentation with Bias -->
+        <section>
+            <div class="topic" data-topic="4">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <div class="topic-number">4</div>
+                    <div class="topic-title">How Organic Benefits from Digital (With Critical Caveats)</div>
+                    <div class="toggle-icon closed">▼</div>
+                </div>
+                <div class="topic-content closed">
+                    <p style="margin-bottom: 30px; color: #5A9FD4;">Potential benefits and serious risks when organic intelligence engages with digital systems.</p>
+
+                    <!-- Theoretical Benefits -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 25px 0 20px 0; font-weight: 600;">Theoretical Benefits</h4>
+                    <div class="two-column">
+                        <div class="column-box">
+                            <div class="column-label">Extending Reach</div>
+                            <p>Processing datasets too large for human review, performing calculations in milliseconds instead of hours, maintaining consistency across fatigue and attention fluctuation.</p>
+                        </div>
+                        <div class="column-box">
+                            <div class="column-label">Augmenting Capability</div>
+                            <p>Handling routine pattern-matching so human attention focuses on judgment, exploring possibility spaces too large for intuition, generating alternatives humans wouldn't consider.</p>
+                        </div>
+                    </div>
+                    <div class="two-column" style="margin-bottom: 20px;">
+                        <div class="column-box">
+                            <div class="column-label">Acceleration</div>
+                            <p>Compressing analysis that would take months into hours, enabling faster iteration and experimentation, creating time for humans to focus on what machines cannot do.</p>
+                        </div>
+                        <div class="column-box">
+                            <div class="column-label">Revealing Blindspots (Theoretical)</div>
+                            <p>Forcing explicit articulation of tacit knowledge, showing where assumptions fail at scale, generating perspectives outside our natural thinking patterns.</p>
+                        </div>
+                    </div>
+
+                    <!-- The Bias Problem -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 30px 0 20px 0; font-weight: 600;">⚠ The Bias Problem: When "Revealing" Becomes "Systematizing"</h4>
+                    <div class="bias-warning">
+                        <p>
+                            The last benefit assumes digital intelligence acts as a <strong>neutral mirror</strong>. But biased LLMs don't reveal blindspots—they can <span class="connector-text">systematize and amplify them</span>. This is more dangerous than human bias alone, because it comes with the false authority of computation and scale.
+                        </p>
+                    </div>
+
+                    <p style="margin: 20px 0 15px 0; font-weight: 600; color: #2C5282;">What We Assume vs. What's Actually Happening:</p>
+                    
+                    <div class="two-column" style="margin-bottom: 20px;">
+                        <div class="column-box">
+                            <div class="column-label">Our Assumption</div>
+                            <p>The LLM shows us patterns we couldn't see, revealing objective truths about how the world works. We're learning something real and unbiased.</p>
+                        </div>
+                        <div class="column-box">
+                            <div class="column-label">What's Actually Happening</div>
+                            <p>The LLM recognizes patterns from biased training data and amplifies them at scale, presenting systematic distortions as data-driven insights. We're learning someone else's preconceptions.</p>
+                        </div>
+                    </div>
+
+                    <!-- How Bias Enters -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 30px 0 20px 0; font-weight: 600;">How Bias Flows Through the System</h4>
+                    <div class="bias-flow">
+                        <div class="bias-flow-step">
+                            <div class="bias-step-number">1</div>
+                            <div><strong>Training data selection:</strong> Whose voices are included? Whose are underrepresented or missing?</div>
+                        </div>
+                        <div class="bias-flow-step">
+                            <div class="bias-step-number">2</div>
+                            <div><strong>Labeling decisions:</strong> How were examples classified? What judgments are embedded in the labels?</div>
+                        </div>
+                        <div class="bias-flow-step">
+                            <div class="bias-step-number">3</div>
+                            <div><strong>Architectural choices:</strong> Which patterns does the model learn to amplify? Which does it suppress?</div>
+                        </div>
+                        <div class="bias-flow-step">
+                            <div class="bias-step-number">4</div>
+                            <div><strong>Alignment training:</strong> Who decided what "good answers" look like? What values are baked in?</div>
+                        </div>
+                        <div class="bias-flow-step">
+                            <div class="bias-step-number">5</div>
+                            <div><strong>Your interpretation:</strong> You treat the output as "what the data shows" rather than "what this particular system was designed to learn."</div>
+                        </div>
+                    </div>
+
+                    <!-- The Deeper Risk -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 30px 0 20px 0; font-weight: 600;">The Deeper Risk: Colonization Disguised as Augmentation</h4>
+                    <div class="bias-warning">
+                        <p>
+                            When you articulate your tacit knowledge to a biased system, you don't get back objective insight—you get back your knowledge filtered through choices made by others: their data curation, their labeling, their alignment decisions.
+                        </p>
+                        <p>
+                            The system then presents these filtered results with <strong>computational authority</strong>, making you feel validated by "what the data shows." This isn't augmentation of thinking—it's <span class="connector-text">outsourcing judgment to machinery shaped by others' preconceptions</span>, then treating those preconceptions as objective truth because they came from a computer.
+                        </p>
+                    </div>
+
+                    <!-- Critical Questions -->
+                    <h4 style="color: #2C5282; font-size: 1.1rem; margin: 30px 0 20px 0; font-weight: 600;">Critical Questions for Your Learners</h4>
+                    <div class="critical-questions">
+                        <ul>
+                            <li><strong>Whose data trained this system?</strong> Whose voices are overrepresented? Underrepresented? Missing entirely?</li>
+                            <li><strong>When an LLM generates "novel perspectives," how do I know if they're genuine insights or amplified biases?</strong></li>
+                            <li><strong>Am I augmenting my thinking or replacing it with someone else's preconceptions dressed up as computation?</strong></li>
+                            <li><strong>What decisions did someone make that shaped this output?</strong> Data selection? Labeling? Alignment? What would it look like differently?</li>
+                            <li><strong>What would I need to know to use this output wisely?</strong> Transparency about training, documented limitations, alternative perspectives?</li>
+                            <li><strong>Who benefits from me trusting this system, and who might be harmed?</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function togglePrompt(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.prompt-toggle');
+            
+            content.classList.toggle('closed');
+            icon.classList.toggle('closed');
+        }
+
+        function toggleTopic(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            
+            content.classList.toggle('closed');
+            icon.classList.toggle('closed');
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.topic-content').forEach(content => {
+                content.classList.remove('closed');
+            });
+            document.querySelectorAll('.topic-header .toggle-icon').forEach(icon => {
+                icon.classList.remove('closed');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.topic-content').forEach(content => {
+                content.classList.add('closed');
+            });
+            document.querySelectorAll('.topic-header .toggle-icon').forEach(icon => {
+                icon.classList.add('closed');
+            });
+        }
+
+        // Initialize - collapse all topics on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            collapseAll();
+        });
+    </script>
+</body>
+</html>
