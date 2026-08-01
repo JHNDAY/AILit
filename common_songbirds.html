@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Songbirds of the United States</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background-color: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        th {
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.05em;
+        }
+        
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+        
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .bird-name {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        
+        .bird-image {
+            text-align: center;
+        }
+        
+        .bird-image img {
+            max-width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .bird-facts {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            th, td {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+            
+            .bird-image img {
+                max-width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐦 Common Songbirds of the United States</h1>
+            <p>A guide to 19 beautiful backyard birds you might encounter</p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Bird Species</th>
+                    <th>Image</th>
+                    <th>Key Facts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="bird-name">American Robin</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/American_Robin_2.jpg/320px-American_Robin_2.jpg" alt="American Robin"></td>
+                    <td class="bird-facts">Common garden bird with distinctive red-orange breast. Known for their cheerful warbling song. Often seen hopping on lawns searching for earthworms.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Northern Cardinal</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/02.28._(5894244009).jpg/320px-02.28._(5894244009).jpg" alt="Northern Cardinal"></td>
+                    <td class="bird-facts">Brilliant red plumage in males, tan in females. Iconic crested head. Year-round resident in most of eastern North America. Distinctive "cheer-cheer-cheer" call.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Blue Jay</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Blue_jay_posing.jpg/320px-Blue_jay_posing.jpg" alt="Blue Jay"></td>
+                    <td class="bird-facts">Bright blue and white with distinctive crest. Known for their loud, raucous calls and intelligence. Acorn hoarders that help plant oak trees.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">American Goldfinch</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/American_Goldfinch_-_male_%284997268141%29_%28cropped%29.jpg/320px-American_Goldfinch_-_male_%284997268141%29_%28cropped%29.jpg" alt="American Goldfinch"></td>
+                    <td class="bird-facts">Bright yellow and black males in breeding season. Active songbird attracted to nyjer seed feeders. Unique undulating flight pattern with "potato-chip" calls.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Carolina Chickadee</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Carolina_Chickadee_%28male%29.jpg/320px-Carolina_Chickadee_%28male%29.jpg" alt="Carolina Chickadee"></td>
+                    <td class="bird-facts">Small gray bird with black cap and bib. Easily identified by "chick-a-dee-dee-dee" call. Regular backyard feeder visitor. Quick and acrobatic.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Tufted Titmouse</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Tufted_Titmouse.jpg/320px-Tufted_Titmouse.jpg" alt="Tufted Titmouse"></td>
+                    <td class="bird-facts">Gray bird with peachy-rust flanks and distinctive crest. Loud "peter-peter-peter" song. Similar size and behavior to chickadees. Year-round resident.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">House Finch</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/House_finch_2.jpg/320px-House_finch_2.jpg" alt="House Finch"></td>
+                    <td class="bird-facts">Males have red plumage on head and breast. Energetic songbird with cheerful warbling. Native to western US, now common across North America.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Song Sparrow</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Song_sparrow_-_natures_pics.jpg/320px-Song_sparrow_-_natures_pics.jpg" alt="Song Sparrow"></td>
+                    <td class="bird-facts">Streaky brown sparrow with distinctive central breast spot. Loud, melodious song. Found in brushy areas and gardens throughout North America.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Eastern Bluebird</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Male_eastern_bluebird_-_christopher_martin.jpg/320px-Male_eastern_bluebird_-_christopher_martin.jpg" alt="Eastern Bluebird"></td>
+                    <td class="bird-facts">Brilliant blue and rusty-orange plumage. Medium-sized thrush with cheerful warbling. Uses nest boxes. Insectivore, benefits from open habitats.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Northern Mockingbird</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Mimus_polyglottos_-_Northern_Mockingbird_%28male%29.jpg/320px-Mimus_polyglottos_-_Northern_Mockingbird_%28male%29.jpg" alt="Northern Mockingbird"></td>
+                    <td class="bird-facts">Gray and white bird with white wing patches visible in flight. Extraordinary mimic of other bird songs. Often sings at night. Territorial and aggressive.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Wood Thrush</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Wood_Thrush_-_Natures_pics.jpg/320px-Wood_Thrush_-_Natures_pics.jpg" alt="Wood Thrush"></td>
+                    <td class="bird-facts">Russet-brown thrush with spotted breast. Beautiful flute-like song, one of the finest in North America. Forest and woodland dweller. Migratory.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Cedar Waxwing</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Bombycilla_cedrorum_2.jpg/320px-Bombycilla_cedrorum_2.jpg" alt="Cedar Waxwing"></td>
+                    <td class="bird-facts">Sleek gray and yellow bird with distinctive black mask and red waxy wing tips. Highly social, often seen in flocks. Feeds on berries.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Indigo Bunting</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Passerina_cyanea_-_male_%284002119899%29.jpg/320px-Passerina_cyanea_-_male_%284002119899%29.jpg" alt="Indigo Bunting"></td>
+                    <td class="bird-facts">Males are brilliant blue, females tan-brown. Sweet, rapid warbling song. Common summer breeder in brushy, open habitats. Migratory.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Common Yellowthroat</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Common_yellowthroat_male.jpg/320px-Common_yellowthroat_male.jpg" alt="Common Yellowthroat"></td>
+                    <td class="bird-facts">Small warbler with distinctive black mask on yellow face (males). Recognizable "witchity-witchity-witchity" song. Prefers wet, marshy habitats.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Yellow Warbler</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Dendroica_petechia_2.jpg/320px-Dendroica_petechia_2.jpg" alt="Yellow Warbler"></td>
+                    <td class="bird-facts">Bright yellow throughout, males have reddish streaks on breast. Sweet warbling song. Summer breeder in willows and shrubby areas near water.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Scarlet Tanager</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Piranga_olivacea2.jpg/320px-Piranga_olivacea2.jpg" alt="Scarlet Tanager"></td>
+                    <td class="bird-facts">Breeding males are brilliant scarlet with black wings. Females and fall birds are yellow-green. Migratory forest dweller with distinctive song.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Common Grackle</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Common_Grackle.jpg/320px-Common_Grackle.jpg" alt="Common Grackle"></td>
+                    <td class="bird-facts">Large blackbird with iridescent plumage and distinctive harsh calls. Highly adaptable omnivore. Often seen in flocks, sometimes in huge numbers.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">European Starling</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Sturnus_vulgaris_2.jpg/320px-Sturnus_vulgaris_2.jpg" alt="European Starling"></td>
+                    <td class="bird-facts">Dark iridescent bird with speckled plumage, yellow beak. Highly vocal and social, often in large flocks. Excellent mimics. Invasive species in North America.</td>
+                </tr>
+                
+                <tr>
+                    <td class="bird-name">Black-capped Chickadee</td>
+                    <td class="bird-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Poecile_atricapillus_2.jpg/320px-Poecile_atricapillus_2.jpg" alt="Black-capped Chickadee"></td>
+                    <td class="bird-facts">Gray bird with black cap and white cheeks. Distinctive "chick-a-dee-dee-dee" call. Year-round resident in northern US. Regular feeder visitor. Remarkably intelligent.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
