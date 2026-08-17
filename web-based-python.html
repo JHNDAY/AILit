@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-Based Python Execution Options</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Lora', serif;
+            color: #334155;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fffbf0;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            padding: 40px;
+            color: #fef3c7;
+            border-bottom: 4px solid #d4af37;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 0.95em;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: #1e3a8a;
+            margin: 35px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+            color: #1e3a8a;
+            margin: 20px 0 12px 0;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .option-card {
+            background: #f8f4ee;
+            border: 2px solid #e2e8f0;
+            border-left: 4px solid #d4af37;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .option-card:hover {
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+            border-color: #d4af37;
+        }
+
+        .option-card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-icon {
+            font-size: 1.5em;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 15px 0;
+        }
+
+        .pros, .cons {
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .pros {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+        }
+
+        .cons {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+        }
+
+        .pros h4, .cons h4 {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-family: 'Lora', serif;
+        }
+
+        .pros h4 {
+            color: #22c55e;
+        }
+
+        .cons h4 {
+            color: #ef4444;
+        }
+
+        ul {
+            margin-left: 20px;
+            line-height: 1.7;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+        }
+
+        .comparison-table th {
+            background: #1e3a8a;
+            color: #fef3c7;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f4ee;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f0f5fa;
+        }
+
+        .checkmark {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .crossmark {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .warning {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .success {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box {
+            background: #f8f4ee;
+            border-left: 4px solid #d4af37;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #0f172a;
+            color: #fef3c7;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #f0fdf4 0%, #f0f7ff 100%);
+            border: 2px solid #22c55e;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+
+        .recommendation h3 {
+            color: #22c55e;
+            margin-top: 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #f1f5f9;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: #e2e8f0;
+        }
+
+        footer {
+            background: #f8f4ee;
+            padding: 20px 40px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            font-size: 0.9em;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+            .pros-cons { grid-template-columns: 1fr; }
+            .comparison-table { font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 Web-Based Python Execution</h1>
+            <p class="subtitle">Run Python scripts directly in the browser—no installation needed</p>
+        </header>
+
+        <div class="content">
+            <a href="index.html" class="back-link">← Back to Home</a>
+
+            <div class="success">
+                <strong>✨ Game Changer for Non-Technical Users!</strong> Instead of requiring volunteers to install Python and use Terminal/Command Prompt, they can simply upload data, click a button, and get results. Completely browser-based.
+            </div>
+
+            <h2>Why Run Python in the Browser?</h2>
+            <p>This approach eliminates nearly all the complexity for non-technical users:</p>
+            <ul>
+                <li><strong>Zero Installation:</strong> No Python to install, no pip, no Terminal</li>
+                <li><strong>One Click Processing:</strong> Upload → Click Run → Download Results</li>
+                <li><strong>Cross-Platform:</strong> Works on Mac, Windows, Linux, iPad, even phones</li>
+                <li><strong>Data Privacy:</strong> Everything runs locally on the user's computer</li>
+                <li><strong>Instant Results:</strong> No setup delay, immediate feedback</li>
+                <li><strong>Beautiful Interface:</strong> Professional web interface instead of Terminal windows</li>
+            </ul>
+
+            <h2>Comparison: Different Approaches</h2>
+
+            <!-- PyScript Option -->
+            <div class="option-card">
+                <h3><span class="option-icon">🐍</span> PyScript (Recommended)</h3>
+                <p>Python runs directly in the browser using Pyodide (Python compiled to WebAssembly).</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✓ Advantages</h4>
+                        <ul>
+                            <li>Pure Python code—minimal changes needed</li>
+                            <li>Popular libraries work: pandas, numpy, matplotlib</li>
+                            <li>No server required</li>
+                            <li>Data stays on user's computer</li>
+                            <li>Simple integration into HTML</li>
+                            <li>Growing ecosystem</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>✗ Limitations</h4>
+                        <ul>
+                            <li>Some libraries not supported yet</li>
+                            <li>First load takes 10-15 seconds</li>
+                            <li>Performance slower than native Python</li>
+                            <li>Limited file system access</li>
+                            <li>Some packages require compilation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Use Case:</strong> Perfect for data processing scripts (pandas), calculations, data transformations. Great for your CSV processing use case!
+                </div>
+
+                <strong>Code to Add:</strong>
+                <div class="code-block">&lt;script defer src="https://pyscript.net/latest/pyscript.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /&gt;
+
+&lt;py-script&gt;
+import pandas as pd
+
+def process_data(csv_content):
+    df = pd.read_csv(csv_content)
+    # Your processing logic here
+    return df
+&lt;/py-script&gt;</div>
+            </div>
+
+            <!-- Server-Based Option -->
+            <div class="option-card">
+                <h3><span class="option-icon">☁️</span> Server-Based (Flask/FastAPI)</h3>
+                <p>Run Python on a backend server, with a web interface for upload/download.</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✓ Advantages</h4>
+                        <ul>
+                            <li>Full Python functionality</li>
+                            <li>All libraries supported</li>
+                            <li>Maximum performance</li>
+                            <li>Database storage possible</li>
+                            <li>User accounts & history</li>
+                            <li>Scheduled processing</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>✗ Limitations</h4>
+                        <ul>
+                            <li>Requires server hosting</li>
+                            <li>Monthly costs ($5-50+)</li>
+                            <li>More complex setup</li>
+                            <li>Data sent to server</li>
+                            <li>Server must stay running</li>
+                            <li>More maintenance required</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <strong>Privacy Note:</strong> User data is sent to your server and processed there. You need privacy policies and GDPR compliance.
+                </div>
+
+                <strong>Platforms to Use:</strong>
+                <ul>
+                    <li><a href="https://www.heroku.com" target="_blank">Heroku</a> — Easy deployment, free tier available</li>
+                    <li><a href="https://www.pythonanywhere.com" target="_blank">PythonAnywhere</a> — Made for Python, beginner-friendly</li>
+                    <li><a href="https://www.replit.com" target="_blank">Replit</a> — Quick prototyping, easy sharing</li>
+                    <li><a href="https://www.digitalocean.com" target="_blank">DigitalOcean</a> — Full control, professional</li>
+                </ul>
+            </div>
+
+            <!-- JupyterLite Option -->
+            <div class="option-card">
+                <h3><span class="option-icon">📓</span> JupyterLite (Advanced)</h3>
+                <p>Full Jupyter notebook environment running in the browser (Pyodide-based).</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✓ Advantages</h4>
+                        <ul>
+                            <li>Notebook interface (familiar)</li>
+                            <li>Step-by-step execution</li>
+                            <li>Educational value</li>
+                            <li>Output visualization</li>
+                            <li>No server needed</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>✗ Limitations</h4>
+                        <ul>
+                            <li>Learning curve for non-technical</li>
+                            <li>Same PyScript limitations</li>
+                            <li>More complex interface</li>
+                            <li>More setup required</li>
+                            <li>Overkill for simple tasks</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Use Case:</strong> Better for teaching/learning, showing step-by-step analysis. Less ideal for simple one-button "run script" tasks.
+                </div>
+            </div>
+
+            <!-- Streamlit Option -->
+            <div class="option-card">
+                <h3><span class="option-icon">⚡</span> Streamlit (Modern Alternative)</h3>
+                <p>Rapidly build data apps with minimal code. Runs on a server but much simpler than Flask.</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✓ Advantages</h4>
+                        <ul>
+                            <li>Minimal code needed</li>
+                            <li>Beautiful UI auto-generated</li>
+                            <li>Full Python support</li>
+                            <li>Easy to deploy</li>
+                            <li>Interactive widgets</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>✗ Limitations</h4>
+                        <ul>
+                            <li>Requires server hosting</li>
+                            <li>Data sent to server</li>
+                            <li>Costs money to host</li>
+                            <li>Slower cold starts</li>
+                            <li>Not as customizable</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <strong>Quick Example:</strong>
+                <div class="code-block">import streamlit as st
+import pandas as pd
+
+uploaded_file = st.file_uploader("Upload CSV")
+if uploaded_file:
+    df = pd.read_csv(uploaded_file)
+    st.dataframe(df)
+    # Your processing here</div>
+            </div>
+
+            <!-- Comparison Table -->
+            <h2>Quick Comparison Table</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Feature</th>
+                    <th>PyScript</th>
+                    <th>Server (Flask)</th>
+                    <th>Streamlit</th>
+                    <th>JupyterLite</th>
+                </tr>
+                <tr>
+                    <td><strong>No Server Needed</strong></td>
+                    <td class="checkmark">✓</td>
+                    <td class="crossmark">✗</td>
+                    <td class="crossmark">✗</td>
+                    <td class="checkmark">✓</td>
+                </tr>
+                <tr>
+                    <td><strong>Setup Time</strong></td>
+                    <td>Minutes</td>
+                    <td>Hours</td>
+                    <td>30 mins</td>
+                    <td>1 hour</td>
+                </tr>
+                <tr>
+                    <td><strong>All Python Libraries</strong></td>
+                    <td class="crossmark">✗</td>
+                    <td class="checkmark">✓</td>
+                    <td class="checkmark">✓</td>
+                    <td class="crossmark">✗</td>
+                </tr>
+                <tr>
+                    <td><strong>Best for CSV Processing</strong></td>
+                    <td class="checkmark">✓✓</td>
+                    <td class="checkmark">✓</td>
+                    <td class="checkmark">✓</td>
+                    <td class="checkmark">✓</td>
+                </tr>
+                <tr>
+                    <td><strong>Non-Technical Users</strong></td>
+                    <td class="checkmark">✓✓</td>
+                    <td class="checkmark">✓</td>
+                    <td class="checkmark">✓✓</td>
+                    <td>Moderate</td>
+                </tr>
+                <tr>
+                    <td><strong>Monthly Cost</strong></td>
+                    <td>$0</td>
+                    <td>$5-50</td>
+                    <td>$5-100</td>
+                    <td>$0</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Privacy</strong></td>
+                    <td class="checkmark">✓✓</td>
+                    <td>Server</td>
+                    <td>Server</td>
+                    <td class="checkmark">✓✓</td>
+                </tr>
+            </table>
+
+            <!-- Recommendation -->
+            <div class="recommendation">
+                <h3>🎯 Our Recommendation for BOLLI Volunteers</h3>
+                <p><strong>Use PyScript for most projects.</strong> Here's why:</p>
+                <ul>
+                    <li><strong>Zero cost:</strong> Free forever</li>
+                    <li><strong>No server maintenance:</strong> Host on GitHub Pages</li>
+                    <li><strong>Perfect for volunteers:</strong> No installation at all</li>
+                    <li><strong>Ideal for data processing:</strong> pandas and numpy work great</li>
+                    <li><strong>Excellent privacy:</strong> All processing stays on user's computer</li>
+                    <li><strong>Easy to customize:</strong> Just modify the Python code in the HTML</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>When to use alternatives:</strong></p>
+                <ul>
+                    <li><strong>Server-based:</strong> If you need advanced libraries (machine learning models) or want to store results</li>
+                    <li><strong>Streamlit:</strong> If you want the beautiful UI without coding HTML</li>
+                    <li><strong>JupyterLite:</strong> If you want to teach the process, not just show results</li>
+                </ul>
+            </div>
+
+            <h2>Implementation Guide: PyScript Example</h2>
+
+            <h3>1. Create an HTML Page</h3>
+            <p>Start with the example provided: <code>python-web-runner.html</code></p>
+
+            <h3>2. Customize the Python Code</h3>
+            <p>Inside the <code>&lt;py-script&gt;</code> section, replace the processing logic:</p>
+            <div class="code-block">def process_csv(csv_content):
+    import pandas as pd
+    df = pd.read_csv(io.StringIO(csv_content))
+    
+    # YOUR CUSTOM PROCESSING HERE
+    df['new_column'] = df['existing_column'] * 2
+    
+    return df.to_csv(index=False)</div>
+
+            <h3>3. Host on GitHub Pages</h3>
+            <ol>
+                <li>Upload the HTML file to your repository</li>
+                <li>Access it via: <code>https://yourgithub.com/filename.html</code></li>
+                <li>Share the link with volunteers</li>
+            </ol>
+
+            <h3>4. Test It</h3>
+            <ol>
+                <li>Create a sample CSV file with your expected data format</li>
+                <li>Upload it to your web interface</li>
+                <li>Click Run and check the results</li>
+                <li>Debug any Python errors (they'll show in the output log)</li>
+            </ol>
+
+            <h2>Example Use Cases</h2>
+
+            <h3>AI Literacy Course</h3>
+            <div class="info-box">
+                <strong>Scenario:</strong> Volunteers analyze AI conversation logs
+                <ul>
+                    <li>Upload CSV of chatbot conversations</li>
+                    <li>Calculate statistics (turn counts, response times)</li>
+                    <li>Identify patterns
+                    <li>Download analysis results</li>
+                </ul>
+            </div>
+
+            <h3>Current Events Discussion</h3>
+            <div class="info-box">
+                <strong>Scenario:</strong> Analyze news articles for sentiment/bias
+                <ul>
+                    <li>Upload CSV of article text</li>
+                    <li>Process with sentiment analysis</li>
+                    <li>Generate summary statistics</li>
+                    <li>Download sentiment scores</li>
+                </ul>
+            </div>
+
+            <h3>Database Processing</h3>
+            <div class="info-box">
+                <strong>Scenario:</strong> Clean and prepare data from databases
+                <ul>
+                    <li>Upload exported CSV</li>
+                    <li>Handle missing values, format dates, clean text</li>
+                    <li>Generate data quality reports</li>
+                    <li>Download cleaned data</li>
+                </ul>
+            </div>
+
+            <h2>Getting Started</h2>
+            <div class="success">
+                <strong>We've created the example for you!</strong> The file <code>python-web-runner.html</code> includes:
+                <ul>
+                    <li>File upload interface</li>
+                    <li>Data preview table</li>
+                    <li>Run button with processing status</li>
+                    <li>Output log showing what happened</li>
+                    <li>Download results button</li>
+                    <li>PyScript integration ready to customize</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 30px; text-align: center;">
+                <a href="index.html" class="back-link">← Back to Home</a>
+            </p>
+        </div>
+
+        <footer>
+            <p>Web-Based Python Execution • Choose Your Approach</p>
+        </footer>
+    </div>
+</body>
+</html>

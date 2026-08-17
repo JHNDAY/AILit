@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Resources for Volunteers - Complete Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Lora', serif;
+            color: #334155;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            padding: 50px 40px;
+            color: #fef3c7;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
+            border-bottom: 4px solid #d4af37;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-style: italic;
+            max-width: 600px;
+        }
+
+        .approach-section {
+            background: #fffbf0;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+            border-left: 4px solid #d4af37;
+        }
+
+        .approach-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1e3a8a;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .approach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .resource-card {
+            background: #fffbf0;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid #d4af37;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #f1f5f9;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.2);
+            border-color: #d4af37;
+        }
+
+        .resource-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .resource-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1e3a8a;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .resource-card p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .resource-card ul {
+            color: #64748b;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f0fdf4;
+            color: #22c55e;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            border: 1px solid #22c55e;
+        }
+
+        .badge.new {
+            background: #fef3c7;
+            color: #d4af37;
+            border-color: #d4af37;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #1e3a8a;
+            color: #fef3c7;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-family: 'Lora', serif;
+            transition: all 0.3s;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background: #0f172a;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        }
+
+        .btn-secondary {
+            background: #d4af37;
+            color: #1e3a8a;
+        }
+
+        .btn-secondary:hover {
+            background: #c4941f;
+        }
+
+        .comparison-section {
+            background: #f8f4ee;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+        }
+
+        .comparison-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1e3a8a;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .comparison-item {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .comparison-item strong {
+            color: #1e3a8a;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .comparison-item p {
+            font-size: 0.9em;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .decision-flowchart {
+            background: linear-gradient(135deg, #f0fdf4 0%, #f0f7ff 100%);
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #22c55e;
+        }
+
+        .decision-flowchart h3 {
+            font-family: 'Playfair Display', serif;
+            color: #22c55e;
+            margin-bottom: 20px;
+        }
+
+        .flowchart-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .flowchart-box {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid #22c55e;
+            font-size: 0.9em;
+        }
+
+        .intro-section {
+            background: #fffbf0;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+            border-left: 4px solid #d4af37;
+        }
+
+        .intro-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1e3a8a;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .intro-section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .faq-section {
+            background: #fffbf0;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+        }
+
+        .faq-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1e3a8a;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
+
+        .faq-item {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-family: 'Playfair Display', serif;
+            color: #1e3a8a;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            color: #64748b;
+            line-height: 1.7;
+            display: none;
+        }
+
+        .faq-answer.show {
+            display: block;
+        }
+
+        footer {
+            background: #0f172a;
+            padding: 30px;
+            text-align: center;
+            color: #94a3b8;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .approach-grid { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐍 Python Resources for Volunteers</h1>
+            <p class="tagline">Choose your path: Install Python locally OR run scripts in your browser. Complete guides for both approaches.</p>
+        </header>
+
+        <div class="intro-section">
+            <h2>Welcome!</h2>
+            <p>
+                We offer <strong>two completely different approaches</strong> to running Python scripts:
+            </p>
+            <p>
+                <strong>Option 1: Web-Based (Easiest):</strong> Upload your data to a website, click a button, download results. Perfect for non-technical volunteers who just want results without any setup.
+            </p>
+            <p>
+                <strong>Option 2: Local Installation (More Control):</strong> Install Python on your computer and run scripts using Terminal/Command Prompt. Better if you want to understand how Python works or need advanced features.
+            </p>
+            <p style="margin-top: 15px;">
+                We recommend <strong>starting with the web-based approach</strong> for most volunteers. Switch to local installation only if needed.
+            </p>
+        </div>
+
+        <!-- APPROACH 1: WEB-BASED -->
+        <div class="approach-section">
+            <h2>🌐 Approach 1: Web-Based (No Installation)</h2>
+            <p>
+                Run Python scripts directly in your browser. No installation, no Terminal, no configuration. Perfect for volunteers who just want to process data without complexity.
+            </p>
+
+            <div class="approach-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">🚀</div>
+                    <div class="badge new">RECOMMENDED</div>
+                    <h3>Python Web Runner</h3>
+                    <p>Upload CSV data, process it with Python, download results. Everything happens in the browser.</p>
+                    <ul>
+                        <li>Zero installation</li>
+                        <li>Upload CSV file</li>
+                        <li>Click "Run"</li>
+                        <li>Download results</li>
+                    </ul>
+                    <a href="python-web-runner.html" class="btn">Try It Now →</a>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">📋</div>
+                    <h3>Web Execution Options</h3>
+                    <p>Compare different ways to run Python in a browser. Learn about PyScript, Streamlit, and server-based approaches.</p>
+                    <ul>
+                        <li>PyScript (recommended)</li>
+                        <li>Server-based options</li>
+                        <li>Pros & cons</li>
+                        <li>Implementation guide</li>
+                    </ul>
+                    <a href="web-based-python.html" class="btn">Read Comparison →</a>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">👨‍💻</div>
+                    <h3>For Instructors</h3>
+                    <p>How to customize the web runner for your specific scripts. Adapt it to your needs.</p>
+                    <ul>
+                        <li>Modify Python code</li>
+                        <li>Add your script logic</li>
+                        <li>Deploy to GitHub Pages</li>
+                        <li>Share with volunteers</li>
+                    </ul>
+                    <a href="instructor-resources.html" class="btn">View Templates →</a>
+                </div>
+            </div>
+
+            <div class="comparison-section" style="background: #f0fdf4; border-left: 4px solid #22c55e;">
+                <strong>✓ Why Web-Based?</strong>
+                <ul style="margin: 15px 0 0 20px; line-height: 2;">
+                    <li><strong>Zero Setup:</strong> No Python installation required</li>
+                    <li><strong>One Click:</strong> Upload → Process → Download</li>
+                    <li><strong>For Everyone:</strong> Works on Mac, Windows, Linux, iPad, phones</li>
+                    <li><strong>Data Privacy:</strong> Processing happens on their computer, nothing sent to servers</li>
+                    <li><strong>Beautiful Interface:</strong> Professional web UI instead of Terminal windows</li>
+                    <li><strong>Free:</strong> Host on GitHub Pages for free</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- APPROACH 2: LOCAL INSTALLATION -->
+        <div class="approach-section">
+            <h2>💻 Approach 2: Local Installation (Traditional)</h2>
+            <p>
+                Install Python on your computer and run scripts from Terminal (Mac) or Command Prompt (Windows). More hands-on, gives you more control, but requires more setup.
+            </p>
+
+            <div class="approach-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">🧙</div>
+                    <h3>Interactive Setup Wizard</h3>
+                    <p>Step-by-step guided experience. Click through each stage and learn as you go.</p>
+                    <ul>
+                        <li>Visual, easy-to-follow</li>
+                        <li>OS-specific instructions</li>
+                        <li>Interactive checklists</li>
+                        <li>Mobile-friendly</li>
+                    </ul>
+                    <a href="python-setup-wizard.html" class="btn">Open Wizard →</a>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">📖</div>
+                    <h3>Complete Setup Guide</h3>
+                    <p>Comprehensive written instructions with all details. Reference this while working through installation.</p>
+                    <ul>
+                        <li>Full instructions</li>
+                        <li>Troubleshooting section</li>
+                        <li>Printable format</li>
+                        <li>Command reference</li>
+                    </ul>
+                    <a href="setup-guide.html" class="btn">Read Guide →</a>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">⚡</div>
+                    <h3>Quick Reference Card</h3>
+                    <p>One-page cheat sheet with essential commands. Keep this handy while running scripts.</p>
+                    <ul>
+                        <li>Common commands</li>
+                        <li>Folder organization</li>
+                        <li>Quick troubleshooting</li>
+                        <li>Print-friendly</li>
+                    </ul>
+                    <a href="quick-reference.html" class="btn">View Card →</a>
+                </div>
+            </div>
+
+            <div class="comparison-section" style="background: #fef2f2; border-left: 4px solid #ef4444;">
+                <strong>⚠️ When to Use Local Installation:</strong>
+                <ul style="margin: 15px 0 0 20px; line-height: 2;">
+                    <li><strong>Learning:</strong> You want to understand how Python works</li>
+                    <li><strong>Advanced Features:</strong> You need libraries not available in browser</li>
+                    <li><strong>Scheduled Tasks:</strong> You want to run scripts automatically</li>
+                    <li><strong>Full Control:</strong> You need complete access to Python environment</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- DECISION GUIDE -->
+        <div class="decision-flowchart">
+            <h3>🎯 Which Approach Should You Choose?</h3>
+            <div class="flowchart-row">
+                <div class="flowchart-box">
+                    <strong>Are you non-technical?</strong><br>
+                    <em>Yes → Web-Based (recommended)</em>
+                </div>
+                <div class="flowchart-box">
+                    <strong>Do you just want results?</strong><br>
+                    <em>Yes → Web-Based (recommended)</em>
+                </div>
+                <div class="flowchart-box">
+                    <strong>Want zero setup?</strong><br>
+                    <em>Yes → Web-Based (recommended)</em>
+                </div>
+            </div>
+            <div class="flowchart-row">
+                <div class="flowchart-box">
+                    <strong>Need to learn Python?</strong><br>
+                    <em>Yes → Local Installation</em>
+                </div>
+                <div class="flowchart-box">
+                    <strong>Need advanced libraries?</strong><br>
+                    <em>Yes → Local Installation</em>
+                </div>
+                <div class="flowchart-box">
+                    <strong>Have technical experience?</strong><br>
+                    <em>Yes → Local Installation</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK START -->
+        <div class="comparison-section">
+            <h2>Quick Start Comparison</h2>
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <strong>Web-Based</strong>
+                    <p>
+                        <strong>Time to use:</strong> 2 minutes<br>
+                        <strong>Setup:</strong> None<br>
+                        <strong>Cost:</strong> Free<br>
+                        <strong>Best for:</strong> Volunteers, quick results
+                    </p>
+                </div>
+                <div class="comparison-item">
+                    <strong>Local Install (Mac)</strong>
+                    <p>
+                        <strong>Time to use:</strong> 20 minutes<br>
+                        <strong>Setup:</strong> Medium<br>
+                        <strong>Cost:</strong> Free<br>
+                        <strong>Best for:</strong> Learning, advanced use
+                    </p>
+                </div>
+                <div class="comparison-item">
+                    <strong>Local Install (Windows)</strong>
+                    <p>
+                        <strong>Time to use:</strong> 20 minutes<br>
+                        <strong>Setup:</strong> Medium<br>
+                        <strong>Cost:</strong> Free<br>
+                        <strong>Best for:</strong> Learning, advanced use
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    ➤ What's the difference between these approaches?
+                </div>
+                <div class="faq-answer">
+                    <strong>Web-Based:</strong> Upload data → Click "Run" → Download results. Everything happens in your browser. No installation, no Terminal, no technical knowledge needed.
+                    <br><br>
+                    <strong>Local Installation:</strong> Install Python on your computer → Use Terminal/Command Prompt → Run scripts manually. More control, but requires technical setup.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    ➤ Which should I recommend to volunteers?
+                </div>
+                <div class="faq-answer">
+                    <strong>Start with web-based.</strong> It's dramatically simpler — volunteers just open a website, upload their data, click a button, and get results. No installation headaches, no Terminal windows, no confusing error messages. If they need more advanced features later, they can learn local installation.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    ➤ Is the web-based approach limited?
+                </div>
+                <div class="faq-answer">
+                    Not at all. It supports pandas, numpy, and most data processing tasks. You can process CSV files, calculate statistics, transform data, and much more. It's only limited if you need specialized libraries (like TensorFlow for deep learning). But for most CSV processing and data analysis, it's perfect.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    ➤ How do I customize the web runner for my specific scripts?
+                </div>
+                <div class="faq-answer">
+                    Edit the Python code in the HTML file. Look for the `<py-script>` section and replace the example processing code with your own. Your Python logic stays the same — we just provide the upload/download interface. The <a href="instructor-resources.html">Instructor Resources</a> page has examples.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    ➤ Is web-based secure? Does data get sent to servers?
+                </div>
+                <div class="faq-answer">
+                    <strong>Yes, it's secure.</strong> The web-based runner (PyScript) processes everything on the volunteer's own computer. No data is sent to any server. It all stays on their device.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    ➤ Which approach is free?
+                </div>
+                <div class="faq-answer">
+                    Both are completely free. Local Python installation is free (Python is open-source). Web-based hosting is free (GitHub Pages). No costs either way.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    ➤ Can I use both approaches for different projects?
+                </div>
+                <div class="faq-answer">
+                    Absolutely. Use web-based for simple data processing tasks (perfect for volunteers). Use local installation when you need more advanced features or want to teach Python. Each has its place.
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Python Resources Center • Both Installation and Web-Based Approaches</p>
+            <p>Questions? Contact your instructor</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            answer.classList.toggle('show');
+            
+            if (answer.classList.contains('show')) {
+                element.textContent = element.textContent.replace('➤', '⬇');
+            } else {
+                element.textContent = element.textContent.replace('⬇', '➤');
+            }
+        }
+    </script>
+</body>
+</html>

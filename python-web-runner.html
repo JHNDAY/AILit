@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Script Runner - Web-Based</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Lora', serif;
+            color: #334155;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fffbf0;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            padding: 40px;
+            color: #fef3c7;
+            border-bottom: 4px solid #d4af37;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 0.95em;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6em;
+            color: #1e3a8a;
+            margin: 25px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            background: #f8f4ee;
+            border: 2px dashed #d4af37;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            background: #f0e9de;
+            border-color: #c4941f;
+        }
+
+        .upload-area.dragover {
+            background: #f0e9de;
+            border-color: #1e3a8a;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            color: #64748b;
+            font-size: 1.05em;
+            margin: 10px 0;
+        }
+
+        .upload-area small {
+            color: #94a3b8;
+            display: block;
+            margin-top: 10px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-info {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .file-info h3 {
+            color: #22c55e;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .file-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .detail-item {
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #22c55e;
+        }
+
+        .detail-label {
+            font-size: 0.85em;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 1.1em;
+            color: #1e3a8a;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .preview-section {
+            margin-top: 20px;
+        }
+
+        .preview-section h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        th {
+            background: #1e3a8a;
+            color: #fef3c7;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8f4ee;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-family: 'Lora', serif;
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #1e3a8a;
+            color: #fef3c7;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #0f172a;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #cbd5e1;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .processing {
+            background: #f0f7ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .processing.show {
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .results {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results h3 {
+            color: #22c55e;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .output-log {
+            background: #0f172a;
+            color: #fef3c7;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .output-line {
+            margin-bottom: 5px;
+        }
+
+        .output-error {
+            color: #ef4444;
+        }
+
+        .output-success {
+            color: #22c55e;
+        }
+
+        .error {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .error h3 {
+            color: #ef4444;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .success {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .info-box {
+            background: #f8f4ee;
+            border-left: 4px solid #d4af37;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #f1f5f9;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: #e2e8f0;
+        }
+
+        footer {
+            background: #f8f4ee;
+            padding: 20px 40px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            font-size: 0.9em;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+            .controls { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐍 Python Script Runner</h1>
+            <p class="subtitle">Run Python scripts directly in your browser — no installation needed</p>
+        </header>
+
+        <div class="content">
+            <a href="index.html" class="back-link">← Back to Home</a>
+
+            <div class="info-box">
+                <strong>✨ No Setup Required!</strong> Upload your CSV file and run Python scripts instantly in your browser. No Terminal. No Command Prompt. No Python installation needed.
+            </div>
+
+            <h2>How It Works</h2>
+            <ol style="margin-left: 20px; line-height: 2;">
+                <li><strong>Upload</strong> your CSV data file</li>
+                <li><strong>Preview</strong> your data to make sure it looks right</li>
+                <li><strong>Click Run</strong> to process your data</li>
+                <li><strong>Download</strong> your results as a new CSV file</li>
+            </ol>
+
+            <!-- Step 1: Upload -->
+            <h2>Step 1: Upload Your Data</h2>
+            <div class="section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <p><strong>Click to upload or drag and drop</strong></p>
+                    <p>CSV files only</p>
+                    <small>Maximum file size: 10 MB</small>
+                </div>
+                <input type="file" id="fileInput" accept=".csv" />
+            </div>
+
+            <!-- File Info -->
+            <div class="file-info" id="fileInfo">
+                <h3>✓ File Loaded Successfully</h3>
+                <div class="file-details">
+                    <div class="detail-item">
+                        <div class="detail-label">File Name</div>
+                        <div class="detail-value" id="fileName">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">File Size</div>
+                        <div class="detail-value" id="fileSize">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Rows</div>
+                        <div class="detail-value" id="rowCount">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Columns</div>
+                        <div class="detail-value" id="colCount">-</div>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h3>Data Preview (First 5 Rows)</h3>
+                    <div class="table-container">
+                        <table id="previewTable">
+                            <thead>
+                                <tr id="headerRow"></tr>
+                            </thead>
+                            <tbody id="bodyRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Run Script -->
+            <h2>Step 2: Run Your Script</h2>
+            <div class="section">
+                <p>Click the button below to process your data with the configured Python script.</p>
+                <div class="controls">
+                    <button class="btn btn-primary" id="runBtn" onclick="runPythonScript()">▶ Run Script</button>
+                    <button class="btn btn-secondary" id="resetBtn" onclick="resetForm()">↻ Upload Different File</button>
+                </div>
+            </div>
+
+            <!-- Processing -->
+            <div class="processing" id="processing">
+                <span class="spinner"></span>
+                <strong>Processing your data...</strong>
+                <p style="margin-top: 10px; color: #64748b;">This may take a moment depending on your file size.</p>
+            </div>
+
+            <!-- Results -->
+            <div class="results" id="results">
+                <h3>✓ Processing Complete!</h3>
+                <p style="margin-bottom: 15px;">Your script has finished processing your data. Here's what happened:</p>
+                <div class="output-log" id="outputLog"></div>
+                <div class="controls">
+                    <button class="btn btn-primary" id="downloadBtn" onclick="downloadResults()">📥 Download Results</button>
+                    <button class="btn btn-secondary" onclick="resetForm()">↻ Process Another File</button>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div class="error" id="error">
+                <h3>⚠️ Error</h3>
+                <p id="errorMessage"></p>
+            </div>
+
+            <!-- About This Tool -->
+            <h2>About This Tool</h2>
+            <div class="info-box">
+                <strong>Why use this?</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>No installation required — works in any browser</li>
+                    <li>Your data stays private — everything runs on your computer</li>
+                    <li>Faster results — no setup or configuration needed</li>
+                    <li>Works on Mac, Windows, Linux, iPad, even phones</li>
+                    <li>Perfect for volunteers and non-technical users</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <strong>Data Privacy:</strong> Your files are processed entirely in your browser. No data is sent to any server.
+            </div>
+        </div>
+
+        <footer>
+            <p>Python Script Runner • No Installation Needed</p>
+        </footer>
+    </div>
+
+    <!-- Python Script to Run (PyScript) -->
+    <py-script>
+import pandas as pd
+import io
+import js
+
+# Store results globally
+results_data = None
+results_output = []
+
+def log_output(message, error=False):
+    """Add a message to the output log"""
+    results_output.append({
+        'message': str(message),
+        'error': error
+    })
+
+def process_csv(csv_content):
+    """
+    Main processing function
+    This is where your actual script logic goes
+    """
+    global results_data
+    
+    try:
+        # Read the CSV file
+        df = pd.read_csv(io.StringIO(csv_content))
+        log_output(f"✓ Loaded CSV file with {len(df)} rows and {len(df.columns)} columns")
+        
+        # Example processing: show basic statistics
+        log_output(f"✓ Data shape: {df.shape}")
+        log_output(f"✓ Columns: {list(df.columns)}")
+        
+        # CUSTOMIZE YOUR PROCESSING HERE
+        # Example: Add a calculated column
+        if 'value' in df.columns:
+            df['value_doubled'] = df['value'] * 2
+            log_output("✓ Added 'value_doubled' column")
+        
+        # Example: Calculate statistics
+        numeric_cols = df.select_dtypes(include=['number']).columns
+        for col in numeric_cols:
+            mean_val = df[col].mean()
+            log_output(f"✓ {col} - Mean: {mean_val:.2f}")
+        
+        # Store processed data
+        results_data = df.to_csv(index=False)
+        log_output("✓ Processing complete!")
+        
+        return True
+        
+    except Exception as e:
+        log_output(f"Error during processing: {str(e)}", error=True)
+        return False
+
+# Expose function to JavaScript
+js.window.process_csv_data = process_csv
+js.window.get_results = lambda: results_data
+js.window.get_output = lambda: results_output
+    </py-script>
+
+    <script>
+        // File upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        let currentFile = null;
+        let csvContent = null;
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            // Validate file type
+            if (!file.name.endsWith('.csv')) {
+                showError('Please upload a CSV file');
+                return;
+            }
+
+            // Validate file size (10 MB)
+            if (file.size > 10 * 1024 * 1024) {
+                showError('File is too large. Maximum size is 10 MB');
+                return;
+            }
+
+            currentFile = file;
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                csvContent = e.target.result;
+                displayFileInfo();
+            };
+
+            reader.onerror = () => {
+                showError('Error reading file. Please try again.');
+            };
+
+            reader.readAsText(file);
+        }
+
+        function displayFileInfo() {
+            const lines = csvContent.split('\n').filter(line => line.trim());
+            const headers = lines[0].split(',');
+            const rows = lines.slice(1);
+
+            document.getElementById('fileName').textContent = currentFile.name;
+            document.getElementById('fileSize').textContent = (currentFile.size / 1024).toFixed(1) + ' KB';
+            document.getElementById('rowCount').textContent = rows.length;
+            document.getElementById('colCount').textContent = headers.length;
+
+            // Display preview
+            const headerRow = document.getElementById('headerRow');
+            headerRow.innerHTML = '';
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header.trim();
+                headerRow.appendChild(th);
+            });
+
+            const bodyRows = document.getElementById('bodyRows');
+            bodyRows.innerHTML = '';
+            rows.slice(0, 5).forEach(row => {
+                const tr = document.createElement('tr');
+                row.split(',').forEach(cell => {
+                    const td = document.createElement('td');
+                    td.textContent = cell.trim();
+                    tr.appendChild(td);
+                });
+                bodyRows.appendChild(tr);
+            });
+
+            // Show file info and hide error
+            document.getElementById('fileInfo').classList.add('show');
+            document.getElementById('error').classList.remove('show');
+            document.getElementById('results').classList.remove('show');
+            hideElement('processing');
+        }
+
+        async function runPythonScript() {
+            if (!csvContent) {
+                showError('Please upload a CSV file first');
+                return;
+            }
+
+            showElement('processing');
+            hideElement('results');
+            hideElement('error');
+
+            try {
+                // Call Python function
+                const success = window.process_csv_data(csvContent);
+
+                if (success) {
+                    // Get results
+                    const output = window.get_output();
+                    displayResults(output);
+                } else {
+                    const output = window.get_output();
+                    displayResults(output, true);
+                }
+            } catch (error) {
+                showError('Error running script: ' + error.message);
+            }
+
+            hideElement('processing');
+        }
+
+        function displayResults(output, hadError = false) {
+            const outputLog = document.getElementById('outputLog');
+            outputLog.innerHTML = '';
+
+            output.forEach(entry => {
+                const line = document.createElement('div');
+                line.className = 'output-line' + (entry.error ? ' output-error' : ' output-success');
+                line.textContent = entry.message;
+                outputLog.appendChild(line);
+            });
+
+            if (!hadError) {
+                showElement('results');
+            } else {
+                showError('Processing completed with errors. See output above.');
+            }
+        }
+
+        function downloadResults() {
+            const csv = window.get_results();
+            if (!csv) {
+                showError('No results to download');
+                return;
+            }
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'results.csv';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        function resetForm() {
+            currentFile = null;
+            csvContent = null;
+            fileInput.value = '';
+            document.getElementById('fileInfo').classList.remove('show');
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('error').classList.remove('show');
+            hideElement('processing');
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            showElement('error');
+        }
+
+        function showElement(id) {
+            document.getElementById(id).classList.add('show');
+        }
+
+        function hideElement(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+    </script>
+</body>
+</html>

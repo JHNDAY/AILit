@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Python Distribution System Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Lora', serif;
+            color: #334155;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fffbf0;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            padding: 40px;
+            color: #fef3c7;
+            border-bottom: 4px solid #d4af37;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 0.95em;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: #1e3a8a;
+            margin: 35px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2em;
+            color: #1e3a8a;
+            margin: 20px 0 12px 0;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .system-section {
+            background: #f8f4ee;
+            padding: 25px;
+            border-left: 4px solid #d4af37;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .file-list {
+            background: #0f172a;
+            color: #fef3c7;
+            padding: 20px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            font-size: 0.95em;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+
+        .file-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .file-item strong {
+            color: #d4af37;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+        }
+
+        th {
+            background: #1e3a8a;
+            color: #fef3c7;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8f4ee;
+        }
+
+        ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .success {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .warning {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .deployment-steps {
+            background: #f0f7ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #1e3a8a;
+            color: #fef3c7;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            vertical-align: top;
+        }
+
+        .approach-manual {
+            background: #f8f4ee;
+            border-left: 4px solid #d4af37;
+        }
+
+        .approach-web {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+        }
+
+        .approach-title {
+            font-family: 'Playfair Display', serif;
+            color: #1e3a8a;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .footer-content {
+            background: #f8f4ee;
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            font-size: 0.9em;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Complete Python Distribution System</h1>
+            <p class="subtitle">Everything you need: Installation guides AND web-based script runner</p>
+        </header>
+
+        <div class="content">
+
+            <h2>System Overview</h2>
+            <div class="system-section">
+                <p>
+                    You now have a <strong>complete, dual-approach system</strong> for distributing Python to volunteers and processing their data:
+                </p>
+                <ul>
+                    <li><strong>Approach 1:</strong> Traditional installation (Python installed locally, run from Terminal/Command Prompt)</li>
+                    <li><strong>Approach 2:</strong> Web-based (Run Python directly in browser, no installation)</li>
+                </ul>
+                <p style="margin-top: 15px; font-weight: 600;">
+                    <span style="color: #22c55e;">✓ Recommendation:</span> Start volunteers with the web-based approach. It's dramatically simpler. Offer local installation as an advanced option.
+                </p>
+            </div>
+
+            <h2>What You Have: Complete File Listing</h2>
+
+            <h3>📁 For Volunteers: Installation Guides</h3>
+            <div class="file-list">
+                <div class="file-item">
+                    <strong>index.html</strong> - Original landing page with setup guides
+                </div>
+                <div class="file-item">
+                    <strong>python-setup-wizard.html</strong> - Interactive step-by-step wizard (10 stages)
+                </div>
+                <div class="file-item">
+                    <strong>setup-guide.html</strong> - Comprehensive written guide with all details
+                </div>
+                <div class="file-item">
+                    <strong>quick-reference.html</strong> - One-page cheat sheet (printable)
+                </div>
+            </div>
+
+            <h3>🌐 For Volunteers: Web-Based Approach</h3>
+            <div class="file-list">
+                <div class="file-item">
+                    <strong>python-web-runner.html</strong> - WORKING EXAMPLE: Upload CSV → Process → Download results
+                </div>
+                <div class="file-item">
+                    <strong>web-based-python.html</strong> - Comparison of web execution approaches (PyScript, server-based, etc)
+                </div>
+            </div>
+
+            <h3>👨‍🏫 For Instructors: Templates & Resources</h3>
+            <div class="file-list">
+                <div class="file-item">
+                    <strong>instructor-resources.html</strong> - Templates, checklists, best practices, script examples
+                </div>
+            </div>
+
+            <h3>🏠 Updated Home Pages</h3>
+            <div class="file-list">
+                <div class="file-item">
+                    <strong>index-comprehensive.html</strong> - NEW: Master landing page with both approaches
+                </div>
+                <div class="file-item">
+                    <strong>index.html</strong> - Original (installation-focused) landing page
+                </div>
+            </div>
+
+            <h2>Quick Comparison: Which Approach to Use?</h2>
+
+            <table class="comparison-table">
+                <tr>
+                    <td></td>
+                    <td class="approach-manual">
+                        <div class="approach-title">📝 Manual Installation</div>
+                        Install Python locally
+                    </td>
+                    <td class="approach-web">
+                        <div class="approach-title">🌐 Web-Based</div>
+                        Run in browser
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Setup Time</strong></td>
+                    <td class="approach-manual">15-20 minutes</td>
+                    <td class="approach-web">0 minutes (immediate)</td>
+                </tr>
+                <tr>
+                    <td><strong>Complexity</strong></td>
+                    <td class="approach-manual">Medium (Terminal/Command Prompt)</td>
+                    <td class="approach-web">Very simple (click & upload)</td>
+                </tr>
+                <tr>
+                    <td><strong>For Non-Technical?</strong></td>
+                    <td class="approach-manual">Possible with guides</td>
+                    <td class="approach-web">✓ Perfect</td>
+                </tr>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td class="approach-manual">Free</td>
+                    <td class="approach-web">Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Privacy</strong></td>
+                    <td class="approach-manual">On their computer</td>
+                    <td class="approach-web">On their computer</td>
+                </tr>
+                <tr>
+                    <td><strong>Python Libraries</strong></td>
+                    <td class="approach-manual">All available</td>
+                    <td class="approach-web">pandas, numpy, most data libs</td>
+                </tr>
+                <tr>
+                    <td><strong>Best For</strong></td>
+                    <td class="approach-manual">Learning, advanced use</td>
+                    <td class="approach-web">Processing, analysis, results</td>
+                </tr>
+            </table>
+
+            <h2>Deployment Instructions</h2>
+
+            <div class="deployment-steps">
+                <h3>To GitHub Pages (Easy)</h3>
+                <p><span class="step-number">1</span> <strong>Rename or keep index-comprehensive.html as your home page</strong></p>
+                <p>Decide: Use the comprehensive page (showing both approaches) or keep the original index.html</p>
+
+                <p style="margin-top: 20px;"><span class="step-number">2</span> <strong>Upload all HTML files to your GitHub repository</strong></p>
+                <p>In your jhnday.github.io repository, create a folder like <code>PythonResources/</code> and upload all files there.</p>
+
+                <p style="margin-top: 20px;"><span class="step-number">3</span> <strong>Structure (suggested):</strong></p>
+                <div style="background: #0f172a; color: #fef3c7; padding: 15px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.9em; overflow-x: auto;">
+jhnday.github.io/<br>
+├── PythonResources/<br>
+│   ├── index.html (or index-comprehensive.html)<br>
+│   ├── python-setup-wizard.html<br>
+│   ├── setup-guide.html<br>
+│   ├── quick-reference.html<br>
+│   ├── python-web-runner.html<br>
+│   ├── web-based-python.html<br>
+│   └── instructor-resources.html<br>
+                </div>
+
+                <p style="margin-top: 20px;"><span class="step-number">4</span> <strong>Access your resources:</strong></p>
+                <p><code>https://jhnday.github.io/PythonResources/</code></p>
+
+                <p style="margin-top: 20px;"><span class="step-number">5</span> <strong>Share with volunteers:</strong></p>
+                <p>Send them the link. They'll see your chosen approach (or both if you use comprehensive page).</p>
+            </div>
+
+            <h2>Implementation Guide by Use Case</h2>
+
+            <h3>📊 AI Literacy SIG: Analyzing AI Conversations</h3>
+            <div class="system-section">
+                <p><strong>Recommended Approach:</strong> Web-Based</p>
+                <p>Volunteers upload CSV files of chatbot conversations → Process with pandas → Analyze patterns → Download results.</p>
+                <p><strong>Steps:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Customize python-web-runner.html with your analysis code</li>
+                    <li>Add pandas code to extract statistics, patterns, sentiment</li>
+                    <li>Volunteers upload their conversation CSVs</li>
+                    <li>Results show analysis in output log + downloadable CSV</li>
+                </ol>
+            </div>
+
+            <h3>🗞️ Current Events Discussion: Analyzing News Articles</h3>
+            <div class="system-section">
+                <p><strong>Recommended Approach:</strong> Web-Based</p>
+                <p>Volunteers upload article text → Process for bias/sentiment → Get analysis results.</p>
+                <p><strong>What You'd Customize:</strong> Add sentiment analysis, bias detection, or keyword extraction to the Python code.</p>
+            </div>
+
+            <h3>💾 Database Processing: Data Cleaning</h3>
+            <div class="system-section">
+                <p><strong>Recommended Approach:</strong> Web-Based or Local (depending on complexity)</p>
+                <p>Web-based: For simple cleaning (removing nulls, formatting dates, standardizing text)</p>
+                <p>Local installation: If you need to run complex, scheduled cleanup tasks</p>
+            </div>
+
+            <h2>Customizing the Web Runner</h2>
+
+            <h3>Step 1: Copy python-web-runner.html</h3>
+            <p>This is your template. Everything is set up except for the Python processing logic.</p>
+
+            <h3>Step 2: Find the Processing Function</h3>
+            <p>Look for the <code>&lt;py-script&gt;</code> section. Inside is a function called <code>process_csv(csv_content)</code></p>
+
+            <h3>Step 3: Replace the Example Logic</h3>
+            <div style="background: #0f172a; color: #fef3c7; padding: 15px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.9em; margin: 15px 0; overflow-x: auto;">
+def process_csv(csv_content):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import pandas as pd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;df = pd.read_csv(io.StringIO(csv_content))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #fef3c7;">## YOUR CUSTOM CODE HERE ##</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;# Example: add calculations<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if 'value' in df.columns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;df['doubled'] = df['value'] * 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return df.to_csv(index=False)
+            </div>
+
+            <h3>Step 4: Test It</h3>
+            <p>Create a sample CSV with your expected data → Upload → Click Run → Check results</p>
+
+            <h2>Recommended Workflow</h2>
+
+            <div class="success">
+                <h3>For Instructors (You)</h3>
+                <ol style="margin-left: 20px;">
+                    <li><strong>Month 1:</strong> Deploy the web runner to GitHub Pages. Share with volunteers. Gather feedback.</li>
+                    <li><strong>Month 2:</strong> Monitor which errors/questions come up. Update documentation.</li>
+                    <li><strong>Month 3:</strong> Create project-specific web runners (customize for different data types).</li>
+                    <li><strong>Month 4+:</strong> Optional: If needed, explore server-based approach or advanced automation.</li>
+                </ol>
+            </div>
+
+            <div class="warning">
+                <h3>Common Pitfalls to Avoid</h3>
+                <ul>
+                    <li><strong>Don't give both options to beginners.</strong> Pick one (recommend web-based). Too many choices = confusion.</li>
+                    <li><strong>Don't assume they'll read guides.</strong> Make the interface so simple it's self-explanatory.</li>
+                    <li><strong>Don't forget to test.</strong> Run the web runner with real volunteer data before deploying.</li>
+                    <li><strong>Don't rely on error messages.</strong> Add friendly, helpful log output to guide users.</li>
+                </ul>
+            </div>
+
+            <h2>Quick Reference: Files by Purpose</h2>
+
+            <table>
+                <tr>
+                    <th>I Want To...</th>
+                    <th>Use This File</th>
+                </tr>
+                <tr>
+                    <td>Help volunteers get started (easiest)</td>
+                    <td><strong>index-comprehensive.html</strong> (home page)</td>
+                </tr>
+                <tr>
+                    <td>Let volunteers process data with no setup</td>
+                    <td><strong>python-web-runner.html</strong></td>
+                </tr>
+                <tr>
+                    <td>Teach volunteers Python installation</td>
+                    <td><strong>python-setup-wizard.html</strong></td>
+                </tr>
+                <tr>
+                    <td>Provide detailed reference guide</td>
+                    <td><strong>setup-guide.html</strong></td>
+                </tr>
+                <tr>
+                    <td>Print quick commands sheet</td>
+                    <td><strong>quick-reference.html</strong></td>
+                </tr>
+                <tr>
+                    <td>Learn implementation options</td>
+                    <td><strong>web-based-python.html</strong></td>
+                </tr>
+                <tr>
+                    <td>Get templates & best practices</td>
+                    <td><strong>instructor-resources.html</strong></td>
+                </tr>
+            </table>
+
+            <h2>Next Steps</h2>
+
+            <div class="success">
+                <p><strong>Immediate (Today):</strong></p>
+                <ul>
+                    <li>Download all HTML files from outputs folder</li>
+                    <li>Review python-web-runner.html (open in browser to see it working)</li>
+                    <li>Decide: web-based only, or offer both approaches?</li>
+                </ul>
+
+                <p style="margin-top: 20px;"><strong>This Week:</strong></p>
+                <ul>
+                    <li>Upload files to GitHub Pages</li>
+                    <li>Customize the web runner with your Python code</li>
+                    <li>Test with sample data</li>
+                    <li>Share link with first group of volunteers</li>
+                </ul>
+
+                <p style="margin-top: 20px;"><strong>Ongoing:</strong></p>
+                <ul>
+                    <li>Collect feedback from volunteers</li>
+                    <li>Update documentation based on questions</li>
+                    <li>Create specialized versions for different projects</li>
+                </ul>
+            </div>
+
+            <h2>Support & Questions</h2>
+
+            <p>
+                All materials are self-contained HTML files. They work without a server (except the web runner needs PyScript, which loads from CDN).
+            </p>
+
+            <p>
+                <strong>For troubleshooting:</strong> Check the Instructor Resources page for templates and best practices.
+            </p>
+
+            <p>
+                <strong>To customize further:</strong> Edit the Python code inside the <code>&lt;py-script&gt;</code> tags. Your Python knowledge is the limit.
+            </p>
+
+        </div>
+
+        <div class="footer-content">
+            <p><strong>Complete System Ready to Deploy</strong></p>
+            <p>Manual Installation Guides + Web-Based Python Runner • All files provided</p>
+            <p>Questions? Check instructor-resources.html for implementation guide</p>
+        </div>
+    </div>
+</body>
+</html>
