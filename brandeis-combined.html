@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Reinvention of Liberal Arts Colleges</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fffcf7;
+            color: #1a2541;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        /* Toggle Control */
+        .toggle-container {
+            max-width: 1000px;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1a2541;
+            letter-spacing: 1px;
+        }
+
+        .toggle-switch {
+            display: flex;
+            background: #1a2541;
+            border-radius: 25px;
+            padding: 4px;
+            width: 140px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-option {
+            flex: 1;
+            padding: 8px 16px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            color: #fffcf7;
+        }
+
+        .toggle-option.active {
+            background: #b89a4b;
+            color: #1a2541;
+        }
+
+        /* Newspaper Container */
+        .newspaper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fffcf7;
+            padding: 60px 50px;
+            box-shadow: 0 2px 15px rgba(26, 37, 65, 0.1);
+            border: 2px solid #1a2541;
+        }
+
+        /* Hide/Show based on view */
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* ===== IN-DEPTH STYLES ===== */
+
+        /* Masthead */
+        .masthead {
+            text-align: center;
+            border-bottom: 3px double #b89a4b;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .publication-name {
+            font-family: 'Times New Roman', serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #b89a4b;
+            margin-bottom: 10px;
+        }
+
+        .publication-name a,
+        .pub-line a {
+            color: #b89a4b;
+            text-decoration: none;
+            border-bottom: 1px solid #b89a4b;
+            cursor: pointer;
+        }
+
+        .publication-name a:hover,
+        .pub-line a:hover {
+            color: #1a2541;
+            border-bottom-color: #1a2541;
+        }
+
+        .issue-date {
+            font-size: 11px;
+            color: #1a2541;
+            margin-bottom: 15px;
+        }
+
+        /* Main headline */
+        .main-headline {
+            font-family: 'Times New Roman', serif;
+            font-size: 48px;
+            font-weight: bold;
+            color: #1a2541;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .subheadline {
+            font-family: 'Times New Roman', serif;
+            font-size: 22px;
+            font-weight: normal;
+            color: #b89a4b;
+            margin-bottom: 30px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Byline */
+        .byline {
+            text-align: center;
+            font-size: 12px;
+            color: #1a2541;
+            margin-bottom: 40px;
+            border-top: 1px solid #b89a4b;
+            border-bottom: 1px solid #b89a4b;
+            padding: 12px 0;
+        }
+
+        .byline-author {
+            font-weight: bold;
+        }
+
+        /* Content columns */
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .column {
+            text-align: justify;
+        }
+
+        .column p {
+            margin-bottom: 15px;
+            font-size: 13px;
+            line-height: 1.75;
+        }
+
+        .drop-cap {
+            font-family: 'Times New Roman', serif;
+            float: left;
+            font-size: 64px;
+            font-weight: bold;
+            line-height: 50px;
+            padding-right: 8px;
+            margin-top: 2px;
+            color: #b89a4b;
+        }
+
+        /* Section headers */
+        .section-header {
+            font-family: 'Times New Roman', serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a2541;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #b89a4b;
+            padding-left: 15px;
+        }
+
+        .section-header.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Pull quotes */
+        .pullquote {
+            grid-column: 1 / -1;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 20px;
+            font-style: italic;
+            color: #b89a4b;
+            margin: 30px 0;
+            padding: 20px 30px;
+            border-left: 4px solid #b89a4b;
+            border-right: 4px solid #b89a4b;
+            background: rgba(184, 154, 75, 0.05);
+        }
+
+        /* Infobox */
+        .infobox {
+            grid-column: 1 / -1;
+            border: 2px solid #b89a4b;
+            padding: 20px;
+            margin: 30px 0;
+            background: rgba(184, 154, 75, 0.08);
+            font-size: 12px;
+        }
+
+        .infobox-title {
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a2541;
+            margin-bottom: 10px;
+        }
+
+        /* Closing section */
+        .closing {
+            grid-column: 1 / -1;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #b89a4b;
+        }
+
+        .end-marker {
+            text-align: center;
+            font-size: 18px;
+            color: #b89a4b;
+            margin: 30px 0;
+            font-family: 'Times New Roman', serif;
+        }
+
+        /* ===== AT-A-GLANCE STYLES ===== */
+
+        .glance-header {
+            text-align: center;
+            border-bottom: 3px double #b89a4b;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pub-line {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #b89a4b;
+            margin-bottom: 10px;
+        }
+
+        .glance-main-title {
+            font-family: 'Times New Roman', serif;
+            font-size: 42px;
+            font-weight: bold;
+            color: #1a2541;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .glance-subtitle {
+            font-family: 'Times New Roman', serif;
+            font-size: 18px;
+            font-weight: normal;
+            color: #b89a4b;
+            margin-bottom: 15px;
+        }
+
+        /* Grid Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .grid-item {
+            padding: 20px;
+            background: rgba(184, 154, 75, 0.05);
+            border-left: 4px solid #b89a4b;
+        }
+
+        .section-title {
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a2541;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-box {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #b89a4b;
+        }
+
+        .stat-box:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .stat-number {
+            font-family: 'Times New Roman', serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #b89a4b;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #1a2541;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .bullet-list li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .bullet-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #b89a4b;
+            font-weight: bold;
+        }
+
+        /* Full Width Sections */
+        .full-width {
+            grid-column: 1 / -1;
+            padding: 25px;
+            background: rgba(184, 154, 75, 0.05);
+            border-left: 4px solid #b89a4b;
+            margin-top: 10px;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .timeline-item {
+            padding-left: 40px;
+            position: relative;
+            font-size: 13px;
+        }
+
+        .timeline-item:before {
+            content: "◆";
+            position: absolute;
+            left: 12px;
+            color: #b89a4b;
+            font-size: 14px;
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: #b89a4b;
+            margin-bottom: 5px;
+        }
+
+        .timeline-text {
+            color: #1a2541;
+        }
+
+        /* Key Players */
+        .player-card {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #fffcf7;
+            border: 1px solid #b89a4b;
+        }
+
+        .player-name {
+            font-weight: bold;
+            color: #1a2541;
+            margin-bottom: 3px;
+        }
+
+        .player-role {
+            font-size: 12px;
+            color: #b89a4b;
+            font-style: italic;
+        }
+
+        /* Highlight Box */
+        .highlight {
+            grid-column: 1 / -1;
+            background: #b89a4b;
+            color: #fffcf7;
+            padding: 25px;
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .highlight-title {
+            font-family: 'Times New Roman', serif;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid #b89a4b;
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 11px;
+            color: #1a2541;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .newspaper {
+                padding: 30px 20px;
+            }
+
+            .content-wrapper,
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .main-headline,
+            .glance-main-title {
+                font-size: 32px;
+            }
+
+            .stat-number {
+                font-size: 20px;
+            }
+
+            .toggle-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .newspaper {
+                box-shadow: none;
+                border: none;
+                padding: 40px;
+            }
+
+            .toggle-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toggle Control -->
+    <div class="toggle-container">
+        <span class="toggle-label">VIEW:</span>
+        <div class="toggle-switch" id="viewToggle">
+            <div class="toggle-option active" data-view="glance">At A Glance</div>
+            <div class="toggle-option" data-view="indepth">In Depth</div>
+        </div>
+    </div>
+
+    <!-- Main Newspaper Container -->
+    <div class="newspaper">
+
+        <!-- ===== AT-A-GLANCE VIEW ===== -->
+        <div id="glance" class="view active">
+            <!-- Header -->
+            <div class="glance-header">
+                <div class="pub-line">HIGHER EDUCATION | SEPTEMBER 2026 | <a href="https://share.google/PvDmNr4UQqV0Ho0rE">Education Next Article</a></div>
+                <h1 class="glance-main-title">Brandeis Reinvention</h1>
+                <h2 class="glance-subtitle">Redefining Liberal Arts in Crisis</h2>
+                <div class="byline">By Jon Marcus</div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="content-grid">
+                <!-- The Crisis -->
+                <div class="grid-item">
+                    <div class="section-title">The Crisis</div>
+                    <div class="stat-box">
+                        <div class="stat-number">$250M</div>
+                        <div class="stat-label">Collective operating loss (7 of 8 years ending 2024)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">-12%</div>
+                        <div class="stat-label">Enrollment decline (past 12 years)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">-25</div>
+                        <div class="stat-label">Ranking drop in U.S. News (since 2023)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$250M</div>
+                        <div class="stat-label">Outstanding debt</div>
+                    </div>
+                </div>
+
+                <!-- The Solution -->
+                <div class="grid-item">
+                    <div class="section-title">The Brandeis Plan</div>
+                    <div class="stat-box">
+                        <div class="stat-number">$25M</div>
+                        <div class="stat-label">Investment from board of trustees</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">New schools combining professional programs with liberal arts</div>
+                    </div>
+                    <ul class="bullet-list" style="margin-top: 0;">
+                        <li>Career counselor assigned to each student</li>
+                        <li>Career-competency transcripts alongside traditional ones</li>
+                        <li>Free microcredentials in emerging fields</li>
+                        <li>Emphasis on measurable job skills</li>
+                    </ul>
+                </div>
+
+                <!-- The Problem Statement -->
+                <div class="full-width">
+                    <div class="section-title">The Fundamental Challenge</div>
+                    <p style="font-size: 14px; line-height: 1.7; margin-bottom: 10px;">
+                        <strong>The Problem:</strong> Americans increasingly question the return on investment in higher education. Liberal arts college annual costs reach $98,000+ for residential students, yet students and families doubt these degrees lead to jobs.
+                    </p>
+                    <p style="font-size: 14px; line-height: 1.7;">
+                        <strong>The Question:</strong> What are consumers of higher education getting for their money? Surveys show employers want critical thinking and communication skills—which liberal arts teaches—but institutions haven't proven it.
+                    </p>
+                </div>
+
+                <!-- What We Know About Liberal Arts -->
+                <div class="grid-item">
+                    <div class="section-title">The Reality</div>
+                    <ul class="bullet-list">
+                        <li><strong>Degree decline:</strong> 30% below 2012 peak in 2024</li>
+                        <li><strong>Tech industry:</strong> More liberal arts than CS graduates hired</li>
+                        <li><strong>Google finding:</strong> Best managers have soft skills (liberal arts), not STEM</li>
+                        <li><strong>Lifetime ROI:</strong> $900K+ return 40 years after enrollment</li>
+                        <li><strong>Perception gap:</strong> 2/3 of voters think colleges don't teach job skills</li>
+                    </ul>
+                </div>
+
+                <!-- Why This Matters -->
+                <div class="grid-item">
+                    <div class="section-title">Broader Context</div>
+                    <ul class="bullet-list">
+                        <li><strong>National enrollment:</strong> Down 1.6M since 2010 (8%)</li>
+                        <li><strong>Demographics:</strong> 18-year-olds projected down 13% through 2041</li>
+                        <li><strong>Job market:</strong> 76% of postings ask for soft skills explicitly</li>
+                        <li><strong>New grad unemployment:</strong> 5.4% (highest since 2022)</li>
+                        <li><strong>Student anxiety:</strong> Major concern about job prospects</li>
+                    </ul>
+                </div>
+
+                <!-- Key Initiative -->
+                <div class="full-width">
+                    <div class="section-title">The Innovation: Career-Competency Transcript</div>
+                    <p style="font-size: 13px; line-height: 1.7; margin-bottom: 12px;">
+                        Graduates receive a second transcript listing concrete skills employers value: problem-solving, critical thinking, communication, teamwork, plus specific internships, jobs held, and microcredential completions.
+                    </p>
+                    <p style="font-size: 13px; line-height: 1.7;">
+                        Powered by <strong>Futurenav Compass</strong> (ETS tool using AI to measure and capture student competencies). Also adopted by American University, University of Tennessee, and California State University (23 campuses).
+                    </p>
+                </div>
+
+                <!-- Early Results -->
+                <div class="grid-item">
+                    <div class="section-title">Early Signs</div>
+                    <div class="stat-box">
+                        <div class="stat-number">40%</div>
+                        <div class="stat-label">Rise in applications for fall enrollment</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">130</div>
+                        <div class="stat-label">Students registered for microcredentials (first spring)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">Strong</div>
+                        <div class="stat-label">Faculty vote supporting the plan</div>
+                    </div>
+                </div>
+
+                <!-- Key Players -->
+                <div class="grid-item">
+                    <div class="section-title">Key Figures</div>
+                    <div class="player-card">
+                        <div class="player-name">Arthur Levine</div>
+                        <div class="player-role">Brandeis President; author of 14 books on higher ed crisis</div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-name">Emily Roper-Doten</div>
+                        <div class="player-role">Dean of Admissions; notes 40% application increase</div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-name">Jeffrey Lenowitz</div>
+                        <div class="player-role">Faculty Senate Chair; confirms faculty already teach skills</div>
+                    </div>
+                </div>
+
+                <!-- Institutional Support -->
+                <div class="highlight">
+                    <div class="highlight-title">Financial & Institutional Backing</div>
+                    <p>Carnegie Corporation supporting the initiative ($1M for transcript development). Levine's mandate: build revenue, not cut costs. Universities need enrollment—tuition matters.</p>
+                </div>
+
+                <!-- Timeline -->
+                <div class="full-width">
+                    <div class="section-title">Recent Timeline</div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2024</div>
+                            <div class="timeline-text">Previous president makes cuts; faculty votes no confidence</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">Early 2025</div>
+                            <div class="timeline-text">Arthur Levine assumes presidency; Brandeis Plan approved</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">Spring 2026</div>
+                            <div class="timeline-text">First microcredential programs roll out; 130 students register</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">Fall 2026</div>
+                            <div class="timeline-text">Four new schools launch; career counselors assigned</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bigger Picture -->
+                <div class="full-width" style="background: rgba(184, 154, 75, 0.08);">
+                    <div class="section-title">Why This Matters Beyond Brandeis</div>
+                    <p style="font-size: 13px; line-height: 1.7; margin-bottom: 10px;">
+                        <strong>The Movement:</strong> Universities of Arizona, Georgia Tech, MIT, Dartmouth, and American are all making similar pivots, rebranding humanities as "applied humanities."
+                    </p>
+                    <p style="font-size: 13px; line-height: 1.7; margin-bottom: 10px;">
+                        <strong>The Stakes:</strong> Small liberal arts colleges without large endowments face existential pressure. Brandeis's $25M bet is being watched across higher education.
+                    </p>
+                    <p style="font-size: 13px; line-height: 1.7;">
+                        <strong>The Lesson:</strong> Universities must show, measure, and communicate the tangible career value of liberal arts education.
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>Sources: Brandeis University, Carnegie Corporation, ETS, Strada Education Foundation, U.S. News & World Report</p>
+            </div>
+        </div>
+
+        <!-- ===== IN-DEPTH VIEW ===== -->
+        <div id="indepth" class="view">
+            <!-- Masthead -->
+            <div class="masthead">
+                <div class="publication-name">HIGHER EDUCATION | <a href="https://share.google/PvDmNr4UQqV0Ho0rE">Education Next Article</a></div>
+                <div class="issue-date">September 2026</div>
+            </div>
+
+            <!-- Main Story -->
+            <h1 class="main-headline">The Reinvention of Liberal Arts Colleges</h1>
+            
+            <h2 class="subheadline">To remain relevant amid evolving attitudes toward higher education, Brandeis University and institutions like it are redefining their purpose</h2>
+
+            <div class="byline">
+                By <span class="byline-author">Jon Marcus</span>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content-wrapper">
+                <div class="column">
+                    <p>
+                        <span class="drop-cap">T</span>he bucolic serenity of liberal arts college campuses like Brandeis belies a growing crisis of identity, relevance, and purpose in preparing young adults for participation in a rapidly changing workforce and economy.
+                    </p>
+
+                    <p>
+                        Maintenance employees buzz around outside the admissions building, sprucing up the campus for commencement as, inside, a new crop of prospective students and their parents take their seats for a presentation from a recruiter. It's a typical scene in the longstanding cycle of American higher education. But at many institutions—including Brandeis University, where this group of 42 potential applicants has gathered—this once straightforward process has been stood on its head.
+                    </p>
+
+                    <p>
+                        Instead of waiting for new students to show up and make their cases, universities and colleges are in the uncharacteristic position of having to plead their own. The problem, myriad surveys over the last 10 years have shown, is that consumers are increasingly questioning the return on an investment in higher education. This poses a particular challenge for liberal arts schools such as Brandeis, just outside Boston, whose annual sticker price will reach nearly $98,000 for residential students.
+                    </p>
+
+                    <p>
+                        Yet most have done little to effectively respond to it. Until now. As the crisis becomes existential, some colleges and universities are finally confronting this threat by doing the seemingly simplest possible thing: setting out to make good on their implicit promise that specific classes and majors lead to jobs. And few are doing that as aggressively as Brandeis.
+                    </p>
+                </div>
+
+                <div class="column">
+                    <p>
+                        By the fall, Brandeis will have reorganized itself into four new schools that bring together existing professional programs in areas such as business, technology, and public policy with liberal arts disciplines including history, biology, philosophy, and sociology. Before the first semester starts, each arriving student will be assigned not only an academic adviser, but also a career counselor.
+                    </p>
+
+                    <p>
+                        In what has become the most prominent symbol of the strategy, graduates will leave with "career-competency" transcripts alongside their conventional ones, listing what skills they have learned that employers value, from communicating and writing to proficiency with AI. This second transcript also will include internships and jobs students have held as well as microcredentials in subjects such as data analytics and statistical analysis.
+                    </p>
+
+                    <p>
+                        "We have tended to teach the liberal arts at many institutions as if they were something apart from the real world," says Arthur Levine, the newly appointed president of Brandeis. Instead of merely counting courses, universities need to "tie them into competencies. Let's record the durable skills. Let's record the life skills. Let's record the career skills."
+                    </p>
+
+                    <p>
+                        The board of trustees has agreed to gamble $25 million on this new "Brandeis Plan," and it's being closely watched across the higher education spectrum. It's also attracting additional financial support from organizations like the Carnegie Corporation—important for a university founded only in the late 1940s whose endowment is comparatively small, at less than $1.4 billion.
+                    </p>
+                </div>
+
+                <!-- Pull Quote -->
+                <div class="pullquote">
+                    "Just being able to tell good stories worked for a long time. But this is a more skeptical era, and we've been driven by the economists' view of the world that the thing that counts is money earned."
+                </div>
+
+                <!-- Section Break -->
+                <h2 class="section-header full-width">The Downward Slide</h2>
+
+                <div class="column">
+                    <p>
+                        Founded by American Jews at a time when other local institutions wouldn't accept them or quietly imposed quotas, Brandeis University opened in 1948. The institution has produced notable alumni including political activists, journalists, novelists, television creators, and even a Philadelphia Eagles owner.
+                    </p>
+
+                    <p>
+                        But over the last decade, the university has been buffeted by the same headwinds as much of the rest of higher education. Enrollment nationwide is down by 1.6 million since 2010, or about 8 percent. Brandeis has 12 percent fewer students than it did 12 years ago, and the trend is even worse at the revenue-producing graduate level.
+                    </p>
+
+                    <p>
+                        The university posted eight-figure operating deficits in seven of the eight years ending in 2024, adding up to a collective loss of more than $250 million. Brandeis is also nearly a quarter of a billion dollars in debt. Since 2023, it has fallen 25 places in the U.S. News & World Report national college rankings.
+                    </p>
+                </div>
+
+                <div class="column">
+                    <p>
+                        In response, Levine's predecessor started making cuts in 2024, eliminating 60 positions, freezing hiring, and putting programs on hiatus. The faculty voted no confidence in that president, who abruptly quit. "Brandeis, we are so embarrassed," read an editorial in the student newspaper, which decried "our quickly crumbling campus."
+                    </p>
+
+                    <p>
+                        The board of trustees approached Arthur Levine, who since graduating from Brandeis in 1970 had become president of Teachers College, Columbia University, and authored 14 books about exactly what was happening to colleges and students.
+                    </p>
+
+                    <p>
+                        Levine initially turned down the position twice. Now 78 and walking with a cane, he agreed to serve as interim president through 2027, on condition that the board approve his reinvention plan and provide the necessary funding. It did.
+                    </p>
+
+                    <p>
+                        "Great universities don't get built by cutting," says Levine. Brandeis "doesn't have a spending problem. It has a revenue problem." It needed to reverse its long enrollment slide and attract back more tuition-paying students.
+                    </p>
+                </div>
+
+                <!-- Infobox -->
+                <div class="infobox">
+                    <div class="infobox-title">Key Data Points</div>
+                    <p><strong>• Liberal Arts Bachelor's Degrees:</strong> Fell to a 30-year low in 2024, 30% below the 2012 peak</p>
+                    <p><strong>• Employer Demand:</strong> 76% of job postings explicitly ask for soft skills like problem-solving and communication</p>
+                    <p><strong>• Tech Industry Discovery:</strong> Liberal arts graduates outnumber technical graduates in technology companies</p>
+                    <p><strong>• Lifetime ROI:</strong> Liberal arts graduates see $900,000+ return on investment 40 years after enrollment</p>
+                    <p><strong>• New Graduate Unemployment:</strong> 5.4% among new bachelor's degree recipients at graduation time (spring 2026)</p>
+                </div>
+
+                <!-- Section Break -->
+                <h2 class="section-header full-width">Making the Connection</h2>
+
+                <div class="column">
+                    <p>
+                        Other institutions are also working to persuade prospective students of the connection between liberal arts and employment. The University of Arizona's College of Humanities features videos of successful alumni who majored in humanities there, from Netflix executives to NASA scientists to Golden State Warriors head coach Steve Kerr.
+                    </p>
+
+                    <p>
+                        "You can go anywhere with a liberal arts degree," Kerr says in the video. "It helps you find your way."
+                    </p>
+
+                    <p>
+                        There's a deliberate strategy behind which graduates are featured. The university makes a point of showcasing not just museum workers—the stereotype—but physicians in action, engineers with hardhats, and executives in various industries.
+                    </p>
+
+                    <p>
+                        Like a growing number of schools, the university has rebranded the humanities as the "applied humanities," introducing bachelor's degrees that connect traditional liberal arts disciplines with programs in business, engineering, medicine, and other fields.
+                    </p>
+                </div>
+
+                <div class="column">
+                    <p>
+                        Undergraduate enrollment in the College of Humanities has more than doubled since the plan was put into effect. Getting faculty on board can still pose a challenge, with some well-meaning liberal arts professors objecting to even using the word "skills."
+                    </p>
+
+                    <p>
+                        Even Dartmouth is investing $94 million in a new Center for Career Design to help students explain the skills they've learned and gain hands-on experience through internships and case studies.
+                    </p>
+
+                    <p>
+                        "There's a really perfect storm that we're seeing, with this rising cost of higher education and people saying, 'Wait a minute, what am I getting for this?'" says Joe Catrino, the center's executive director. "We're thinking about how students can step back and understand who they are and articulate their skills."
+                    </p>
+
+                    <p>
+                        That has to change, says Levine. The last time there was so much change in the labor market was at the start of the Industrial Revolution. "The old system wasn't what an industrial society needed, and the same is true today. We have to prepare students for a new economy, a digital knowledge economy."
+                    </p>
+                </div>
+
+                <!-- Closing Section -->
+                <div class="closing">
+                    <p>
+                        The board of trustees has gambled $25 million on Brandeis's reinvention, and the stakes are high. With enrollment declining nationally, smaller universities without substantial endowments face an existential challenge. But if Brandeis and other liberal arts institutions can successfully demonstrate the value of their education in concrete, measurable terms—bridging the gap between the library and the street—they may find the reinvention not just necessary, but transformative.
+                    </p>
+                </div>
+
+                <div class="end-marker">❖</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const toggle = document.getElementById('viewToggle');
+        const glanceView = document.getElementById('glance');
+        const indepthView = document.getElementById('indepth');
+
+        toggle.addEventListener('click', (e) => {
+            const option = e.target.closest('.toggle-option');
+            if (!option) return;
+
+            // Remove active class from all options
+            document.querySelectorAll('.toggle-option').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Add active class to clicked option
+            option.classList.add('active');
+
+            // Show/hide views
+            const viewType = option.getAttribute('data-view');
+            if (viewType === 'glance') {
+                glanceView.classList.add('active');
+                indepthView.classList.remove('active');
+            } else {
+                indepthView.classList.add('active');
+                glanceView.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
