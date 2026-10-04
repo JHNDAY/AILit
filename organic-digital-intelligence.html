@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;"><head><!-- frame-runtime --><!-- /frame-runtime -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Organic and digital intel comp fall class</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&amp;family=Source+Sans+3:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F0E1;
+    --panel: #FFFBF0;
+    --ink: #14213D;
+    --muted: #46526D;
+    --line: #D6CBAE;
+    --org: #86560A;
+    --org-fill: #D9A93F;
+    --org-soft: #F3E2B5;
+    --dig: #1F4E8C;
+    --dig-fill: #5E8FCF;
+    --dig-soft: #DCE7F5;
+    --focus: #14213D;
+    --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+    --sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E1A33;
+      --panel: #142443;
+      --ink: #F1E9D2;
+      --muted: #B9C0CE;
+      --line: #2D3E63;
+      --org: #EBC273;
+      --org-fill: #E2B35A;
+      --org-soft: #3B3321;
+      --dig: #93BDF0;
+      --dig-fill: #5E8FCF;
+      --dig-soft: #1B3358;
+      --focus: #F1E9D2;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E1A33;
+    --panel: #142443;
+    --ink: #F1E9D2;
+    --muted: #B9C0CE;
+    --line: #2D3E63;
+    --org: #EBC273;
+    --org-fill: #E2B35A;
+    --org-soft: #3B3321;
+    --dig: #93BDF0;
+    --dig-fill: #5E8FCF;
+    --dig-soft: #1B3358;
+    --focus: #F1E9D2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html {
+    background: var(--bg);
+    scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 64px);
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.125rem;
+    line-height: 1.55;
+  }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.15; margin: 0; }
+  p { margin: 0; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.25rem; }
+
+  /* Navigation */
+  .topnav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding-top: 0;
+  }
+  .topnav .inner {
+    max-width: 1080px; margin: 0 auto; padding: 0 1.25rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .topnav ul {
+    list-style: none; margin: 0; padding: 0; flex: 1 1 auto; min-width: 0;
+    display: flex; gap: 0.25rem; overflow-x: auto;
+  }
+  #dl-wrap { flex: none; display: flex; align-items: center; gap: 0.6rem; }
+  #dl-btn {
+    font-family: var(--sans); font-size: 1rem; font-weight: 600; cursor: pointer;
+    padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid var(--ink);
+    background: var(--ink); color: var(--bg);
+  }
+  #dl-btn:hover { background: transparent; color: var(--ink); }
+  #dl-status { font-size: 0.9rem; color: var(--muted); }
+  @media (max-width: 560px) { #dl-status { display: none; } #dl-btn { padding: 0.45rem 0.8rem; } }
+  .topnav a {
+    display: block; padding: 0.85rem 0.9rem; color: var(--muted);
+    text-decoration: none; font-weight: 600; font-size: 1rem; white-space: nowrap;
+    border-bottom: 3px solid transparent;
+  }
+  .topnav a:hover { color: var(--ink); }
+  .topnav a[aria-current="true"] { color: var(--ink); border-bottom-color: var(--org-fill); }
+
+  /* Hero */
+  .hero { padding: 3.5rem 0 2.5rem; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 800; max-width: 20ch; }
+  .hero .lede { margin-top: 1rem; max-width: 62ch; color: var(--muted); }
+  .lockup {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 6px 1fr;
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+  .lockup .side h2 { font-size: clamp(2.4rem, 8vw, 4.75rem); font-weight: 800; letter-spacing: -0.01em; }
+  .lockup .side p { margin-top: 0.75rem; max-width: 30ch; }
+  .lockup .org h2 { color: var(--org); }
+  .lockup .dig { text-align: right; }
+  .lockup .dig h2 { color: var(--dig); }
+  .lockup .dig p { margin-left: auto; }
+  .lockup .spine { background: linear-gradient(to bottom, var(--org-fill), var(--dig-fill)); border-radius: 3px; }
+  @media (max-width: 640px) {
+    .lockup { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .lockup .spine { display: none; }
+    .lockup .side p { font-size: 1rem; }
+  }
+
+
+  /* Drilldown: overview cards, panels, in-panel links */
+  [hidden] { display: none !important; }
+  h2[tabindex="-1"]:focus { outline: none; }
+  .overview { padding: 2.5rem 0 3.5rem; border-top: 1px solid var(--line); }
+  .overview[hidden] { display: none; }
+  .overview h2 { font-size: clamp(1.5rem, 3.4vw, 2rem); margin-bottom: 0.4rem; }
+  .overview .hint { color: var(--muted); margin-bottom: 1.5rem; max-width: 62ch; }
+  .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .card {
+    display: flex; flex-direction: column; gap: 0.5rem; height: 100%;
+    padding: 1.2rem 1.35rem 1.2rem 1.7rem; border-radius: 8px;
+    text-decoration: none; color: var(--ink);
+    border: 1px solid var(--line);
+    background: linear-gradient(to bottom, var(--org-fill), var(--dig-fill)) left / 8px 100% no-repeat, var(--panel);
+  }
+  .card:hover { border-color: var(--ink); }
+  .card-title { font-family: var(--serif); font-weight: 700; font-size: 1.45rem; line-height: 1.2; }
+  .card-sub { color: var(--muted); font-size: 1rem; }
+  .card-go { margin-top: auto; padding-top: 0.4rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+  .prompt-text {
+    white-space: pre-wrap; overflow-wrap: anywhere; max-width: 70ch;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    padding: 1.25rem 1.4rem 1.25rem 1.7rem; line-height: 1.6;
+    background-image: linear-gradient(to bottom, var(--org-fill), var(--dig-fill));
+    background-size: 8px 100%; background-repeat: no-repeat; background-position: left;
+  }
+  .back { margin: 0 0 1.25rem; }
+  .next { margin: 2.5rem 0 0; text-align: right; }
+  .back a, .next a { font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+
+  /* Sections */
+  section.block { padding: 3.5rem 0; border-top: 1px solid var(--line); }
+  .sec-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.5rem; }
+  .sec-head .n { font-family: var(--serif); font-size: 2.6rem; font-weight: 800; color: var(--org-fill); line-height: 1; }
+  .sec-head h2 { font-size: clamp(1.6rem, 3.6vw, 2.2rem); }
+  .sec-sub { color: var(--muted); max-width: 64ch; margin-bottom: 2rem; margin-left: 0; }
+
+  /* Comparison */
+  .cmp-head, .row {
+    display: grid;
+    grid-template-columns: 1fr 150px 1fr;
+    grid-template-areas: "org dim dig";
+    gap: 0.5rem 0.75rem;
+  }
+  .cmp-head { margin-bottom: 0.75rem; }
+  .cmp-head .h {
+    font-family: var(--serif); font-weight: 700; font-size: 1.35rem; padding: 0.4rem 1rem;
+  }
+  .cmp-head .h.org { grid-area: org; text-align: right; color: var(--org); border-bottom: 4px solid var(--org-fill); }
+  .cmp-head .h.dig { grid-area: dig; color: var(--dig); border-bottom: 4px solid var(--dig-fill); }
+  .row { margin-bottom: 0.6rem; align-items: stretch; }
+  .row .cell { padding: 0.8rem 1rem; border-radius: 6px; }
+  .row .cell.org { grid-area: org; background: var(--org-soft); text-align: right; border-right: 4px solid var(--org-fill); }
+  .row .cell.dig { grid-area: dig; background: var(--dig-soft); border-left: 4px solid var(--dig-fill); }
+  .row .dim {
+    grid-area: dim; display: flex; align-items: center; justify-content: center; text-align: center;
+    font-family: var(--serif); font-weight: 700; font-size: 1.05rem;
+  }
+  @media (max-width: 720px) {
+    .cmp-head, .row { grid-template-columns: 1fr 1fr; grid-template-areas: "dim dim" "org dig"; }
+    .cmp-head { grid-template-areas: "org dig"; }
+    .row .dim { justify-content: flex-start; padding-top: 0.5rem; }
+    .row .cell { font-size: 1rem; }
+    .row .cell.org { text-align: left; }
+    .cmp-head .h.org { text-align: left; }
+  }
+
+  .strengths { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 1.25rem 1.4rem; }
+  .panel h3 { font-size: 1.3rem; margin-bottom: 0.6rem; }
+  .panel.org { border-top: 5px solid var(--org-fill); }
+  .panel.org h3 { color: var(--org); }
+  .panel.dig { border-top: 5px solid var(--dig-fill); }
+  .panel.dig h3 { color: var(--dig); }
+  .panel ul { margin: 0; padding-left: 1.2rem; }
+  .panel li { margin: 0.25rem 0; }
+  .panel .watch { margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px dashed var(--line); color: var(--muted); }
+  @media (max-width: 720px) { .strengths { grid-template-columns: 1fr; } }
+
+  /* Processing flows */
+  .flows { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .flow { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 1.25rem 1.4rem 1.5rem; }
+  .flow.org { border-top: 5px solid var(--org-fill); }
+  .flow.dig { border-top: 5px solid var(--dig-fill); }
+  .flow h3 { font-size: 1.4rem; }
+  .flow.org h3 { color: var(--org); }
+  .flow.dig h3 { color: var(--dig); }
+  .flow .tagline { color: var(--muted); margin: 0.3rem 0 1rem; }
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+  .step { position: relative; counter-increment: s; padding: 0.7rem 1rem 0.7rem 3.1rem; border-radius: 6px; margin-bottom: 1.1rem; }
+  .flow.org .step { background: var(--org-soft); }
+  .flow.dig .step { background: var(--dig-soft); }
+  .step::before {
+    content: counter(s);
+    position: absolute; left: 0.8rem; top: 0.7rem;
+    width: 1.55rem; height: 1.55rem; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 700; font-size: 0.95rem; color: #fff;
+  }
+  .flow.org .step::before { background: var(--org); }
+  .flow.dig .step::before { background: var(--dig); }
+  .step:not(:last-child)::after {
+    content: ""; position: absolute; left: 1.15rem; bottom: -0.85rem;
+    border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 9px solid var(--muted);
+  }
+  .step strong { display: block; font-family: var(--serif); font-size: 1.1rem; }
+  .band { border-radius: 6px; padding: 0.8rem 1rem; margin-top: 0.4rem; font-size: 1rem; }
+  .flow.org .band { border: 2px dashed var(--org-fill); }
+  .flow.dig .band { border: 2px dashed var(--dig-fill); }
+  .band b { font-weight: 600; }
+  .chips { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chips li { font-size: 0.95rem; padding: 0.2rem 0.7rem; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); }
+  .shared-note {
+    margin-top: 1.5rem; padding: 1rem 1.25rem; border-left: 5px solid; border-image: linear-gradient(to bottom, var(--org-fill), var(--dig-fill)) 1;
+    background: var(--panel); max-width: 80ch;
+  }
+  @media (max-width: 820px) { .flows { grid-template-columns: 1fr; } }
+
+  /* Origins */
+  .track { margin-bottom: 0.5rem; }
+  .track > h3 { font-size: 1.35rem; margin-bottom: 0.9rem; }
+  .track.org > h3 { color: var(--org); }
+  .track.dig > h3 { color: var(--dig); }
+  .stages { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+  .stages.three { grid-template-columns: repeat(3, 1fr); }
+  .stages.five { grid-template-columns: repeat(5, 1fr); }
+  .stage { position: relative; padding: 0.9rem 1rem; border-radius: 6px; border-top: 5px solid; }
+  .track.org .stage { background: var(--org-soft); border-top-color: var(--org-fill); }
+  .track.dig .stage { background: var(--dig-soft); border-top-color: var(--dig-fill); }
+  .stage .when { font-family: var(--serif); font-weight: 800; font-size: 1.3rem; display: block; margin-bottom: 0.15rem; }
+  .track.org .when { color: var(--org); }
+  .track.dig .when { color: var(--dig); }
+  .stage .what { font-size: 1rem; }
+  .stage .what b { display: block; font-weight: 600; font-size: 1.05rem; }
+  .train {
+    margin-top: 1.1rem; padding: 1rem 1.1rem; border-radius: 8px; background: var(--panel); border: 1px solid var(--line);
+  }
+  .train h4 { font-family: var(--serif); font-size: 1.1rem; margin: 0 0 0.6rem; }
+  .loop { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+  .loop li { padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--dig-soft); border: 1px solid var(--dig-fill); font-size: 1rem; }
+  .loop li.sep { background: none; border: none; padding: 0; color: var(--muted); }
+  .train p { margin-top: 0.7rem; color: var(--muted); font-size: 1rem; }
+  .bridge {
+    margin: 1.75rem auto; max-width: 760px; text-align: center; padding: 1rem 1.25rem; border-radius: 8px;
+    background: linear-gradient(90deg, var(--org-soft), var(--dig-soft)); border: 1px solid var(--line);
+  }
+  .bridge .down { display: block; font-size: 1.4rem; color: var(--muted); line-height: 1; margin-bottom: 0.25rem; }
+  .bridge strong { font-family: var(--serif); font-size: 1.15rem; }
+  .optim { margin-top: 2rem; display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; }
+  .optim .o { padding: 0.9rem 1.1rem; border-radius: 8px; text-align: center; font-family: var(--serif); font-weight: 700; font-size: 1.15rem; }
+  .optim .o.org { background: var(--org-soft); border: 2px solid var(--org-fill); color: var(--ink); }
+  .optim .o.dig { background: var(--dig-soft); border: 2px solid var(--dig-fill); color: var(--ink); }
+  .optim .mid { text-align: center; color: var(--muted); font-size: 0.95rem; max-width: 16ch; }
+  @media (max-width: 900px) {
+    .stages.five { grid-template-columns: repeat(2, 1fr); }
+    .stages.three { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .stages.five { grid-template-columns: 1fr; }
+    .optim { grid-template-columns: 1fr; }
+  }
+
+  /* Benefits */
+  .trio { display: grid; grid-template-columns: 1fr 0.9fr 1fr; gap: 0; align-items: stretch; }
+  .trio .col { padding: 1.25rem 1.4rem; }
+  .trio .col h3 { font-size: 1.25rem; margin-bottom: 0.6rem; }
+  .trio ul { margin: 0; padding-left: 1.2rem; }
+  .trio li { margin: 0.25rem 0; }
+  .trio .l { background: var(--org-soft); border-radius: 10px 0 0 10px; border-top: 5px solid var(--org-fill); }
+  .trio .l h3 { color: var(--org); }
+  .trio .m { background: linear-gradient(90deg, var(--org-soft), var(--dig-soft)); border-top: 5px solid; border-image: linear-gradient(90deg, var(--org-fill), var(--dig-fill)) 1; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+  .trio .r { background: var(--dig-soft); border-radius: 0 10px 10px 0; border-top: 5px solid var(--dig-fill); }
+  .trio .r h3 { color: var(--dig); }
+  @media (max-width: 760px) {
+    .trio { grid-template-columns: 1fr; gap: 0.75rem; }
+    .trio .l, .trio .m, .trio .r { border-radius: 8px; }
+  }
+  .ways-title { margin: 2.75rem 0 1rem; font-size: 1.5rem; }
+  .ways { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .way { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.15rem; border-left: 5px solid; border-image: linear-gradient(to bottom, var(--org-fill), var(--dig-fill)) 1; }
+  .way h4 { font-family: var(--serif); font-size: 1.15rem; margin: 0 0 0.3rem; }
+  .way p { font-size: 1rem; color: var(--muted); }
+  @media (max-width: 900px) { .ways { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .ways { grid-template-columns: 1fr; } }
+
+  .cautions { margin-top: 2.75rem; border: 2px solid var(--ink); border-radius: 10px; padding: 1.4rem 1.5rem; background: var(--panel); }
+  .cautions h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+  .cautions ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .cautions li strong { display: block; font-family: var(--serif); font-size: 1.1rem; margin-bottom: 0.2rem; }
+  .cautions li span { color: var(--muted); font-size: 1rem; }
+  @media (max-width: 820px) { .cautions ul { grid-template-columns: 1fr; } }
+
+  footer { padding: 2.5rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.95rem; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Sections">
+  <div class="inner">
+    <ul>
+      <li><a href="#differences">Differences</a></li>
+      <li><a href="#processing">Processing</a></li>
+      <li><a href="#origins">Origins</a></li>
+      <li><a href="#benefits">Benefits</a></li>
+      <li><a href="#prompt">Prompt</a></li>
+    </ul>
+    
+  </div>
+</nav>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <h1>Two kinds of intelligence, grown and built</h1>
+    <p class="lede">How organic and digital intelligence differ, how each processes information, how each came to exist, and how people can gain from working with both.</p>
+
+    <div class="lockup" aria-label="Organic and digital intelligence at a glance">
+      <div class="side org">
+        <h2>Organic</h2>
+        <p>Grown by evolution and grounded in a living body.</p>
+      </div>
+      <div class="spine" aria-hidden="true"></div>
+      <div class="side dig">
+        <h2>Digital</h2>
+        <p>Built by design and trained on human writing.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="overview" id="overview" aria-labelledby="overview-h">
+    <div class="wrap">
+      <h2 id="overview-h" tabindex="-1">Choose a topic to explore</h2>
+      <p class="hint">Each topic opens its details below. Use the tabs at the top to switch between them at any time.</p>
+      <ul class="cards">
+        <li><a class="card" href="#differences"><span class="card-title">Differences</span><span class="card-sub">Seven contrasts between organic and digital intelligence, from substrate and embodiment to energy and experience.</span><span class="card-go">See details</span></a></li>
+        <li><a class="card" href="#processing"><span class="card-title">Processing</span><span class="card-sub">The brain predicts and corrects. A language model turns text into numbers and predicts what comes next.</span><span class="card-go">See details</span></a></li>
+        <li><a class="card" href="#origins"><span class="card-title">Origins</span><span class="card-sub">One evolved over billions of years. The other was designed over about 80.</span><span class="card-go">See details</span></a></li>
+        <li><a class="card" href="#benefits"><span class="card-title">Benefits</span><span class="card-sub">Six ways people gain from working with digital intelligence, and three habits that keep the benefit real.</span><span class="card-go">See details</span></a></li>
+        <li><a class="card" href="#prompt"><span class="card-title">Prompt</span><span class="card-sub">The question that started it: what to understand about organic and digital intelligence.</span><span class="card-go">See details</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 1 -->
+  <section class="block tabpanel" id="differences" aria-labelledby="differences-h">
+    <div class="wrap">
+      <p class="back"><a href="#overview">Back to all topics</a></p>
+      <div class="sec-head"><span class="n">1</span><h2 id="differences-h" tabindex="-1">The core differences</h2></div>
+      <p class="sec-sub">Seven contrasts, read across from the organic side to the digital side.</p>
+
+      <div class="cmp-head" aria-hidden="true">
+        <div class="h org">Organic</div>
+        <div class="h dig">Digital</div>
+      </div>
+
+      <div class="row">
+        <div class="cell org">Neurons, chemistry, living tissue</div>
+        <div class="dim">Substrate</div>
+        <div class="cell dig">Silicon, mathematical models</div>
+      </div>
+      <div class="row">
+        <div class="cell org">Inseparable from a body with needs</div>
+        <div class="dim">Embodiment</div>
+        <div class="cell dig">Usually none; exists as weights and computation</div>
+      </div>
+      <div class="row">
+        <div class="cell org">Survival, emotion, and social drives are built in</div>
+        <div class="dim">Motivation</div>
+        <div class="cell dig">Goals come from training objectives and human instructions</div>
+      </div>
+      <div class="row">
+        <div class="cell org">Continuous, from very little data</div>
+        <div class="dim">Learning</div>
+        <div class="cell dig">Mostly a separate training phase, from enormous data</div>
+      </div>
+      <div class="row">
+        <div class="cell org">About 20 watts</div>
+        <div class="dim">Energy</div>
+        <div class="cell dig">Megawatts to train large models</div>
+      </div>
+      <div class="row">
+        <div class="cell org">One mortal individual; knowledge is hard to copy</div>
+        <div class="dim">Persistence</div>
+        <div class="cell dig">Copyable and shareable; no fatigue</div>
+      </div>
+      <div class="row">
+        <div class="cell org">Subjective experience is certain, at least in yourself</div>
+        <div class="dim">Experience</div>
+        <div class="cell dig">Whether there is any is an open question</div>
+      </div>
+
+      <div class="strengths">
+        <div class="panel org">
+          <h3>Where humans are strong</h3>
+          <ul>
+            <li>Common sense</li>
+            <li>Physical intuition</li>
+            <li>Social understanding</li>
+            <li>Caring about outcomes</li>
+          </ul>
+        </div>
+        <div class="panel dig">
+          <h3>Where digital systems are strong</h3>
+          <ul>
+            <li>Breadth and recall</li>
+            <li>Speed</li>
+            <li>Tireless pattern-finding across huge amounts of material</li>
+          </ul>
+          <p class="watch">Watch for confident errors. With no direct contact with the world, there is nothing to check against.</p>
+        </div>
+      </div>
+      <p class="next"><a href="#processing">Next: Processing</a></p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="block tabpanel" id="processing" aria-labelledby="processing-h">
+    <div class="wrap">
+      <p class="back"><a href="#overview">Back to all topics</a></p>
+      <div class="sec-head"><span class="n">2</span><h2 id="processing-h" tabindex="-1">How each processes information</h2></div>
+      <p class="sec-sub">Each side runs a repeating cycle. The brain predicts and corrects; a language model turns text into numbers and predicts what comes next.</p>
+
+      <div class="flows">
+        <div class="flow org">
+          <h3>Organic</h3>
+          <p class="tagline">Massively parallel, analog, and built on prediction.</p>
+          <ol class="steps">
+            <li class="step"><strong>Sense</strong>Signals arrive from the body and the world as electrochemical spikes.</li>
+            <li class="step"><strong>Predict</strong>The brain constantly guesses what it will sense next.</li>
+            <li class="step"><strong>Compare</strong>Differences between the guess and the input become error signals.</li>
+            <li class="step"><strong>Update</strong>Synapses change. Memory and processing happen in the same place.</li>
+          </ol>
+          <div class="band"><b>Shaping everything above:</b> emotion, attention, hormones, and the body decide what gets processed and what matters.</div>
+          <ul class="chips">
+            <li>About 86 billion neurons</li>
+            <li>Trillions of synapses</li>
+            <li>Analog</li>
+          </ul>
+        </div>
+
+        <div class="flow dig">
+          <h3>Digital</h3>
+          <p class="tagline">Statistical pattern processing at enormous scale.</p>
+          <ol class="steps">
+            <li class="step"><strong>Tokenize</strong>Text is split into tokens.</li>
+            <li class="step"><strong>Embed</strong>Tokens become numbers.</li>
+            <li class="step"><strong>Attend</strong>Layers of matrix arithmetic run, and attention weighs which parts of the input matter to each other.</li>
+            <li class="step"><strong>Predict</strong>The model produces the next piece of output, then repeats.</li>
+          </ol>
+          <div class="band"><b>Memory:</b> learned weights are fixed after training. The context window is working memory, and by default nothing carries over afterward.</div>
+          <ul class="chips">
+            <li>Behavior that looks like reasoning</li>
+            <li>Fixed weights</li>
+            <li>Context window</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="shared-note">The two share a loose architectural inspiration, since artificial neural networks were modeled on neurons. But the brain's spiking, chemistry, and embodiment are very different from the math in a transformer.</p>
+      <p class="next"><a href="#origins">Next: Origins</a></p>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="block tabpanel" id="origins" aria-labelledby="origins-h">
+    <div class="wrap">
+      <p class="back"><a href="#overview">Back to all topics</a></p>
+      <div class="sec-head"><span class="n">3</span><h2 id="origins-h" tabindex="-1">How each was created</h2></div>
+      <p class="sec-sub">One emerged over billions of years with no designer. The other was designed over about 80 years. The stages below are not drawn to scale.</p>
+
+      <div class="track org">
+        <h3>Organic: evolved</h3>
+        <ol class="stages three">
+          <li class="stage"><span class="when">Billions of years</span><span class="what"><b>Evolution</b>Natural selection was the optimizer, with no designer and no goal beyond survival and reproduction.</span></li>
+          <li class="stage"><span class="when">A lifetime</span><span class="what"><b>Development and learning</b>Each individual grows and learns from experience.</span></li>
+          <li class="stage"><span class="when">Across generations</span><span class="what"><b>Culture and writing</b>Language and writing pass knowledge from one generation to the next.</span></li>
+        </ol>
+      </div>
+
+      <div class="bridge">
+        <span class="down" aria-hidden="true">↓</span>
+        <strong>Digital intelligence was trained largely on the written output of human minds.</strong>
+        <p>In a real sense, it is built from the products of organic intelligence.</p>
+      </div>
+
+      <div class="track dig">
+        <h3>Digital: designed</h3>
+        <ol class="stages five">
+          <li class="stage"><span class="when">1943</span><span class="what">First mathematical neuron models</span></li>
+          <li class="stage"><span class="when">1958</span><span class="what">The perceptron</span></li>
+          <li class="stage"><span class="when">1980s</span><span class="what">Backpropagation</span></li>
+          <li class="stage"><span class="when">2012</span><span class="what">Deep learning breakthroughs</span></li>
+          <li class="stage"><span class="when">2017</span><span class="what">The transformer</span></li>
+        </ol>
+        <div class="train">
+          <h4>How a modern model is trained</h4>
+          <ol class="loop">
+            <li>Predict the next token</li>
+            <li class="sep" aria-hidden="true">then</li>
+            <li>Measure the error</li>
+            <li class="sep" aria-hidden="true">then</li>
+            <li>Adjust billions of parameters</li>
+          </ol>
+          <p>This is gradient descent. Further tuning with human feedback then shapes the model's behavior.</p>
+        </div>
+      </div>
+
+      <div class="optim">
+        <div class="o org">Natural selection</div>
+        <div class="mid">Both are forms of optimization</div>
+        <div class="o dig">Gradient descent</div>
+      </div>
+      <p class="next"><a href="#benefits">Next: Benefits</a></p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="block tabpanel" id="benefits" aria-labelledby="benefits-h">
+    <div class="wrap">
+      <p class="back"><a href="#overview">Back to all topics</a></p>
+      <div class="sec-head"><span class="n">4</span><h2 id="benefits-h" tabindex="-1">How organic intelligence can benefit</h2></div>
+      <p class="sec-sub">The best framing is complementarity: each side covers the other's weaknesses.</p>
+
+      <div class="trio">
+        <div class="col l">
+          <h3>You bring</h3>
+          <ul>
+            <li>The question</li>
+            <li>Judgment</li>
+            <li>Values</li>
+            <li>Meaning and relationships</li>
+          </ul>
+        </div>
+        <div class="col m">
+          <h3>Together</h3>
+          <p>Human judgment combined with machine breadth and speed.</p>
+        </div>
+        <div class="col r">
+          <h3>Digital brings</h3>
+          <ul>
+            <li>Breadth and recall</li>
+            <li>Speed</li>
+            <li>Pattern-finding</li>
+            <li>Tireless repetition</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="ways-title">Six ways to benefit</h3>
+      <ul class="ways">
+        <li class="way"><h4>Thinking partner</h4><p>Test ideas, ask for counterarguments, and have your reasoning challenged. It works best when you bring the question and the judgment.</p></li>
+        <li class="way"><h4>Tireless tutor</h4><p>Get a concept explained five different ways, at your level, as many times as you like.</p></li>
+        <li class="way"><h4>Synthesis and recall</h4><p>Pull together large amounts of material, find connections across fields, and get oriented quickly in unfamiliar territory.</p></li>
+        <li class="way"><h4>Drafts and first passes</h4><p>Let the machine do the heavy lifting so you can spend your effort on evaluation and refinement.</p></li>
+        <li class="way"><h4>Accessibility</h4><p>Transcription, summarization, and translation lower barriers for many people.</p></li>
+        <li class="way"><h4>Cognitive offloading</h4><p>Hand routine tasks to the machine and free your attention for meaning, values, and relationships.</p></li>
+      </ul>
+
+      <div class="cautions">
+        <h3>Three habits that keep the benefit real</h3>
+        <ul>
+          <li><strong>Verify factual claims</strong><span>Digital systems can be fluently wrong.</span></li>
+          <li><strong>Keep exercising your own thinking</strong><span>Skills you never use can fade.</span></li>
+          <li><strong>Keep judgment and values with the human</strong><span>AI can inform a decision, but the person who lives with the consequences should make it.</span></li>
+        </ul>
+      </div>
+      <p class="next"><a href="#prompt">Next: Prompt</a></p>
+    </div>
+  </section>
+  <!-- Prompt -->
+  <section class="block tabpanel" id="prompt" aria-labelledby="prompt-h">
+    <div class="wrap">
+      <p class="back"><a href="#overview">Back to all topics</a></p>
+      <div class="sec-head"><h2 id="prompt-h" tabindex="-1">Prompt</h2></div>
+      <p class="sec-sub">The original question, exactly as written.</p>
+      <div class="prompt-text">From my use of AI I have come to believe that there is digital and organic and digital intelligence
+I want to understand
+
+1. The difference between these types of intelligence
+2. How do each of these intelligences process information
+3. How have each have been created and developed
+
+I also want to know how human or organic intelligence can benefit from digital intelligence</div>
+      <p class="next"><a href="#overview">Back to all topics</a></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Summary of a conversation about organic and digital intelligence.</div>
+</footer>
+
+
+
+
+</body></html>

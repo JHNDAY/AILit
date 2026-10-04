@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLLI AI Literacy SIG — October 2, 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Courier+Prime:wght@400;700&display=swap');
+
+body { margin: 0; padding: 2rem; background: #e8e0cc; scroll-behavior: smooth; }
+
+.mpage {
+  background: #fffdf6;
+  color: #0d0a05;
+  font-family: Georgia, 'Times New Roman', serif;
+  padding: 3rem 3.5rem;
+  border: 2px solid #3a2e18;
+  box-shadow: 5px 5px 0 #0d0a05;
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.mpage::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(0,0,0,0.03) 27px, rgba(0,0,0,0.03) 28px);
+  pointer-events:none;
+}
+
+.masthead { text-align:center; border-bottom:4px double #0d0a05; padding-bottom:1.3rem; margin-bottom:1.3rem; }
+.kicker { font-family:'Courier Prime',monospace; font-size:12px; letter-spacing:.35em; text-transform:uppercase; color:#4a3c28; margin-bottom:.6rem; }
+.headline { font-family:'Playfair Display',serif; font-size:3rem; font-weight:900; line-height:.95; color:#0d0a05; text-transform:uppercase; letter-spacing:.04em; margin-bottom:.5rem; }
+.subhead { font-family:'Playfair Display',serif; font-size:1.15rem; font-style:italic; color:#4a3c28; margin-bottom:.7rem; }
+.byline { font-family:'Courier Prime',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#9a8a68; }
+.dateline { font-family:'Courier Prime',monospace; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#9a8a68; margin-top:.3rem; }
+
+hr.thick  { border:none; border-top:3px solid #0d0a05; margin:1.4rem 0; }
+hr.thin   { border:none; border-top:1px solid #c8b888; margin:1rem 0; }
+hr.double { border:none; border-top:4px double #0d0a05; margin:1.4rem 0; }
+
+.sec-tag { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:#4a3c28; margin-bottom:.4rem; scroll-margin-top:1.5rem; }
+.sec-tag:target { animation: jump-highlight 1.8s ease-out; }
+@keyframes jump-highlight {
+  0% { background:#f0e8d0; box-shadow:0 0 0 6px #f0e8d0; }
+  100% { background:transparent; box-shadow:0 0 0 6px transparent; }
+}
+.sec-head { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:#0d0a05; border-bottom:2px solid #0d0a05; padding-bottom:.4rem; margin-bottom:1rem; }
+
+.topic-detail { display:none; }
+.topic-detail.is-open { display:block; animation: reveal .3s ease-out; }
+@keyframes reveal { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+.drilldown-hint { text-align:center; font-family:'Courier Prime',monospace; font-size:12px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:#8c0f0f; background:#f0e8d0; border:2px solid #8c0f0f; padding:.6rem 1rem; margin:0 0 .8rem; }
+.return-row { text-align:center; margin:1.4rem 0 .4rem; }
+.return-btn { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#4a3c28; background:#f0e8d0; border:2px solid #0d0a05; padding:.55rem 1.3rem; cursor:pointer; transition:background .15s; }
+.return-btn:hover { background:#e4d8b8; }
+.return-btn::before { content:'↑  '; }
+
+.topics { display:grid; grid-template-columns:repeat(3,1fr); border:2px solid #0d0a05; margin-bottom:1.4rem; }
+.topic { padding:.8rem 1rem; border-right:2px solid #0d0a05; border-bottom:2px solid #0d0a05; text-align:center; cursor:pointer; transition:background .15s; text-decoration:none; display:block; color:inherit; background:none; border-top:none; border-left:none; width:100%; font-family:inherit; }
+.topic:hover { background:#f0e8d0; }
+.topic:active { background:#e4d8b8; }
+.topic.is-open { background:#0d0a05; }
+.topic.is-open .topic-num { color:#e8a070; }
+.topic.is-open .topic-name { color:#fffdf6; }
+.topic:nth-child(3n) { border-right:none; }
+.topic:nth-last-child(-n+3) { border-bottom:none; }
+.topic-num { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#8c0f0f; margin-bottom:4px; }
+.topic-name { font-family:'Playfair Display',serif; font-size:.88rem; font-weight:700; color:#0d0a05; line-height:1.3; }
+
+.participants { border:2px solid #0d0a05; border-top:none; display:flex; flex-wrap:wrap; gap:0; margin-bottom:1.4rem; background:#f0e8d0; }
+.participants-label { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:#4a3c28; padding:.5rem 1rem; border-right:2px solid #0d0a05; white-space:nowrap; display:flex; align-items:center; }
+.participants-names { font-family:'Courier Prime',monospace; font-size:11px; color:#0d0a05; padding:.5rem 1rem; line-height:1.6; }
+
+.exchange { margin-bottom:1.4rem; }
+.ex-header { display:flex; align-items:baseline; gap:.8rem; margin-bottom:.5rem; }
+.ex-topic { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:#9a8a68; }
+.ex-topic::before { content:'▸  '; color:#8c0f0f; }
+.ex-speaker { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:#4a3c28; font-weight:700; }
+.ex-time { font-family:'Courier Prime',monospace; font-size:9px; letter-spacing:.1em; color:#9a8a68; margin-left:auto; }
+
+.ex-body { font-size:15px; line-height:1.75; color:#0d0a05; padding-left:1rem; border-left:3px solid #c8b888; }
+
+.callout { background:#f0e8d0; border:2px solid #0d0a05; padding:1rem 1.2rem; margin:1.2rem 0; }
+.callout-head { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#8c0f0f; margin-bottom:.5rem; display:flex; align-items:center; gap:.6rem; }
+.callout-head::before,.callout-head::after { content:''; flex:1; height:1.5px; background:#8c0f0f; }
+.callout-body { font-size:14px; line-height:1.65; color:#4a3c28; font-style:italic; }
+
+.pullquote { font-family:'Playfair Display',serif; font-size:1.5rem; font-style:italic; color:#0d0a05; text-align:center; border-top:3px solid #0d0a05; border-bottom:3px solid #0d0a05; padding:1rem 2rem; margin:1.4rem 0; line-height:1.4; }
+.pullquote cite { display:block; font-family:'Courier Prime',monospace; font-size:11px; font-style:normal; letter-spacing:.18em; text-transform:uppercase; color:#9a8a68; margin-top:.5rem; }
+
+.notes-box { border:2px solid #0d0a05; padding:.9rem 1.1rem; background:rgba(0,0,0,.03); }
+.notes-head { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:#0d0a05; text-transform:uppercase; letter-spacing:.04em; margin-bottom:.6rem; }
+ul.nlist { list-style:none; padding:0; margin:0; }
+ul.nlist li { font-size:14px; line-height:1.6; color:#4a3c28; padding:5px 0 5px 20px; border-bottom:1px dashed #c8b888; position:relative; font-style:italic; }
+ul.nlist li:last-child { border-bottom:none; }
+ul.nlist li::before { content:'▪'; position:absolute; left:0; top:7px; color:#8c0f0f; font-size:11px; }
+
+.sig { text-align:center; font-family:'Courier Prime',monospace; font-size:11px; color:#9a8a68; margin-top:1.5rem; margin-bottom:.8rem; }
+
+.footer { display:grid; grid-template-columns:repeat(3,1fr); margin-top:2rem; padding-top:1rem; border-top:2px solid #c8b888; text-align:center; font-family:'Courier Prime',monospace; font-size:10px; color:#9a8a68; gap:1rem; }
+</style>
+</head>
+<body>
+
+<div class="mpage">
+
+  <div class="masthead">
+    <div class="kicker">BOLLI AI Literacy Special Interest Group</div>
+    <div class="headline">The Fall Reboot: Words Become Numbers, Prompts Become Pages</div>
+    <div class="subhead">Synthesis of a Zoom session on how AI predicts the next word, how to write a prompt that includes yourself, and why learning by doing comes first</div>
+    <div class="byline">BOLLI AI Literacy SIG</div>
+    <div class="dateline">October 2, 2026</div>
+  </div>
+
+  <p style="text-align:center; font-family:'Courier Prime',monospace; font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:#4a3c28; margin-bottom:1.2rem;">Click on any section to see details</p>
+
+  <div class="topics" style="margin-bottom:0;">
+    <button type="button" class="topic" onclick="showTopic('warmup', this)">
+      <div class="topic-num">01</div>
+      <div class="topic-name">Warm-Up: Owls, Museums &amp; AI Everywhere</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('reboot', this)">
+      <div class="topic-num">02</div>
+      <div class="topic-name">The Reboot &amp; the Portal</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('rules', this)">
+      <div class="topic-num">03</div>
+      <div class="topic-name">Rules of the Road &amp; Training Data</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('literati', this)">
+      <div class="topic-num">04</div>
+      <div class="topic-name">Revenge of the Literati?</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('words', this)">
+      <div class="topic-num">05</div>
+      <div class="topic-name">Words, Context &amp; Next-Word Prediction</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('tokens', this)">
+      <div class="topic-num">06</div>
+      <div class="topic-name">Tokens, Computation &amp; Memory</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('prompt', this)">
+      <div class="topic-num">07</div>
+      <div class="topic-name">Narrating a Prompt &amp; Visualizing the Reply</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('demo', this)">
+      <div class="topic-num">08</div>
+      <div class="topic-name">Live Demo: Challenging the Visualization</div>
+    </button>
+    <button type="button" class="topic" onclick="showTopic('next', this)">
+      <div class="topic-num">09</div>
+      <div class="topic-name">Is the Web Page Necessary? &amp; Homework</div>
+    </button>
+  </div>
+
+  <div class="participants">
+    <div class="participants-label">Voices</div>
+    <div class="participants-names">John Day (facilitator) · John C. · Amy R. · Abby Pinard · Jenny Fariborz · Miriam P. Halperin-Maya · Helaine Silverman · Klavdia</div>
+  </div>
+
+  <!-- TOPIC 1: WARM-UP -->
+  <div class="topic-detail" id="detail-warmup">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-warmup">Opening Chat · Gardens, Owls, Museums, and Machines That Chime In</div>
+  <div class="sec-head">AI Keeps Turning Up, Gracefully or Not</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">00:10–01:15</span></div>
+    <div class="ex-body">
+      You're clearly a person who likes to watch things grow. My wife loves that, and she's taught me to appreciate just watching things grow. Our house in Lexington sits on the edge of about 100 acres of conservation land, so out back we see just woods. This year we had a family of owls in the backyard, and we watched the owlets grow, thrive, and leave the nest. A remarkable experience.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John C., Amy R. &amp; John Day</span><span class="ex-time">01:19–05:34</span></div>
+    <div class="ex-body">
+      Abby joined with her camera off, since she'd be moving the computer closer to read shared screens. John C. is headed to Durham, North Carolina, for Cheryl's niece's son's bar mitzvah. He and Amy are both in Nancy Alamasco's class, and the MFA currently has a Dalí, Miró and Picasso exhibit that fits what the class is doing; there's another modernism show at the Clark. Talk drifted to the flood of renewal reminders in mailboxes, email and texts, and John Day agreed that email can be a beast.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">05:36–08:37</span></div>
+    <div class="ex-body">
+      With Google Mail and a Google One subscription, I get an AI inbox that does a nice job calling out what matters: a medical appointment, or this week's reminder that the AILit SIG was on Friday. It sorts the junk from what you're actually interacting with. AI shows up in surprising places. At Wegmans, when you put produce on the scale, it takes a picture and jumps to the right menu, so if it's a banana you just click the kind you want. It isn't always graceful, and sometimes it's annoying, but that's the evolution of knowledge.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John C.</span><span class="ex-time">07:55–09:10</span></div>
+    <div class="ex-body">
+      Two couples were in my car talking about relationships, and all of a sudden the car started telling us relationships are an important part of longevity. I said, who asked the car? And when Cheryl and I text with NPR playing in the background, the dictation sometimes picks up the broadcast, and I find stray lines about Iraq, Iran and Netanyahu in the middle of my message.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "Who asked the car?"
+    <cite>John C.</cite>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">AI in Everyday Life</div>
+    <ul class="nlist">
+      <li>Gmail's AI inbox surfaces appointments and event reminders and filters junk</li>
+      <li>Grocery-store scales recognize produce and shortcut the menu</li>
+      <li>Car assistants and chat agents now volunteer opinions nobody asked for</li>
+      <li>Voice dictation can absorb background audio into a message</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 2: REBOOT & PORTAL -->
+  <div class="topic-detail" id="detail-reboot">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-reboot">Session Setup · A Fresh Start, a Portal, and a Metaphor</div>
+  <div class="sec-head">Learning by Doing, with a Portal to Guide It</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">09:34–11:16</span></div>
+    <div class="ex-body">
+      We've only had about three sessions so far; one drew 17 people, others looked more like today. Fifty people have registered, but to actually get things done a smaller group can be more manageable. The main focus, in my mind, is that each participant becomes active with AI, because that's how you learn about it. I'll do some presentations, but I want our effort on people using AI agents for things that interest them. Once you do that, you understand the good, the bad and the ugly.
+      <br><br>
+      Helaine asked whether this was the first SIG. It's a reboot: there were three experimental sessions over the summer, just to get our feet on the ground. What we do may migrate over time, and I'm open to suggestions.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">11:57–15:54</span></div>
+    <div class="ex-body">
+      The image I chose for the portal echoes the Sistine Chapel with identities switched: a deity giving life to humans becomes humans giving life, or meaning, to AI. AI does not exist without all the accumulated learning of people, who read, look at the world, talk, write it down, and eventually see it land in large language model databases. We, people, are the most important thing in this activity, and the AI agent is a terrific assistant for furthering our thoughts and imaginings. I've also gathered a number of metaphors and visualizations and am building a roughly 40-minute talk on AI explained that way, for a later time.
+      <br><br>
+      For each session I post what we need on the portal. Today's theme is the Fall Reboot: review the foundations of AI conversation, what it means to put words into AI, and then prompting, which, along with reading, I think are the two most important early skills.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Amy R. &amp; John Day</span><span class="ex-time">15:54–~19:30</span></div>
+    <div class="ex-body">
+      Amy asked whether to interrupt (yes, whenever) and whether this would go deeper than the AI courses she'd taken through continuing ed and BOLLI. John Day: I'm a physicist, not far from a software engineer, and I've taught three AI courses at BOLLI. Online logistics and a fixed curriculum made hands-on work difficult, so this SIG is primarily learning by doing. Amy also asked about subscriptions: everything we need works on the free tier. I subscribe to Claude, my favorite, and to Gemini, which I think is quite good.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">34:52–40:06</span></div>
+    <div class="ex-body">
+      Each session gets a summary, the Zoom recording, and sometimes examples. The portal's mission line is to understand how AI works and to balance organic and digital intelligence; I usually say digital intelligence, because words become numbers, numbers get computed on, and statistical inference comes out. The second line is digital fluency: handling your browser, Windows and split screens so your working environment is comfortable. That was a real obstacle in my first three courses. The third is learning by doing. A resource strip at the bottom links the chat agents, the Zoom meeting, and an in-person option at Sawyer Road.
+      <br><br>
+      John C. praised how thoughtful and easy to use the portal is. John Day replied that the portal itself was built with Claude, which can be a future demonstration.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "We, people, are the most important thing in this activity."
+    <cite>John Day</cite>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">How the SIG Works</div>
+    <ul class="nlist">
+      <li>A reboot after three experimental summer sessions; 50 registered, a smaller group attending</li>
+      <li>Goal: every participant actively uses AI agents on topics they care about</li>
+      <li>Free tiers are enough; the facilitator uses Claude and Gemini</li>
+      <li>Each session's summary, recording and examples are posted on the portal</li>
+      <li>Mission: understand AI, balance organic and digital intelligence, build digital fluency</li>
+      <li>In-person sessions at Sawyer Road remain an option</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 3: RULES OF THE ROAD -->
+  <div class="topic-detail" id="detail-rules">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-rules">Governance · Uniform Rules, Liability, and What AI Learned From</div>
+  <div class="sec-head">What Should Be Off Limits, and Who Decides?</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">~19:30–22:28</span></div>
+    <div class="ex-body">
+      An editorial aside, and my personal view: I kept a ChatGPT subscription for a long time because it was first, but I was disappointed in how Sam Altman conducted himself when Anthropic got into its controversy with the White House. Dario Amodei put constraints on how Claude should be used, and the Pentagon's Pete Hegseth responded angrily. Altman first said he supported Amodei, but by the end of the day he was in with the Pentagon saying he could do everything they wanted, because he wanted the business. It's in the news a lot now, with many articles on how AI companies should police themselves.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John C. &amp; John Day</span><span class="ex-time">22:28–24:07</span></div>
+    <div class="ex-body">
+      John C.: Anthropic's spokesman made a good point about needing uniform rules of the road so no one gets loose and companies are more collegial in catching errors. But would new rules throttle the smaller organizations trying new approaches?
+      <br><br>
+      John Day: It's a tricky business to write rules that don't disadvantage smaller players, but some things people can obviously agree on. Take research on how to make viruses.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">24:07–~24:50</span></div>
+    <div class="ex-body">
+      A good constraint is that unless you're an accredited institution, you should not have access to the large language model databases that contain that information, and that's probably true of other types of information too. The other big story is the rogue agents, or what seem to be rogue agents. Companies doing testing need more liability, to keep agents from hacking into sources they shouldn't. We can discuss that later.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Miriam P. Halperin-Maya</span><span class="ex-time">50:19–50:53</span></div>
+    <div class="ex-body">
+      What materials does each large language model train on? There must be choices: arbitrary Substacks, real literature, scientific journals? What do Anthropic and OpenAI choose?
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">50:53–~53:00</span></div>
+    <div class="ex-body">
+      Very important, and the answer is we don't know; it's proprietary. An article in today's Times on what John Maynard Keynes would think of AI described an academic who took 12,000 pages of Keynes's writing and built a small LLM from it, so the source is known. Immersive reading works the same way: you focus on a defined universe, such as a novel or a historical work. With ordinary prompting you don't know where the material comes from, and that may be an area for regulation. You don't want instructions for making a virus available to everybody.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "The answer is we don't know. They won't tell us."
+    <cite>John Day, on what the models were trained on</cite>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">Editor's Note</div>
+    <div class="callout-body">
+      The comments on Altman, Anthropic and the Pentagon were offered as the facilitator's personal opinion. They are summarized here as stated and have not been independently verified.
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">Ideas on the Table</div>
+    <ul class="nlist">
+      <li>Shared rules of the road could make companies better at catching each other's errors</li>
+      <li>Open question: how to regulate without burdening smaller innovators</li>
+      <li>Hazardous knowledge (such as virus-making) limited to accredited institutions</li>
+      <li>More liability for companies whose test agents escape their limits</li>
+      <li>Training sources are proprietary; a single-author model like Keynes's shows the alternative</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 4: LITERATI -->
+  <div class="topic-detail" id="detail-literati">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-literati">Work &amp; Education · Liberal Arts, STEM, and Disruption</div>
+  <div class="sec-head">Will AI Make the Humanities Pay Again?</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">~24:50–27:47</span></div>
+    <div class="ex-body">
+      The portal links articles from the Washington Post, New York Times and CNN that I used as the basis for my visualizations. One I've followed is "Revenge of the Literati." The rise of generative AI has quietly inverted the career value of two tracks. For years the conventional wisdom was that a decent living meant engineering, but AI can now write much of the software. Demand for contract programmers is down; demand for people who know how to use AI is up, and those turn out to be people with backgrounds in history and literature, who know how to read and compare text and so know what questions to ask.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John C. &amp; John Day</span><span class="ex-time">27:48–28:54</span></div>
+    <div class="ex-body">
+      John C.: My lament of late is the erosion of critical thinking. Things are out there to see and hear, and people don't take notice. John Day: True, but we don't need AI for that. Imagine a broadcast system that profited from lying to people for years; we've lived through how much damage that does.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Jenny Fariborz</span><span class="ex-time">29:00–29:44</span></div>
+    <div class="ex-body">
+      Sometimes I view these arguments as a con job. The article shows a loss of engineering jobs and a projected need for liberal arts graduates, but I'd be really surprised if the world suddenly got interested in English majors. More likely engineers lose their jobs, and liberal arts people see a long, slow uptick in well-paid work. Not to be cynical.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">29:44–31:23</span></div>
+    <div class="ex-body">
+      Take a look at the Brandeis plan. Higher education is in crisis: tuition is very high and enrollment keeps falling, and my daughter says her lab at Northeastern is discussing exactly this. Brandeis is embracing reinvention with its new head. Instead of the traditional path of becoming an expert on Dickens, liberal arts students would earn micro-certifications in fields of interest to business. It's all new and exploratory.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Jenny Fariborz &amp; John Day</span><span class="ex-time">31:23–34:52</span></div>
+    <div class="ex-body">
+      Jenny: I listened to the Dartmouth AI lectures this summer and recommend them. A young researcher said that if she and her friends could go to school again they'd all study liberal arts. I understand the emotion; I just don't think the jobs are there. John Day: Google and Anthropic are hiring more liberal arts types than STEM types. Jenny: A couple of companies hiring the cream of the crop is a trickle. There's a tsunami of job loss coming, and some people will always navigate upheaval, but that's cold comfort for the great mass of average people. The scope of this is new.
+      <br><br>
+      John Day: Technology has always been a disruptor. When I was in high school, guys walked out saying they'd go down to the GM plant for a good job, and automation wiped that out. Jenny: And many of those communities still haven't recovered. We live in interesting times.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "That's gonna be cold comfort for the great mass of people."
+    <cite>Jenny Fariborz</cite>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">Two Readings of One Trend</div>
+    <div class="callout-body">
+      Optimistic: people who can read closely and ask good questions are becoming valuable, and some top AI employers are hiring them. Skeptical: that hiring is a trickle against a much larger wave of displacement, as with earlier automation. The group left the question open.
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">The Jobs Debate</div>
+    <ul class="nlist">
+      <li>Claim: AI inverts the value of programming versus liberal arts skills</li>
+      <li>Challenge: a few elite hires don't make a broad market for generalists</li>
+      <li>Brandeis exploring micro-certifications as a response to enrollment pressure</li>
+      <li>Precedent: auto-industry automation left communities behind</li>
+      <li>Shared concern: weakening critical thinking, with or without AI</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 5: WORDS -->
+  <div class="topic-detail" id="detail-words">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-words">Foundations · The Meaning of Words and How AI Generates Text</div>
+  <div class="sec-head">Why "Dog" Is Never Just a Dog</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">40:06–44:00</span></div>
+    <div class="ex-body">
+      Let's begin with the meaning of words. Take "dog." Level one is the definition: a four-legged creature, and many of us own dogs, though the dogs think they own us. Level two is contextual transformation: "you sly dog" changes the meaning altogether, to someone clever and not quite on the up and up, just because of the surrounding words. Level three is the vast number of ways "dog" appears in everything people have written. In principle you could find every recent sentence containing it, but you'd never finish. On a computer it's practical, and that is what a large language model database lets us do: probe the patterns in how words are used.
+      <br><br>
+      The takeaway: written words contain much more information than meets the eye, because so many other people have used them. That's a subtle concept, and it often takes repeated effort to get fixed in your head.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">~44:00–48:04</span></div>
+    <div class="ex-body">
+      The basic activity of AI is generation, the G in ChatGPT. I built an interface with Claude where you type a start, here "the mysterious letter arrived on a," and ask for the next word. English takes about a hundred thousand tokens, or numbers, to describe. When I click generate, AI retrieves all 100,000 candidates from its large language model database, each with the relative frequency of its appearance, and shows the top five. Each is reasonable, like "Tuesday." You won't see "golf ball" near the top, though it's in the list, way down. Pick Tuesday and you get more predictions: morning, afternoon, evening. Token by token it builds a response that is fluent, but that doesn't guarantee it's correct. That is an extraordinarily important distinction.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John C. &amp; John Day</span><span class="ex-time">48:05–50:19</span></div>
+    <div class="ex-body">
+      John C. asked whether this is like Google putting the most frequently used result first. John Day: In an extended way, yes; Gemini and all the chatbots do this, drawing on a database derived from the written record that human beings supply. Without the collected wisdom of what people have studied and written, there would be no AI. It's always statistical inference, and as Mark Twain would say, lies, damn lies, and statistics. John C. wondered how to make things more personal rather than statistical; John Day said that's coming in the next part.
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">Token by Token</div>
+    <div class="callout-body">
+      "The mysterious letter arrived on a" → <b>Tuesday</b> → morning · afternoon · <b>evening</b> → in … Each step picks from ranked candidates; "golf ball" is possible but far down the list.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "Token by token, it's building up a response that is fluent, but that doesn't guarantee that it's correct."
+    <cite>John Day</cite>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">Three Levels of a Word</div>
+    <ul class="nlist">
+      <li>Definition: what the word means on its own</li>
+      <li>Context: surrounding words transform the meaning ("you sly dog")</li>
+      <li>Usage at scale: the full pattern of how people have used it, which only a computer can survey</li>
+      <li>Generation is statistical: ranked next-token candidates, chosen one at a time</li>
+      <li>Fluent is not the same as correct</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 6: TOKENS -->
+  <div class="topic-detail" id="detail-tokens">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-tokens">Foundations · What Happens Between Your Prompt and the Reply</div>
+  <div class="sec-head">Words In, Numbers Computed, Words Out</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">~53:00–~56:00</span></div>
+    <div class="ex-body">
+      Here's a prompt box. I'll type: how do AI companies decide what documents or data sources they use in creating large language models? Now I'll tell it to tokenize. Before the prompt goes to the model, the words get turned into numbers. The AI agent then does heavy computation against the large language model database and returns a set of tokens, which are translated back into words we can read. Every transaction with AI has this layer in it, and you can try the exercise yourself.
+      <br><br>
+      Agents also increasingly remember what you've talked about. I'm developing something with Claude, and when I say I want to investigate a new idea, it may come back with "that's like what you did last year." For research that's your collected notes made accessible. That memory of your previous conversations is stored as tokens. Tokens to words, words to tokens: that's the foundation of how AI works, and I think it's essential for everybody to get a good grasp of it.
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">The Round Trip</div>
+    <div class="callout-body">
+      Your words → tokens (numbers) → computation against the language model → tokens → words you can read. Remembered conversations are kept as tokens too.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "Tokens to words, words to tokens. That's the foundation of how AI works."
+    <cite>John Day</cite>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">Foundations in Brief</div>
+    <ul class="nlist">
+      <li>Every prompt is converted to numbers before the model touches it</li>
+      <li>The model computes against stored patterns and returns tokens, which are turned back into words</li>
+      <li>Memory of earlier chats is also stored as tokens</li>
+      <li>Digital intelligence is computation, not the organic kind of intelligence people have</li>
+      <li>Learners are encouraged to rerun the tokenizer exercise on the portal</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 7: PROMPT -->
+  <div class="topic-detail" id="detail-prompt">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-prompt">Skills · Writing Prompts and Taming Verbose Answers</div>
+  <div class="sec-head">Include Yourself in the Prompt</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">~56:00–~60:00</span></div>
+    <div class="ex-body">
+      Now prompting: I've put together a little guide. Start by writing free-flowing narrative in your preferred writing tool; I linked Google Docs for convenience, but Word is fine. Include what's currently on your mind, the questions you want to explore, the context or background, and any angles you're curious about. You have to include yourself in the prompt, or you'll get a very generic, uninteresting one. Order doesn't matter; AI will sort it out.
+      <br><br>
+      A very simple prompt gets a flat response, and it fluctuates: run it again and you'll get something different, because the model selects different tokens the second time through. A comprehensive prompt with context gives a better, more reliable response, since you've left fewer possibilities for variation. I also recommend not writing in the prompt window itself. It's cramped, and it's easy to trigger a response before you want one. Write elsewhere, think about it, and once you say "yes, that's what I want to know," paste it into Claude, ChatGPT or Gemini.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">~60:00–63:49</span></div>
+    <div class="ex-body">
+      Then review the response. Agents can be extremely verbose, to the point of cognitive overload, and much popular writing has a small ratio of what's essential to what's written. You can control this in the prompt with "be brief" or "bulleted list." Another way around it is step four: visualize the response. Give this command: <i>Create an HTML artifact and not an inline widget that visualizes and organizes the last response in this conversation.</i> It turns a dense answer into something easier to digest. Billions of web pages have been created since the 1990s, and the agents trained on them know which fonts, colors and arrangements work, so they take the words of the response, not your prompt, and figure out how to represent them on a page.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Helaine Silverman &amp; John Day</span><span class="ex-time">63:49–65:39</span></div>
+    <div class="ex-body">
+      Helaine asked what an inline widget is. John Day: It's a newer feature that displays a graphic within the conversation flow, and the problem is that you can't edit it. An HTML artifact is a full web page you can edit, and you can add your own prompt to the visualization. I put sample narrative prompts on the portal to show what worked for me, though you should write your own, about things you care about.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "You have to include yourself in the prompt. Otherwise, you're going to get a very generic, uninteresting prompt."
+    <cite>John Day</cite>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">The Visualize Command</div>
+    <div class="callout-body">
+      "Create an HTML artifact and not an inline widget that visualizes and organizes the last response in this conversation." The portal includes a copy button for it.
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">Prompting Checklist</div>
+    <ul class="nlist">
+      <li>Write a free-form narrative first, outside the prompt window</li>
+      <li>Include what's on your mind, your questions, context and angles</li>
+      <li>Simple prompts give flat, variable answers; rich prompts give steadier ones</li>
+      <li>Ask for "brief" or "bulleted" to control length</li>
+      <li>Optionally ask for an HTML artifact to organize the reply</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 8: DEMO -->
+  <div class="topic-detail" id="detail-demo">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-demo">Live Demo · From Narrative Prompt to Editable Web Page</div>
+  <div class="sec-head">Where the Room Pushed Back on the Machine</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John C. &amp; John Day</span><span class="ex-time">65:40–69:11</span></div>
+    <div class="ex-body">
+      John C. asked for the Ukraine example because it's constantly changing; John Day noted that one is about the Patriot missile for Ukraine and picked the digital-versus-organic intelligence narrative instead. He chose Claude from the resource strip and ran the prompt in a new tab. Digital fluency matters here: in Chrome you can add a tab to split view, with instructions on one side and your working window on the other. He then pasted the visualize command from the copy button.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Amy R.</span><span class="ex-time">69:12–70:24</span></div>
+    <div class="ex-body">
+      While we wait, I noticed Claude has a bias: it said a lot nicer things about digital intelligence than humans. John Day: That depends on how you write the prompt; it's doing statistical inference. Amy: Biases are put in by humans, not by the machine. The machine is reading what humans wrote. John Day: Yes, that's right, and restricting your sources can introduce bias too; racial biases are the obvious example.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day, Amy R. &amp; John C.</span><span class="ex-time">70:40–75:54</span></div>
+    <div class="ex-body">
+      John Day expanded the artifact to a full page: the response is organized spatially, with tabs at the top, and you can keep changing the view or ask questions about it. He copied a passage to challenge it, and the reply came back long (he should have asked for brevity). Amy objected to a line saying digital intelligence "usually" has no embodiment and exists as weights and computation: without a physical machine there are no weights or computation. John Day: The point is embodiment in the physical world; these have been abstracted into weights. John C.: It doesn't exist as a freestanding entity; you need CPUs, GPUs and other accessories. Amy: There is a physical presence, but that's not the point of the exercise.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">75:59–78:20</span></div>
+    <div class="ex-body">
+      You can extract the HTML from Claude. The download button sometimes doesn't appear, so copy and paste works too. It lands in your downloads folder, and then you can open it as a separate page in your browser. I'll add this one to the session summary on the portal so you can see it.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "I think biases are put in by humans, not by the machine. The machine is reading what humans wrote."
+    <cite>Amy R.</cite>
+  </div>
+
+  <div class="callout">
+    <div class="callout-head">Where the Room Disagreed</div>
+    <div class="callout-body">
+      On "embodiment," Amy read the AI's wording as denying that computation depends on hardware, while John Day read it as saying digital intelligence lacks a body in the world the way people have one. Both agreed that chips and machines are required; they differed on whether the sentence said so clearly.
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">Demo Takeaways</div>
+    <ul class="nlist">
+      <li>Pick an agent, run the narrative prompt, then ask for the HTML artifact</li>
+      <li>Split-view tabs keep instructions and workspace side by side</li>
+      <li>The page can be questioned and challenged; ask for brevity to avoid walls of text</li>
+      <li>Bias reflects the human writing and the sources chosen, not the machine alone</li>
+      <li>Download or copy the HTML to open it in your own browser</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <!-- TOPIC 9: NEXT -->
+  <div class="topic-detail" id="detail-next">
+  <div class="drilldown-hint">Click to close · Scroll to return to topics</div>
+
+  <div class="sec-tag" id="topic-next">Wrap-Up · Is the Web Page Necessary, and What Comes Next</div>
+  <div class="sec-head">Your Prompt, Your Way, Shared by the Next Meeting</div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">Abby Pinard</span><span class="ex-time">78:21–79:52</span></div>
+    <div class="ex-body">
+      I've seen this before, and the point where I get stuck is creating the HTML artifact. "Artifact" has a lot of meanings; it took me a while to realize you mean generating a web page. Every time I've wanted something from an AI, it was for my own use, to analyze a text, an article or a book. I don't need fonts, colors and diagrams. If it's too long I can ask for a summary, and if it's too complex I can ask it to distill the key points. I can see needing a web page to present to someone else, but not otherwise.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day</span><span class="ex-time">79:53–81:23</span></div>
+    <div class="ex-body">
+      It's not obligatory. At step three I said if you want to look at the text, that's fine. The visualization is just what might come after, a way to sort out a very verbose response. If you're happy with text, adjust the level of summarization and you're done, and you can do that after the fact, asking it to summarize the last response in a way you specify. Abby added that you could also put "give me the five key themes" in the original prompt. John Day: A matter of personal preference.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John C. &amp; John Day</span><span class="ex-time">81:33–84:32</span></div>
+    <div class="ex-body">
+      John C.: Cheryl and I have talked about making medical records understandable to patients. When she has a report for someone from a different culture, she asks AI to rewrite it so a grandmother with a fourth-grade education could understand it, or to translate it into commonly held Spanish, and she can check the translation back. John Day: That's personalization. Whether you stay with text or visualize, prompting is typically iterative: you get results, review them, then challenge the answer or change how it's presented, and revise.
+    </div>
+  </div>
+
+  <div class="exchange">
+    <div class="ex-header"><span class="ex-speaker">John Day &amp; Miriam P. Halperin-Maya</span><span class="ex-time">84:40–89:16</span></div>
+    <div class="ex-body">
+      For next time, each person writes a prompt and has a conversation with an agent of their choice. If it's something you're willing to share, even just as text, email it to me through the contact link on the resource strip, and I'll aggregate the exercises so we can see what each person did, what they found, and what the experience was like. Miriam suggested including the original prompt and the sequence of prompts and responses, and John Day agreed. The next meeting is in about a month, with optional off sessions if a topic catches on.
+      <br><br>
+      My tutorials are in no way the only way; if you find an approach you prefer, that's the correct way for you, and sharing it helps others. The thing I want to keep focused on is that we learn by doing. Miriam said the portal materials have already been very helpful. This session was recorded; I'll send a summary and post it on the portal.
+    </div>
+  </div>
+
+  <div class="pullquote">
+    "The most important thing is that people start getting experience, and then we share those experiences with one another."
+    <cite>John Day</cite>
+  </div>
+
+  <div class="notes-box">
+    <div class="notes-head">Homework for the Next Session</div>
+    <ul class="nlist">
+      <li>Write a narrative prompt about something you care about</li>
+      <li>Converse with the AI agent of your choice and keep the whole sequence</li>
+      <li>Email the exercise (prompts and responses) via the portal's contact link, if willing to share</li>
+      <li>Visualization is optional; text with a tailored summary is equally valid</li>
+      <li>Next meeting in about a month; extra sessions on request</li>
+    </ul>
+  </div>
+
+  <div class="return-row"><button type="button" class="return-btn" onclick="closeTopics()">Back to Topics</button></div>
+  </div>
+
+  <hr class="double">
+
+  <div class="sig">Prepared from Zoom transcript · Condensed and lightly edited, with transcription errors corrected · "John C." appears as "JOHNCOWL" in the transcript</div>
+
+  <div class="footer">
+    <span>BOLLI AI Literacy SIG · October 2, 2026</span>
+    <span>Fall 2026</span>
+    <span>jhnday.github.io</span>
+  </div>
+
+</div>
+
+
+<script>
+  function showTopic(id, btn) {
+    var detail = document.getElementById('detail-' + id);
+    var wasOpen = detail.classList.contains('is-open');
+
+    document.querySelectorAll('.topic-detail').forEach(function (d) { d.classList.remove('is-open'); });
+    document.querySelectorAll('.topic').forEach(function (t) { t.classList.remove('is-open'); });
+
+    if (!wasOpen) {
+      detail.classList.add('is-open');
+      btn.classList.add('is-open');
+      setTimeout(function () {
+        detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
+  }
+
+  function closeTopics() {
+    document.querySelectorAll('.topic-detail').forEach(function (d) { d.classList.remove('is-open'); });
+    document.querySelectorAll('.topic').forEach(function (t) { t.classList.remove('is-open'); });
+    document.querySelector('.topics').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
+</body>
+</html>
