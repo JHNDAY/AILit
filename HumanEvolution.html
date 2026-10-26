@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Human evolution, organized</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Schibsted+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eaf0ee; --surface:#f6f9f8; --ink:#13292a; --muted:#4d6465; --line:#c3d2cf;
+  --accent:#1f6f6b; --bar:#d9a441; --bar2:#1f6f6b;
+  --serif:"Literata",Georgia,"Times New Roman",serif;
+  --sans:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1a1a; --surface:#162526; --ink:#e3eeec; --muted:#9bb3b0; --line:#2b4140;
+    --accent:#6cc4bd; --bar:#e0b158; --bar2:#6cc4bd; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1a1a; --surface:#162526; --ink:#e3eeec; --muted:#9bb3b0; --line:#2b4140;
+  --accent:#6cc4bd; --bar:#e0b158; --bar2:#6cc4bd; color-scheme:dark;
+}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:17px/1.65 var(--serif)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+header{max-width:860px;margin:0 auto;padding:56px 22px 20px}
+h1{font:700 clamp(2rem,6vw,3.2rem)/1.08 var(--sans);letter-spacing:-.02em;margin:0 0 14px}
+header p{margin:0;color:var(--muted);max-width:60ch}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--bg);border-bottom:1px solid var(--line)}
+nav ul{max-width:860px;margin:0 auto;padding:10px 22px;list-style:none;display:flex;gap:6px;overflow-x:auto;white-space:nowrap}
+nav a{display:block;padding:6px 12px;border-radius:99px;font:500 .9rem var(--sans);color:var(--ink);text-decoration:none;border:1px solid var(--line)}
+nav a:hover,nav a:focus-visible{background:var(--accent);color:var(--bg);border-color:var(--accent);outline:none}
+main{max-width:860px;margin:0 auto;padding:10px 22px 70px}
+section{padding:34px 0;border-bottom:1px solid var(--line)}
+section:last-child{border-bottom:0}
+h2{font:700 1.6rem/1.2 var(--sans);margin:0 0 6px;letter-spacing:-.01em}
+.q{margin:0 0 18px;color:var(--muted);font-style:italic}
+h3{font:700 1.05rem var(--sans);margin:22px 0 6px}
+p{margin:0 0 14px;max-width:68ch}
+ul.plain{margin:0 0 14px;padding-left:1.2em;max-width:68ch}
+ul.plain li{margin-bottom:8px}
+.note{background:var(--surface);border-left:4px solid var(--accent);padding:12px 16px;border-radius:0 8px 8px 0;max-width:68ch;margin:16px 0}
+.scale{display:flex;justify-content:space-between;font:.8rem var(--sans);color:var(--muted);margin:14px 0 4px}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:6px 16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row b{font:700 .95rem var(--sans)}
+.row small{display:block;font:.82rem/1.4 var(--sans);color:var(--muted)}
+.track{position:relative;height:14px;background:var(--surface);border-radius:7px;margin-top:4px;align-self:center}
+.track i{position:absolute;top:0;bottom:0;min-width:5px;border-radius:7px;background:var(--bar2)}
+.track i.homo{background:var(--bar)}
+.where{grid-column:2;font:.85rem var(--sans);color:var(--muted)}
+.key{display:flex;gap:16px;font:.82rem var(--sans);color:var(--muted);margin-top:10px}
+.key span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:6px;margin-right:6px;vertical-align:-1px;background:var(--bar2)}
+.key span.h::before{background:var(--bar)}
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 18px 20px;max-width:68ch}
+.tl li::before{content:"";position:absolute;left:-7px;top:9px;width:12px;height:12px;border-radius:6px;background:var(--accent)}
+.tl b{font:700 .95rem var(--sans);display:block}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card h3{margin-top:0}
+.card p{margin:0;font-size:.95rem}
+dl{margin:0;max-width:68ch}
+dt{font:700 1rem var(--sans);margin-top:14px}
+dd{margin:2px 0 0}
+em.sp{font-style:italic}
+footer{max-width:860px;margin:0 auto;padding:0 22px 40px;color:var(--muted);font:.85rem var(--sans)}
+@media (max-width:560px){.row{grid-template-columns:1fr}.where{grid-column:1}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Human evolution, organized</h1>
+  <p>Everything covered in this conversation, grouped by topic instead of by the order you asked. Dates are approximate; Mya means million years ago.</p>
+</header>
+<nav aria-label="Sections"><ul>
+  <li><a href="#tree">Family tree</a></li>
+  <li><a href="#homo">Genus Homo</a></li>
+  <li><a href="#ancestor">Common ancestor</a></li>
+  <li><a href="#meeting">Interbreeding</a></li>
+  <li><a href="#extinct">Extinctions</a></li>
+  <li><a href="#tools">Tools</a></li>
+  <li><a href="#family">Family life</a></li>
+  <li><a href="#speech">Speech</a></li>
+</ul></nav>
+
+<main>
+<section id="tree">
+  <h2>The family tree is a bush</h2>
+  <p class="q">How many prehuman species were there, and what are the branches?</p>
+  <p>Many species lived at the same time, and most were side branches that left no descendants. Scientists have named roughly 20 to 30 hominin species (our side of the split from chimps), and the count shifts as fossils turn up and experts argue over where to draw lines.</p>
+  <div class="scale" aria-hidden="true"><span>7 Mya</span><span>3.5 Mya</span><span>today</span></div>
+  <div class="rows">
+    <div class="row"><div><b>Earliest hominins</b><small>Sahelanthropus, Orrorin, Ardipithecus</small></div><div class="track"><i style="left:0;width:37.1%"></i></div><div class="where">7–4.4 Mya · Central and East Africa · possibly the first to walk upright</div></div>
+    <div class="row"><div><b>Australopithecines</b><small>e.g. “Lucy”</small></div><div class="track"><i style="left:42.9%;width:28.6%"></i></div><div class="where">4–2 Mya · East and South Africa · upright, small brains, still good climbers</div></div>
+    <div class="row"><div><b>Paranthropus</b><small>“robust” australopiths</small></div><div class="track"><i style="left:61.4%;width:24.3%"></i></div><div class="where">2.7–1 Mya · East and South Africa · huge jaws for tough plant food</div></div>
+    <div class="row"><div><b>Early Homo</b><small>habilis, rudolfensis</small></div><div class="track"><i class="homo" style="left:65.7%;width:11.4%"></i></div><div class="where">2.4–1.6 Mya · Africa · first regular toolmakers in our genus</div></div>
+    <div class="row"><div><b>Homo erectus</b></div><div class="track"><i class="homo" style="left:72.9%;width:25.7%"></i></div><div class="where">1.9 Mya to possibly ~100,000 years ago · Africa, Georgia, China, Java · used fire</div></div>
+    <div class="row"><div><b>Island dwarfs</b><small>floresiensis, luzonensis</small></div><div class="track"><i class="homo" style="left:97.3%"></i></div><div class="where">until ~50,000 years ago · Indonesia, Philippines</div></div>
+    <div class="row"><div><b>Homo naledi</b></div><div class="track"><i class="homo" style="left:95.2%"></i></div><div class="where">~335,000–236,000 years ago · South Africa · small brain, possibly buried its dead (debated)</div></div>
+    <div class="row"><div><b>Neanderthals</b></div><div class="track"><i class="homo" style="left:94.3%;width:5.1%"></i></div><div class="where">~400,000–40,000 years ago · Europe, western and central Asia</div></div>
+    <div class="row"><div><b>Denisovans</b></div><div class="track"><i class="homo" style="left:94.3%;width:5.3%"></i></div><div class="where">~400,000 to maybe 30,000 years ago · Siberia, Tibet, East and Southeast Asia</div></div>
+    <div class="row"><div><b>Homo sapiens</b><small>us</small></div><div class="track"><i class="homo" style="left:95.7%;width:4.3%"></i></div><div class="where">~300,000 years ago to today · Africa, then everywhere</div></div>
+  </div>
+  <div class="key"><span>Before Homo</span><span class="h">Genus Homo</span></div>
+  <p style="margin-top:12px;font-size:.9rem;color:var(--muted)">Bars use one linear scale, so the recent groups look thin. That is accurate: most of the Homo story is packed into the last 400,000 years.</p>
+</section>
+
+<section id="homo">
+  <h2>The Homo species</h2>
+  <p class="q">Is erectus a subcategory of sapiens? How many other Homo categories are there?</p>
+  <p>No. <em class="sp">Homo erectus</em> and <em class="sp">Homo sapiens</em> are separate species inside the same genus, <em class="sp">Homo</em>. Think of the genus as a surname and the species as a first name; a subspecies is a label within a single species. Many scientists think erectus is an ancestor of some later Homo species, but it is its own species.</p>
+  <div class="cols">
+    <div class="card"><h3>Early</h3><p><em class="sp">habilis</em> (2.4–1.6 Mya), <em class="sp">rudolfensis</em> (2.4–1.8 Mya)</p></div>
+    <div class="card"><h3>Erectus group</h3><p><em class="sp">erectus</em>, plus African <em class="sp">ergaster</em> and Georgian <em class="sp">georgicus</em>, which experts often lump into erectus</p></div>
+    <div class="card"><h3>Middle</h3><p><em class="sp">antecessor</em> (~900,000–800,000 years ago, Spain), <em class="sp">heidelbergensis</em> (~700,000–300,000), likely ancestor of Neanderthals and possibly of us</p></div>
+    <div class="card"><h3>Late and local</h3><p><em class="sp">naledi</em>, <em class="sp">floresiensis</em>, <em class="sp">luzonensis</em>, <em class="sp">neanderthalensis</em></p></div>
+    <div class="card"><h3>Denisovans</h3><p>Known mostly from DNA, with no universally accepted species name. Some link them to <em class="sp">Homo longi</em> (“Dragon Man”), still debated</p></div>
+    <div class="card"><h3>Us</h3><p><em class="sp">Homo sapiens</em></p></div>
+  </div>
+  <p style="margin-top:16px">That is roughly 12 to 15 species, depending on whether you ask a “splitter” or a “lumper.”</p>
+  <div class="note"><b>The subspecies twist.</b> Because Neanderthals and our ancestors had fertile children, some scientists call Neanderthals a subspecies (<em class="sp">Homo sapiens neanderthalensis</em>) and us <em class="sp">Homo sapiens sapiens</em>. Others keep them separate. “Species” is a human label on a messy continuum.</div>
+</section>
+
+<section id="ancestor">
+  <h2>Our common ancestor with chimps</h2>
+  <p class="q">What was the name of the ancestor we share with chimpanzees?</p>
+  <p>It has no name, because no fossil has been confirmed as that ancestor. Scientists call it the chimpanzee-human last common ancestor (CHLCA, or just “LCA”). It probably lived 6 to 7 million years ago (estimates stretch to 8 or 9) in African forests: a medium-sized ape that climbed well and ate mostly fruit and plants. It was not much like a modern chimp or human, and chimps have had as much time to evolve as we have.</p>
+  <dl>
+    <dt>Sahelanthropus (~7 Mya, Chad)</dt><dd>Possibly an early hominin or near the split; debated.</dd>
+    <dt>Orrorin (~6 Mya, Kenya)</dt><dd>Possibly an early upright walker.</dd>
+    <dt>Ardipithecus “Ardi” (~4.4 Mya, Ethiopia)</dt><dd>Too young to be the ancestor, but surprisingly unlike a chimp, which hints the ancestor wasn’t chimp-like.</dd>
+    <dt>Miocene apes (~10 Mya)</dt><dd>Nakalipithecus and Ouranopithecus may sit near African ape ancestry in general; nothing links them directly.</dd>
+  </dl>
+  <p style="margin-top:14px">The gap exists partly because forest soils destroy bones, so chimp and gorilla fossils are extremely rare. “Missing link” is a misleading old term: evolution isn’t one chain with one missing piece.</p>
+</section>
+
+<section id="meeting">
+  <h2>Did the groups meet and interbreed?</h2>
+  <p class="q">Did they interact socially and physically? What were the offspring like, and were they accepted?</p>
+  <p>Yes, and ancient DNA has made this one of the biggest discoveries of the past 15 years.</p>
+  <ul class="plain">
+    <li>Most people with non-African ancestry carry about 1–2% Neanderthal DNA. Some Pacific Islanders and Aboriginal Australians carry up to several percent Denisovan DNA.</li>
+    <li>The children were fertile, or we wouldn’t carry the genes. A fossil from Denisova Cave nicknamed “Denny” had a Neanderthal mother and a Denisovan father.</li>
+    <li>Some inherited genes helped: immune variants, and a Denisovan gene that helps Tibetans cope with high altitude.</li>
+    <li>Others were weeded out over time, especially some on the X chromosome and some tied to male fertility, so hybrids may have been somewhat less fit.</li>
+  </ul>
+  <div class="note"><b>Were hybrids accepted?</b> We don’t know; DNA can’t record attitudes. Denny survived to adolescence, so she was at least cared for. There is no strong evidence of large-scale warfare between the groups, but nothing rules out conflict. The best picture is small, scattered groups meeting occasionally over tens of thousands of years, sometimes pairing up and sometimes not.</div>
+</section>
+
+<section id="extinct">
+  <h2>Why the other groups disappeared</h2>
+  <p class="q">When did each group go extinct, and why?</p>
+  <p>Extinction was usually slow and had several causes. Be skeptical of any single clear cause; much of this is still debated.</p>
+  <ul class="plain">
+    <li><b>Paranthropus (~1 Mya):</b> specialized in tough vegetation, so climate shifts hit hard. Competition with Homo may have played a part.</li>
+    <li><b>Neanderthals (~40,000 years ago):</b> small, isolated, inbred populations, harsh climate swings, competition from modern humans, and absorption into the larger sapiens population. “Wiped out” is now seen as too simple.</li>
+    <li><b>Denisovans:</b> likewise absorbed, since they live on in some of us.</li>
+    <li><b>Island humans (Flores, ~50,000 years ago):</b> the timing overlaps with modern humans’ arrival, but the cause is unclear.</li>
+  </ul>
+</section>
+
+<section id="tools">
+  <h2>Tools and fire</h2>
+  <p class="q">What about the development of tools?</p>
+  <ol class="tl">
+    <li><b>~3.3–2.6 Mya</b>Oldest known stone tools: simple flakes and choppers (Oldowan). Which species made the earliest ones is unclear.</li>
+    <li><b>~1.7 Mya</b>Teardrop-shaped hand axes (Acheulean) by Homo erectus, the longest-lasting tool tradition, over a million years.</li>
+    <li><b>~400,000 years ago</b>Controlled fire is clear, possibly much earlier. Cooking made food easier to digest, likely helping brain growth.</li>
+    <li><b>~300,000 years ago</b>Wooden spears (Schöningen, Germany) and prepared-core stone technology.</li>
+    <li><b>~100,000–40,000 years ago</b>Ochre pigments, engraved shells, beads, bone needles, bows and arrows, and eventually cave art. Neanderthals made jewelry and glue and possibly some art, so these abilities weren’t unique to us.</li>
+  </ol>
+</section>
+
+<section id="family">
+  <h2>Family structure</h2>
+  <p class="q">Was there a family structure?</p>
+  <p>Nothing fossilizes a family, so all of this is inference.</p>
+  <ul class="plain">
+    <li>Early hominins likely lived in groups like chimps or gorillas, with some pair-bonding.</li>
+    <li>As brains grew, babies were born less developed and needed years of care. That probably drove cooperative child-rearing by fathers, grandmothers, and siblings, with food sharing and home-base camps.</li>
+    <li>Neanderthal DNA from Chagyrskaya Cave in Siberia revealed a small community including a father and teenage daughter, and the pattern suggests females moved to join their mates’ groups.</li>
+    <li>Typical hunter-gatherer bands, our best model, had about 25–50 people, within wider networks of a few hundred.</li>
+  </ul>
+</section>
+
+<section id="speech">
+  <h2>The spoken word</h2>
+  <p class="q">How did speech develop?</p>
+  <p>This is the biggest mystery, because speech leaves no fossils. Clues come from throat bones, ear structure, brain shape, and genes.</p>
+  <ul class="plain">
+    <li>Neanderthals had a hyoid bone like ours and the same version of the language-related gene FOXP2, so they probably spoke in some form.</li>
+    <li>Many researchers think complex language existed by at least 100,000 years ago. Some think a simpler proto-language goes back to Homo erectus.</li>
+    <li>Symbolic behavior (jewelry, ochre, art) suggests language-like thinking, and gestures, sounds, and speech likely developed together.</li>
+  </ul>
+</section>
+</main>
+<footer>Compiled from your conversation with Claude. Dates are estimates and several points remain actively debated.</footer>
+</body>
+</html>
